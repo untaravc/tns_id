@@ -8,6 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-    Uploaded with current version
+    Uploaded with current version, with auto deployment
 </body>
 </html>
