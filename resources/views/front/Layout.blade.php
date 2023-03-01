@@ -10,6 +10,8 @@
 
 @yield('body')
 
+@include('front.components.Footer')
+
 <script src="/js/app.js"></script>
 </body>
 </html>
