@@ -13,3 +13,5 @@ Route::get('/matches',[HomeController::class, 'matches']);
 Route::get('/news',[HomeController::class, 'news']);
 
 Route::get('/panel',[DashboardController::class, 'dashboard']);
+Route::get('/panel/{path}', [DashboardController::class,'dashboard'])
+    ->where( 'path' , '([A-z\d\-\/_.]+)?' );
