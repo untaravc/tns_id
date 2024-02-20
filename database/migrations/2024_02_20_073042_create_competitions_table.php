@@ -21,7 +21,9 @@ class CreateCompetitionsTable extends Migration
             $table->date('date_end')->nullable();
             $table->string('address')->nullable();
             $table->string('image')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

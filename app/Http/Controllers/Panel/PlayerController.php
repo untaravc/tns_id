@@ -58,7 +58,7 @@ class PlayerController extends Controller
     private function withFilter($dataContent, $request)
     {
         if ($request->name) {
-            $dataContent = $dataContent->where('players.name', 'LIKE', '%' . $request->name . '%');
+            $dataContent = $dataContent->where('players.full_name', 'LIKE', '%' . $request->name . '%');
         }
         return $dataContent;
     }

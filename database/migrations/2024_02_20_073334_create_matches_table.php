@@ -30,6 +30,7 @@ class CreateMatchesTable extends Migration
             $table->integer('user_id');
             $table->boolean('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -22,9 +22,10 @@ class CreatePlayersTable extends Migration
             $table->enum('gender', ['F', 'M'])->nullable();
             $table->string('city')->nullable();
             $table->string('city_init')->nullable();
-            $table->date('birth_date');
+            $table->date('birth_date')->nullable();
             $table->boolean('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

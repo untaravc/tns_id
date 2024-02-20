@@ -17,7 +17,9 @@ class CreateCompetitionCategoriesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
+            $table->boolean('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
