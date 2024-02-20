@@ -87,7 +87,7 @@ export default {
             })
         }
 
-        loadStats()
+        // loadStats()
 
         return {
             title,

@@ -9,7 +9,6 @@ import Menus from "../pages/menus/Index";
 import MenusAddEdit from "../pages/menus/AddEdit";
 import MenuRole from "../pages/menus/MenuRole";
 import Profile from "../pages/auth/Profile";
-import Notification from "../pages/auth/Notification";
 
 import Login from "../pages/auth/Login";
 import NotFound from "../pages/auth/404";
@@ -24,14 +23,12 @@ const routes = [
             {path: 'dashboard', component: Dashboard, meta: {protected: true, title: "Dashboard"}},
             {path: 'users', component: Users, meta: {protected: true, title: "Data Staff"}},
             {path: 'users/:id', component: UserAddEdit, meta: {protected: true, title: "Sistem Antrian"}},
-            {path: 'clients', component: Clients, meta: {protected: true, title: "Sistem Antrian"}},
             {path: 'roles', component: Roles, meta: {protected: true, title: "Role"}},
             {path: 'roles/:id', component: RolesAddEdit, meta: {protected: true, title: "Role"}},
             {path: 'menus', component: Menus, meta: {protected: true, title: "Menu"}},
             {path: 'menus/:id', component: MenusAddEdit, meta: {protected: true, title: "Menu"}},
             {path: 'menu-role', component: MenuRole, meta: {protected: true, title: "Menu Role"}},
             {path: 'profile', component: Profile, meta: {protected: true, title: "Profile"}},
-            {path: 'notification', component: Notification, meta: {protected: true, title: "Notification"}},
         ]
     },
     {path: "/auth/404", name: "not-found", component: NotFound},

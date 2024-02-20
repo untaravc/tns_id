@@ -115,9 +115,7 @@ export default {
                 password: credential.password
             }).then((data) => {
                 credential.is_loading = false
-                console.log("PRE",data)
                 if(data.success){
-                    console.log(data)
                     localStorage.setItem('user_token', data.result.token)
                     window.location = '/admin/dashboard'
                 }

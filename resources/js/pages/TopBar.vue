@@ -109,33 +109,35 @@ export default {
 
         const {getData} = useAxios()
 
-        getData('auth').then((data) => {
-            if (data.success) {
-                user_data.email = data.result.email
-                user_data.name = data.result.name
-                user_data.role = data.result.role
-                user_data.station = data.result.station
+        function getAuth(){
+            getData('auth').then((data) => {
+                if (data.success) {
+                    user_data.email = data.result.email
+                    user_data.name = data.result.name
+                    user_data.role = data.result.role
+                    user_data.station = data.result.station
 
-                if (user_data.station && user_data.station.id) {
-                    token_store.station_id = user_data.station.id;
+                    if (user_data.station && user_data.station.id) {
+                        token_store.station_id = user_data.station.id;
+                    }
+
+                    app_store.client_id = data.result.client_id
+                    app_store.role_id = data.result.role.id
+                    if (data.result.client) {
+                        app_store.client_name = data.result.client.name
+                        app_store.client_logo = data.result.client.logo
+                        app_store.client_token = data.result.client.token
+                    }
+
+                    if (data.result.station) {
+                        app_store.auto_call = data.result.station.auto_call === 1
+                        app_store.station_id = data.result.station.id
+
+                        registerDeviceToken(app_store.client_token, app_store.station_id)
+                    }
                 }
-
-                app_store.client_id = data.result.client_id
-                app_store.role_id = data.result.role.id
-                if (data.result.client) {
-                    app_store.client_name = data.result.client.name
-                    app_store.client_logo = data.result.client.logo
-                    app_store.client_token = data.result.client.token
-                }
-
-                if (data.result.station) {
-                    app_store.auto_call = data.result.station.auto_call === 1
-                    app_store.station_id = data.result.station.id
-
-                    registerDeviceToken(app_store.client_token, app_store.station_id)
-                }
-            }
-        })
+            })
+        }
 
         function logout() {
             localStorage.removeItem('user_token')
