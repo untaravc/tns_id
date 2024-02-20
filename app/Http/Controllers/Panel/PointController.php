@@ -23,7 +23,7 @@ class PointController extends Controller
     {
         $this->validateData($request);
 
-        Player::create($request->all());
+        Point::create($request->all());
 
         return $this->response;
     }

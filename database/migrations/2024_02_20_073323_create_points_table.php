@@ -24,6 +24,7 @@ class CreatePointsTable extends Migration
             $table->integer('point');
             $table->boolean('is_cut_off')->default(0);
             $table->integer('user_id');
+            $table->dateTime('date');
             $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();

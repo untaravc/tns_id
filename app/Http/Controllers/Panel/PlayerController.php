@@ -19,6 +19,18 @@ class PlayerController extends Controller
         return $result->merge($dataContent);
     }
 
+    public function list(Request $request)
+    {
+        $this->response['result'] = Player::orderBy('full_name')
+            ->when($request->name, function ($q) use ($request){
+                $q->where('full_name', 'LIKE', '%'.$request->name.'%');
+            })
+            ->limit(20)
+            ->get();
+
+        return $this->response;
+    }
+
     public function store(Request $request)
     {
         $this->validateData($request);
@@ -41,11 +53,11 @@ class PlayerController extends Controller
         if ($request->id) {
             // Update
             $validator = Validator::make($request->all(), [
-                'full_name'     => 'required',
+                'full_name' => 'required',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
-                'full_name'     => 'required',
+                'full_name' => 'required',
             ]);
         }
 

@@ -18,7 +18,17 @@ class CompetitionCategoryController extends Controller
         $result = collect($this->response);
         return $result->merge($dataContent);
     }
+    public function list(Request $request)
+    {
+        $this->response['result'] = CompetitionCategory::orderBy('name')
+            ->when($request->name, function ($q) use ($request){
+                $q->where('name', 'LIKE', '%'.$request->name.'%');
+            })
+            ->limit(20)
+            ->get();
 
+        return $this->response;
+    }
     public function store(Request $request)
     {
         $this->validateData($request);

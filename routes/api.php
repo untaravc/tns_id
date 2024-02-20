@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('roles-list', [RoleController::class, 'list']);
     Route::get('menu-role', [MenuController::class, 'menuRole']);
     Route::get('menus-list', [MenuController::class, 'list']);
+    Route::get('players-list', [PlayerController::class, 'list']);
+    Route::get('competitions-list', [CompetitionController::class, 'list']);
+    Route::get('competition-categories-list', [CompetitionCategoryController::class, 'list']);
 
     Route::get('import-players', [ImportPlayerController::class, 'import']);
 });

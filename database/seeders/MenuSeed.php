@@ -31,6 +31,12 @@ class MenuSeed extends Seeder
                 'type'     => "menu",
                 'children' => [
                     [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/points/add",
+                        'type'  => "submenu",
+                    ],
+                    [
                         'title' => "Data",
                         'icon'  => "",
                         'url'   => "/admin/points",
@@ -44,6 +50,12 @@ class MenuSeed extends Seeder
                 'url'      => "/admin/matches--",
                 'type'     => "menu",
                 'children' => [
+                    [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/matches/add",
+                        'type'  => "submenu",
+                    ],
                     [
                         'title' => "Data",
                         'icon'  => "",

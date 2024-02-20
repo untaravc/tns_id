@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 @import 'sweetalert2/dist/sweetalert2.min.css';
+@import "vue-select/dist/vue-select.css";
+
+/*@tailwind base;*/
+/*@tailwind components;*/
+/*@tailwind utilities;*/

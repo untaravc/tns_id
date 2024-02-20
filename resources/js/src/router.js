@@ -21,7 +21,9 @@ import CompetitionCategoryAddEdit from "../pages/competition-categories/AddEdit.
 import Player from "../pages/players/Index.vue";
 import PlayerAddEdit from "../pages/players/AddEdit.vue";
 import Matches from "../pages/matches/Index.vue";
+import MatchesAddEdit from "../pages/matches/AddEdit.vue";
 import Points from "../pages/points/Index.vue";
+import PointsAddEdit from "../pages/points/AddEdit.vue";
 
 const routes = [
     {
@@ -46,7 +48,9 @@ const routes = [
             {path: 'competitions/:id', component: CompetitionAddEdit, meta: {protected: true, title: "Competition"}},
             {path: 'competitions', component: Competition, meta: {protected: true, title: "Competition"}},
             {path: 'points', component: Points, meta: {protected: true, title: "Points"}},
+            {path: 'points/:id', component: PointsAddEdit, meta: {protected: true, title: "Points"}},
             {path: 'matches', component: Matches, meta: {protected: true, title: "Matches"}},
+            {path: 'matches/:id', component: MatchesAddEdit, meta: {protected: true, title: "Matches"}},
         ]
     },
     {path: "/auth/404", name: "not-found", component: NotFound},
