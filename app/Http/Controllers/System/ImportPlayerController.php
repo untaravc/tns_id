@@ -14,7 +14,7 @@ class ImportPlayerController extends BaseController
 {
     const NAMA = 1;
     const DOB = 2;
-    const POB = 2;
+    const POB = 3;
     const KATEGORI = 4;
     const JENIS_KELAMIN = 5;
     const KOTA = 6;

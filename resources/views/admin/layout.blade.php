@@ -9,12 +9,9 @@
 {{--    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />--}}
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
-    <link href="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css" />
-    <link rel="manifest" href="/manifes.json"/>
+    <link href="/css/app.css" rel="stylesheet" type="text/css" />
 </head>
 <body data-kt-name="metronic" id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
 <div id="app">
@@ -27,10 +24,6 @@
 <script src="/assets/plugins/global/plugins.bundle.js"></script>
 <script src="/assets/js/scripts.bundle.js"></script>
 <!--end::Global Javascript Bundle-->
-<!--begin::Vendors Javascript(used by this page)-->
-<script src="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
-<script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
-<!--end::Vendors Javascript-->
 <!--begin::Custom Javascript(used by this page)-->
 <script src="/assets/js/widgets.bundle.js"></script>
 <script src="/assets/js/custom/widgets.js"></script>

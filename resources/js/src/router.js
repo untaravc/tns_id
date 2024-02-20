@@ -14,6 +14,15 @@ import Login from "../pages/auth/Login";
 import NotFound from "../pages/auth/404";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 
+import Competition from "../pages/competitions/Index.vue";
+import CompetitionAddEdit from "../pages/competitions/AddEdit.vue";
+import CompetitionCategory from "../pages/competition-categories/Index.vue";
+import CompetitionCategoryAddEdit from "../pages/competition-categories/AddEdit.vue";
+import Player from "../pages/players/Index.vue";
+import PlayerAddEdit from "../pages/players/AddEdit.vue";
+import Matches from "../pages/matches/Index.vue";
+import Points from "../pages/points/Index.vue";
+
 const routes = [
     {
         path: "/admin",
@@ -29,6 +38,15 @@ const routes = [
             {path: 'menus/:id', component: MenusAddEdit, meta: {protected: true, title: "Menu"}},
             {path: 'menu-role', component: MenuRole, meta: {protected: true, title: "Menu Role"}},
             {path: 'profile', component: Profile, meta: {protected: true, title: "Profile"}},
+
+            {path: 'players', component: Player, meta: {protected: true, title: "Player"}},
+            {path: 'players/add', component: PlayerAddEdit, meta: {protected: true, title: "Player"}},
+            {path: 'competition-categories/add', component: CompetitionCategory, meta: {protected: true, title: "Competition Category"}},
+            {path: 'competition-categories', component: CompetitionCategoryAddEdit, meta: {protected: true, title: "Competition Category"}},
+            {path: 'competitions/add', component: CompetitionAddEdit, meta: {protected: true, title: "Competition"}},
+            {path: 'competitions', component: Competition, meta: {protected: true, title: "Competition"}},
+            {path: 'points', component: Points, meta: {protected: true, title: "Points"}},
+            {path: 'matches', component: Matches, meta: {protected: true, title: "Matches"}},
         ]
     },
     {path: "/auth/404", name: "not-found", component: NotFound},

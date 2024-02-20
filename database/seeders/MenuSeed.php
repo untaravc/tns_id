@@ -41,13 +41,13 @@ class MenuSeed extends Seeder
             [
                 'title'    => "Pertandingan",
                 'icon'     => "User",
-                'url'      => "/admin/match--",
+                'url'      => "/admin/matches--",
                 'type'     => "menu",
                 'children' => [
                     [
                         'title' => "Data",
                         'icon'  => "",
-                        'url'   => "/admin/match",
+                        'url'   => "/admin/matches",
                         'type'  => "submenu",
                     ],
                 ]
@@ -115,6 +115,26 @@ class MenuSeed extends Seeder
                         'title' => "Data",
                         'icon'  => "",
                         'url'   => "/admin/competitions",
+                        'type'  => "submenu",
+                    ],
+                ]
+            ],
+            [
+                'title'    => "Admin",
+                'icon'     => "Screw",
+                'url'      => "/admin/users--",
+                'type'     => "menu",
+                'children' => [
+                    [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/users/add",
+                        'type'  => "submenu",
+                    ],
+                    [
+                        'title' => "Data",
+                        'icon'  => "",
+                        'url'   => "/admin/users",
                         'type'  => "submenu",
                     ],
                 ]
@@ -204,19 +224,6 @@ class MenuSeed extends Seeder
                     'menu_id' => $mn['id'],
                     'role_id' => 1,
                 ]);
-                if($mn['id'] < 17){
-                    MenuRole::create([
-                        'menu_id' => $mn['id'],
-                        'role_id' => 2,
-                    ]);
-                }
-
-                if(in_array($mn['id'], [1,9,10,11,12])){
-                    MenuRole::create([
-                        'menu_id' => $mn['id'],
-                        'role_id' => 3,
-                    ]);
-                }
             }
         }
     }

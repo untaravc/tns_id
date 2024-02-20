@@ -18,12 +18,6 @@ class RoleSeed extends Seeder
             [
                 'name' => "Superadmin",
             ],
-            [
-                'name' => "Administrator",
-            ],
-            [
-                'name' => "Locket Admin",
-            ],
         ];
 
         foreach ($data as $datum) {

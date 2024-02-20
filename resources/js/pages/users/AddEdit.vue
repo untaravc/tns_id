@@ -238,15 +238,6 @@ export default {
             })
         }
 
-        function loadClients() {
-            getData('clients-list')
-                .then((data) => {
-                    form_props.clients = data.result
-                })
-        }
-
-        loadClients()
-
         function loadRoles() {
             getData('roles-list')
                 .then((data) => {

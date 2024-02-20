@@ -20,10 +20,6 @@ class UserController extends Controller
 
         $dataContent = User::orderByDesc('created_at')
             ->where('role_id', '>=', $min_role)
-            ->when($auth['client_id'] > 0, function ($q) use ($auth){
-                $q->whereClientId($auth['client_id']);
-            })
-            ->with(['stations', 'client'])
             ->leftJoin('roles', 'roles.id', 'users.role_id')
             ->select('users.*', 'roles.name as role');
         $dataContent = $this->withFilter($dataContent, $request);
@@ -43,15 +39,10 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $auth = $request->user();
-        $request->merge([
-            'client_id' => $auth['client_id'] > 0 ? $auth['client_id'] : $request->client_id,
-        ]);
         $this->validateData($request);
         $request->merge([
             'password'  => Hash::make($request->password),
         ]);
-
 
         User::create($request->all());
 

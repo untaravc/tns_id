@@ -10,7 +10,6 @@ import Loading from 'vue3-loading-overlay';
 import { createPinia } from 'pinia'
 import mitt from 'mitt';
 import filter from './src/filter'
-import {speechText} from './src/text_speech'
 import VueHtmlToPaper from 'vue-html-to-paper';
 
 const app = createApp(App);
@@ -35,7 +34,6 @@ import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 app.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 
 import DisableAutocomplete from 'vue-disable-autocomplete';
-speechText()
 
 app.use(VueHtmlToPaper);
 

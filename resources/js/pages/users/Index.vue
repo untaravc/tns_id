@@ -35,8 +35,7 @@
                         </div>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="kt_ecommerce_products_table_wrapper"
-                             class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="table-responsive">
                                 <Loading :active="is_loading" :loader="'dots'" :is-full-page="false"/>
                                 <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
