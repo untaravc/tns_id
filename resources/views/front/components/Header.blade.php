@@ -16,7 +16,7 @@
 {{--            </button>--}}
 {{--        </div>--}}
         <div id="mega-menu" class="items-center justify-between hidden w-full text-sm md:flex md:w-auto md:order-1">
-            <ul class="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0">
+            <ul class="flex flex-col font-medium md:flex-row md:space-x-8 md:mt-0">
                 <li>
                     <a href="/" class="block py-2 pl-3 pr-4 {{ $page_name == 'home' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0"  aria-current="page">Home</a>
                 </li>

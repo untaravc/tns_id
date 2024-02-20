@@ -5,6 +5,7 @@ namespace App\Http\Controllers\System;
 use App\Http\Controllers\BaseController;
 use App\Imports\PlayerImport;
 use App\Models\Player;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -125,5 +126,9 @@ class ImportPlayerController extends BaseController
         $day = substr($date, 8, 2);
 
         return $year . strtoupper($letter) . $month . $day;
+    }
+
+    public function test(){
+        return User::get();
     }
 }

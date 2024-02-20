@@ -1,43 +1,45 @@
 require('./bootstrap');
-import 'flowbite';
-import Vue from 'vue'
 
-window.Vue = require('vue').default;
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './src/router'
+import CustomIcon from './src/Icon'
+import {Bootstrap4Pagination } from 'laravel-vue-pagination'
+import VueSweetalert2 from 'vue-sweetalert2';
+import Loading from 'vue3-loading-overlay';
+import { createPinia } from 'pinia'
+import mitt from 'mitt';
+import filter from './src/filter'
+import {speechText} from './src/text_speech'
+import VueHtmlToPaper from 'vue-html-to-paper';
 
-import VueRouter from 'vue-router'
-import TobBar from './components/Topbar'
-import SideBar from './components/Sidebar'
-import Layout from './views/Layout'
-import Dashboard from './views/dashboard/Index'
-import Posts from './views/posts/Index'
+const app = createApp(App);
+const pinia = createPinia()
 
-Vue.component('top-bar', TobBar)
-Vue.component('side-bar', SideBar)
+app.component('CustomIcon', CustomIcon)
+app.component('Loading', Loading)
+app.component('Bootstrap4Pagination', Bootstrap4Pagination)
 
-const routes = [
-    {
-        path: '/panel',
-        component: Layout,
-        children:[
-            {
-                path: 'dashboard',
-                component: Dashboard,
-            },
-            {
-                path: 'posts',
-                component: Posts,
-            }
-        ]
-    },
-]
+app.use(VueSweetalert2)
+window.Swal =  app.config.globalProperties.$swal;
 
-const router = new VueRouter({
-    mode: 'history',
-    routes
-})
-Vue.use(VueRouter);
+const emitter = mitt();
+app.config.globalProperties.emitter = emitter;
+window.emitter = emitter
 
-const app = new Vue({
-    el: '#__tenisindo',
-    router
-});
+app.config.globalProperties.$filter = filter
+
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+
+app.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
+
+import DisableAutocomplete from 'vue-disable-autocomplete';
+speechText()
+
+app.use(VueHtmlToPaper);
+
+app.use(DisableAutocomplete)
+app.use(pinia)
+app.use(router)
+    .mount('#app')

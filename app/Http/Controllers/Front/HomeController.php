@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -35,5 +36,28 @@ class HomeController extends Controller
     public function news(){
         $data['page_name'] = 'news';
         return view('front.news.Index', $data);
+    }
+
+    public function admin(){
+        return view('admin.layout');
+    }
+
+    public function auth(){
+        return view('admin.auth');
+    }
+
+    public function test(){
+        $this->response['message'] = "tist";
+        return $this->response;
+    }
+
+    public function icons(){
+        $files = File::allFiles(public_path('assets\media\icons\duotune'));
+//        file_get_contents($files[0]);
+        return view('icons', compact('files'));
+    }
+
+    public function notFound(){
+        return view('admin.404');
     }
 }

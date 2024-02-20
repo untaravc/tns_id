@@ -9,3 +9,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('import-player', [ImportPlayerController::class, 'import']);
+Route::get('test', [ImportPlayerController::class, 'test']);
