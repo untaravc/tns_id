@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class PointController extends Controller
 {
@@ -110,6 +111,27 @@ class PointController extends Controller
         if ($data) {
             $data->delete();
         }
+        return $this->response;
+    }
+
+    public function pointReports(Request $request)
+    {
+        $players = Player::whereStatus(1)->orderBy('full_name')
+            ->limit($request->limit ?? 50)
+            ->get();
+
+        $points = Point::whereIn('player_id', $players->pluck('id')->toArray())
+            ->where('competition_category_code', $request->competition_category_code)
+            ->groupBy('player_id')
+            ->whereIsHistorical(0)
+            ->selectRaw('SUM(point) as points, player_id, player_name, competition_category_code')
+            ->get();
+
+        foreach ($players as $player) {
+            $player->setAttribute('points', $points->where('player_id', $player->id)->first());
+        }
+
+        $this->response['result'] = $players;
         return $this->response;
     }
 }

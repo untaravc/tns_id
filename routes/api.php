@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('points', PointController::class);
     Route::resource('matches', MatchController::class);
 
+    Route::get('point-reports', [PointController::class, 'pointReports']);
     Route::get('roles-list', [RoleController::class, 'list']);
     Route::get('menu-role', [MenuController::class, 'menuRole']);
     Route::get('menus-list', [MenuController::class, 'list']);

@@ -1,4 +1,4 @@
-import {createWebHistory, createRouter} from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import Layout from "../pages/Layout";
 import Dashboard from "../pages/dashboard/Index";
 import Users from "../pages/users/Index";
@@ -24,6 +24,7 @@ import Matches from "../pages/matches/Index.vue";
 import MatchesAddEdit from "../pages/matches/AddEdit.vue";
 import Points from "../pages/points/Index.vue";
 import PointsAddEdit from "../pages/points/AddEdit.vue";
+import PointsReport from "../pages/points/Report.vue";
 
 const routes = [
     {
@@ -31,31 +32,32 @@ const routes = [
         name: "Layout",
         component: Layout,
         children: [
-            {path: 'dashboard', component: Dashboard, meta: {protected: true, title: "Dashboard"}},
-            {path: 'users', component: Users, meta: {protected: true, title: "Data Staff"}},
-            {path: 'users/:id', component: UserAddEdit, meta: {protected: true, title: "Sistem Antrian"}},
-            {path: 'roles', component: Roles, meta: {protected: true, title: "Role"}},
-            {path: 'roles/:id', component: RolesAddEdit, meta: {protected: true, title: "Role"}},
-            {path: 'menus', component: Menus, meta: {protected: true, title: "Menu"}},
-            {path: 'menus/:id', component: MenusAddEdit, meta: {protected: true, title: "Menu"}},
-            {path: 'menu-role', component: MenuRole, meta: {protected: true, title: "Menu Role"}},
-            {path: 'profile', component: Profile, meta: {protected: true, title: "Profile"}},
+            { path: 'dashboard', component: Dashboard, meta: { protected: true, title: "Dashboard" } },
+            { path: 'users', component: Users, meta: { protected: true, title: "Data Staff" } },
+            { path: 'users/:id', component: UserAddEdit, meta: { protected: true, title: "Sistem Antrian" } },
+            { path: 'roles', component: Roles, meta: { protected: true, title: "Role" } },
+            { path: 'roles/:id', component: RolesAddEdit, meta: { protected: true, title: "Role" } },
+            { path: 'menus', component: Menus, meta: { protected: true, title: "Menu" } },
+            { path: 'menus/:id', component: MenusAddEdit, meta: { protected: true, title: "Menu" } },
+            { path: 'menu-role', component: MenuRole, meta: { protected: true, title: "Menu Role" } },
+            { path: 'profile', component: Profile, meta: { protected: true, title: "Profile" } },
 
-            {path: 'players', component: Player, meta: {protected: true, title: "Player"}},
-            {path: 'players/:id', component: PlayerAddEdit, meta: {protected: true, title: "Player"}},
-            {path: 'competition-categories/:id', component: CompetitionCategoryAddEdit, meta: {protected: true, title: "Competition Category"}},
-            {path: 'competition-categories', component: CompetitionCategory, meta: {protected: true, title: "Competition Category"}},
-            {path: 'competitions/:id', component: CompetitionAddEdit, meta: {protected: true, title: "Competition"}},
-            {path: 'competitions', component: Competition, meta: {protected: true, title: "Competition"}},
-            {path: 'points', component: Points, meta: {protected: true, title: "Points"}},
-            {path: 'points/:id', component: PointsAddEdit, meta: {protected: true, title: "Points"}},
-            {path: 'matches', component: Matches, meta: {protected: true, title: "Matches"}},
-            {path: 'matches/:id', component: MatchesAddEdit, meta: {protected: true, title: "Matches"}},
+            { path: 'players', component: Player, meta: { protected: true, title: "Player" } },
+            { path: 'players/:id', component: PlayerAddEdit, meta: { protected: true, title: "Player" } },
+            { path: 'competition-categories/:id', component: CompetitionCategoryAddEdit, meta: { protected: true, title: "Competition Category" } },
+            { path: 'competition-categories', component: CompetitionCategory, meta: { protected: true, title: "Competition Category" } },
+            { path: 'competitions/:id', component: CompetitionAddEdit, meta: { protected: true, title: "Competition" } },
+            { path: 'competitions', component: Competition, meta: { protected: true, title: "Competition" } },
+            { path: 'points', component: Points, meta: { protected: true, title: "Points" } },
+            { path: 'points/:id', component: PointsAddEdit, meta: { protected: true, title: "Points" } },
+            { path: 'point-reports', component: PointsReport, meta: { protected: true, title: "Points" } },
+            { path: 'matches', component: Matches, meta: { protected: true, title: "Matches" } },
+            { path: 'matches/:id', component: MatchesAddEdit, meta: { protected: true, title: "Matches" } },
         ]
     },
-    {path: "/auth/404", name: "not-found", component: NotFound},
-    {path: "/auth/login", name: "login", component: Login},
-    {path: "/auth/forgot-password", name: "forgot-password", component: ForgotPassword},
+    { path: "/auth/404", name: "not-found", component: NotFound },
+    { path: "/auth/login", name: "login", component: Login },
+    { path: "/auth/forgot-password", name: "forgot-password", component: ForgotPassword },
 ];
 
 const router = createRouter({

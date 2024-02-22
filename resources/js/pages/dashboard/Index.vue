@@ -10,39 +10,40 @@
             </div>
         </div>
         <div class="app-content flex-column-fluid">
-            <div class="app-container container-xxl grid grid-cols-5 gap-3">
-                <div class="rounded-3 bg-white p-4">
-                    <div class="text-lg font-bold">Tiket Hari Ini</div>
-                    <div class="text-4xl font-bold text-green-600">
-                        {{ content.stats.today_count }}
+            <div class="app-container container-xxl">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="rounded-3 bg-white p-4">
+                            <div class="text-lg h4">Pemain</div>
+                            <div class="h2 font-bold text-green-600">
+                                {{ content.stats.today_count }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="rounded-3 bg-white p-4">
-                    <div class="text-lg font-bold">Tiket Tunda</div>
-                    <div class="text-4xl font-bold text-green-600">
-                        {{ content.stats.pending_count }}
+                    <div class="col-md-3">
+                        <div class="rounded-3 bg-white p-4">
+                            <div class="text-lg h4">Kompetisi</div>
+                            <div class="h2 font-bold text-green-600">
+                                {{ content.stats.pending_count }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="rounded-3 bg-white p-4">
-                    <div class="text-lg font-bold">Tiket Dilayani</div>
-                    <div class="text-4xl font-bold text-green-600">
-                        {{ content.stats.process_count }}
+                    <div class="col-md-3">
+                        <div class="rounded-3 bg-white p-4">
+                            <div class="text-lg h4">Catatan Poin</div>
+                            <div class="h2 font-bold text-green-600">
+                                {{ content.stats.process_count }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="rounded-3 bg-white p-4">
-                    <div class="text-lg font-bold">Tiket Inap</div>
-                    <div class="text-4xl font-bold text-green-600">
-                        {{ content.stats.stay_count }}
+                    <div class="col-md-3">
+                        <div class="rounded-3 bg-white p-4">
+                            <div class="text-lg h4">Catatan Pertandingan</div>
+                            <div class="h2 font-bold text-green-600">
+                                {{ content.stats.stay_count }}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="rounded-3 bg-white p-4">
-                    <div class="text-lg font-bold">Tiket Selesai</div>
-                    <div class="text-4xl font-bold text-green-600">
-                        {{ content.stats.finish_count }}
-                    </div>
-                </div>
-                <div class="rounded-3 bg-white p-5 col-span-5">
-                    <BarChart :chart-data="chart_data"></BarChart>
                 </div>
             </div>
         </div>
@@ -51,15 +52,14 @@
 
 <script>
 import useAxios from "../../src/service";
-import {reactive} from "vue";
-import BarChart from "../../components/BarChart.vue";
+import { reactive } from "vue";
 
 export default {
-    components: {BarChart},
+    components: {},
     setup() {
         const title = "Dashboard"
         const breadcrumb_list = ["Dashboard"];
-        const {getData} = useAxios()
+        const { getData } = useAxios()
         const content = reactive({
             stats: {
                 today_count: 0,

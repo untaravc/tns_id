@@ -42,6 +42,12 @@ class MenuSeed extends Seeder
                         'url'   => "/admin/points",
                         'type'  => "submenu",
                     ],
+                    [
+                        'title' => "Report",
+                        'icon'  => "",
+                        'url'   => "/admin/point-reports",
+                        'type'  => "submenu",
+                    ],
                 ]
             ],
             [
