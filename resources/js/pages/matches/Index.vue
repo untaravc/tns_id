@@ -9,7 +9,7 @@
                     <Breadcrumb :list="breadcrumb_list"></Breadcrumb>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <router-link to="/admin/points/add" class="btn btn-sm fw-bold btn-primary">
+                    <router-link to="/admin/matches/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
                     </router-link>
                 </div>
@@ -44,9 +44,9 @@
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                         <th>No</th>
                                         <th>Kompetisi</th>
-                                        <th>Kategori</th>
-                                        <th>Pemain</th>
-                                        <th>Poin</th>
+                                        <th>Tanggal</th>
+                                        <th class="text-center">Home</th>
+                                        <th class="text-center">Away</th>
                                         <th class="text-end">Aksi</th>
                                     </tr>
                                     </thead>
@@ -58,15 +58,22 @@
                                         <td>{{ d + 1 }}</td>
                                         <td>
                                            {{ data.competition_name }}
+                                            <div>
+                                                <i>{{ data.competition_category_code }}</i>
+                                            </div>
                                         </td>
                                         <td>
-                                            {{ data.competition_category_code }}
+                                            {{ $filter.formatDate(data.date)}}
                                         </td>
-                                        <td>
-                                            {{ data.player_name}}
+                                        <td class="text-center">
+                                            <div>{{data.home_first_player_name}}</div>
+                                            <div>{{data.home_second_player_name}}</div>
+                                            <div class="font-bold"><b>{{data.home_final_score}}</b></div>
                                         </td>
-                                        <td>
-                                            {{data.point}}
+                                        <td class="text-center">
+                                            <div>{{data.away_first_player_name}}</div>
+                                            <div>{{data.away_second_player_name}}</div>
+                                            <div class="font-bold"><b>{{data.away_final_score}}</b></div>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown">
@@ -75,7 +82,7 @@
                                                     Aksi
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <router-link :to="'/admin/points/' + data.id"
+                                                    <router-link :to="'/admin/matches/' + data.id"
                                                                  class="dropdown-item">
                                                         Edit
                                                     </router-link>
@@ -124,8 +131,8 @@ import {useFilterStore} from "../../src/store_filter";
 export default {
     components: {CustomIcon, Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault},
     setup() {
-        const title = "Data Poin"
-        const breadcrumb_list = ["Poin", "Data"];
+        const title = "Data Pertandingan"
+        const breadcrumb_list = ["Pertandingan", "Data"];
         const {getData, deleteData} = useAxios()
         const is_loading = ref(true)
         const {staff_store, app_store} = useFilterStore()
@@ -140,7 +147,7 @@ export default {
             is_loading.value = true
             staff_store.page = page
             filter.page = page
-            getData('points', filter)
+            getData('matches', filter)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
@@ -165,7 +172,7 @@ export default {
         async function deleteModal(id) {
             const delete_modal = await promptModal(DeleteModal, {title: "Hapus data?"})
             if (delete_modal) {
-                deleteData('points/' + id)
+                deleteData('matches/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
                         loadDataContent(filter.page)

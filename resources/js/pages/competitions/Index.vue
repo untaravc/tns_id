@@ -43,10 +43,10 @@
                                     <thead>
                                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                         <th>No</th>
-                                        <th>Peyelenggara</th>
                                         <th>Nama</th>
                                         <th>Kota</th>
                                         <th>Tanggal</th>
+                                        <th>Status</th>
                                         <th class="text-end">Aksi</th>
                                     </tr>
                                     </thead>
@@ -57,16 +57,19 @@
                                     <tr v-for="(data, d) in response.data_content.data">
                                         <td>{{ d + 1 }}</td>
                                         <td>
-                                            <b>{{ data.capital }}</b>
-                                        </td>
-                                        <td>
                                             {{ data.name }}
+                                            <br>
+                                            <i>{{ data.capital }}</i>
                                         </td>
                                         <td>
-                                            {{ data.address}}
+                                            {{ data.address }}
                                         </td>
                                         <td>
-                                            {{data.date_st}}
+                                            <div>{{ $filter.formatDate(data.date_start) }}</div>
+                                            <div v-if="data.date_end">s/d {{ $filter.formatDate(data.date_end) }}</div>
+                                        </td>
+                                        <td>
+                                            <StatusDefault :status="data.status"/>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown">

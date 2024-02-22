@@ -16,13 +16,14 @@ class CreatePointsTable extends Migration
         Schema::create('points', function (Blueprint $table) {
             $table->id();
             $table->integer('player_id');
-            $table->integer('player_name');
-            $table->string('player_number');
-            $table->string('competition_id');
+            $table->string('player_name');
+            $table->string('player_reg_id');
+            $table->integer('competition_id');
             $table->string('competition_name');
             $table->string('competition_category_code');
             $table->integer('point');
             $table->boolean('is_cut_off')->default(0);
+            $table->boolean('is_historical')->default(0);
             $table->integer('user_id');
             $table->dateTime('date');
             $table->boolean('status');

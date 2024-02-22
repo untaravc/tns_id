@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competition;
+use App\Models\Player;
 use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +25,15 @@ class PointController extends Controller
     {
         $this->validateData($request);
 
+        $player = Player::find($request->player_id);
+        $competition = Competition::find($request->competition_id);
+        $request->merge([
+            'player_name'      => $player->full_name,
+            'player_reg_id'    => $player->reg_id,
+            'competition_name' => $competition->name,
+            'user_id'          => $request->user()['id']
+        ]);
+
         Point::create($request->all());
 
         return $this->response;
@@ -41,11 +52,11 @@ class PointController extends Controller
         if ($request->id) {
             // Update
             $validator = Validator::make($request->all(), [
-                'player_id'     => 'required',
+                'player_id' => 'required',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
-                'player_id'     => 'required',
+                'player_id' => 'required',
             ]);
         }
 
@@ -71,6 +82,15 @@ class PointController extends Controller
 
         $this->validateData($request);
 
+        $player = Player::find($request->player_id);
+        $competition = Competition::find($request->competition_id);
+        $request->merge([
+            'player_name'      => $player->full_name,
+            'player_reg_id'    => $player->reg_id,
+            'competition_name' => $competition->name,
+            'user_id'          => $request->user()['id']
+        ]);
+
         $data = Point::find($request->id);
         if ($data) {
             $data->update($request->all());
@@ -85,7 +105,7 @@ class PointController extends Controller
 
     public function destroy($id)
     {
-        $data = Point::where('id', '!=', 1)->find($id);
+        $data = Point::find($id);
 
         if ($data) {
             $data->delete();

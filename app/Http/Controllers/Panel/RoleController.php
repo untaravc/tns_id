@@ -83,7 +83,7 @@ class RoleController extends Controller
     }
 
     public function list(){
-        $this->response['result'] = Role::orderBy('name')->where('id', '>', 1)->get();
+        $this->response['result'] = Role::orderBy('name')->get();
         return $this->response;
     }
 }

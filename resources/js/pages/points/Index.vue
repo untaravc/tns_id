@@ -57,16 +57,28 @@
                                     <tr v-for="(data, d) in response.data_content.data">
                                         <td>{{ d + 1 }}</td>
                                         <td>
-                                           {{ data.competition_name }}
+                                            {{ data.competition_name }}
                                         </td>
                                         <td>
                                             {{ data.competition_category_code }}
                                         </td>
                                         <td>
-                                            {{ data.player_name}}
+                                            {{ data.player_name }}
                                         </td>
                                         <td>
-                                            {{data.point}}
+                                            <div class="d-flex align-items-center">
+                                                <div class="h1 font-bolder pe-2">{{ data.point }}</div>
+                                                <div>
+                                                    <div><small v-if="data.is_historical"
+                                                                class="text-primary font-bold">--historical</small>
+                                                    </div>
+                                                    <div>
+                                                        <small v-if="data.is_cut_off" class="text-danger font-bold">
+                                                        --cut off
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown">

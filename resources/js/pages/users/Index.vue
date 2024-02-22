@@ -45,7 +45,6 @@
                                         <th>No</th>
                                         <th>Nama</th>
                                         <th>Role</th>
-                                        <th>Loket</th>
                                         <th>Status</th>
                                         <th class="text-end">Aksi</th>
                                     </tr>
@@ -62,12 +61,6 @@
                                         </td>
                                         <td>
                                             {{ data.role }}
-                                            <div v-if="data.client && app_store.role_id === 1">{{data.client.name}}</div>
-                                        </td>
-                                        <td>
-                                            <span v-for="(station, s) in data.stations">
-                                                <span v-if="s > 0"> | </span> {{station.name}}
-                                            </span>
                                         </td>
                                         <td>
                                             <StatusDefault :status="data.status"/>

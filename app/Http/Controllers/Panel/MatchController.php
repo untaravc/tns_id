@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competition;
 use App\Models\Match;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +25,26 @@ class MatchController extends Controller
     {
         $this->validateData($request);
 
-        Player::create($request->all());
+        $competition = Competition::find($request->competition_id);
+
+        $player_ids = [];
+        if ($request->home_first_player_id) $player_ids[] = $request->home_first_player_id;
+        if ($request->home_second_player_id) $player_ids[] = $request->home_second_player_id;
+        if ($request->away_first_player_id) $player_ids[] = $request->away_first_player_id;
+        if ($request->away_second_player_id) $player_ids[] = $request->away_second_player_id;
+
+        $players = Player::whereIn('id', $player_ids)->get();
+
+        $request->merge([
+            'competition_name'        => $competition->name,
+            'user_id'                 => $request->user()['id'],
+            'home_first_player_name'  => $request->home_first_player_id ? $players->where('id', $request->home_first_player_id)->first()['full_name'] : "",
+            'home_second_player_name' => $request->home_second_player_id ? $players->where('id', $request->home_second_player_id)->first()['full_name'] : "",
+            'away_first_player_name'  => $request->away_first_player_id ? $players->where('id', $request->away_first_player_id)->first()['full_name'] : "",
+            'away_second_player_name' => $request->away_second_player_id ? $players->where('id', $request->away_second_player_id)->first()['full_name'] : "",
+        ]);
+
+        Match::create($request->all());
 
         return $this->response;
     }
@@ -41,11 +62,25 @@ class MatchController extends Controller
         if ($request->id) {
             // Update
             $validator = Validator::make($request->all(), [
-                'home_player_id'     => 'required',
+                'competition_id'            => 'required',
+                'competition_category_code' => 'required',
+                'winner'                    => 'required',
+                'date'                      => 'required',
+                'home_final_score'          => 'required',
+                'home_first_player_id'      => 'required',
+                'away_first_player_id'      => 'required',
+                'away_final_score'          => 'required',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
-                'home_player_id'     => 'required',
+                'competition_id'            => 'required',
+                'competition_category_code' => 'required',
+                'winner'                    => 'required',
+                'date'                      => 'required',
+                'home_final_score'          => 'required',
+                'home_first_player_id'      => 'required',
+                'away_first_player_id'      => 'required',
+                'away_final_score'          => 'required',
             ]);
         }
 

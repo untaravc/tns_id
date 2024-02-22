@@ -10,30 +10,10 @@
             </div>
         </div>
         <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div id="kt_app_content_container" class="app-container container-xxl">
-                <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
-                    <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
-                        <div class="card card-flush py-4">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>Status</h2>
-                                </div>
-                            </div>
-                            <div class="card-body pt-0">
-                                <select class="form-select mb-2" v-model="form.status">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Non Aktif</option>
-                                </select>
-                                <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
-                                    {{ getMessage('status') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-
-                        <div class="card card-flush py-4">
+            <div class="app-container container-xxl">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card card-flush">
                             <div class="card-header">
                                 <div class="card-title">
                                     <h2>Detail</h2>
@@ -41,46 +21,147 @@
                             </div>
                             <div class="card-body pt-0">
                                 <form>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Nama</label>
-                                        <input type="text" class="form-control mb-2" v-model="form.full_name">
+                                    <div class="mb-5">
+                                        <label class="required form-label">Kopetisi</label>
+                                        <vue-select label="name"
+                                                    v-model="form.competition_id"
+                                                    :reduce="name => name.id"
+                                                    :options="form_props.competitions"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('full_name')">
-                                            {{ getMessage('full_name') }}
+                                             v-if="getStatus('competition_id')">
+                                            {{ getMessage('competition_id') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="required form-label">Kategori</label>
+                                        <vue-select label="name"
+                                                    v-model="form.competition_category_code"
+                                                    :reduce="name => name.code"
+                                                    :options="form_props.competition_categories"></vue-select>
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                             v-if="getStatus('competition_category_code')">
+                                            {{ getMessage('competition_category_code') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Jenis Kelamin</label>
-                                        <select class="form-control mb-2" v-model="form.gender">
-                                            <option value="M">Laki Laki</option>
-                                            <option value="F">Perempuan</option>
+                                        <label class="required form-label">Tanggal</label>
+                                        <input type="date" class="form-control mb-2" v-model="form.date">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                             v-if="getStatus('date')">
+                                            {{ getMessage('date') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="required form-label">Pemenang</label>
+                                        <select class="form-select mb-2" v-model="form.winner">
+                                            <option value="home">Home</option>
+                                            <option value="away">Away</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('gender')">
-                                            {{ getMessage('gender') }}
+                                             v-if="getStatus('winner')">
+                                            {{ getMessage('winner') }}
                                         </div>
                                     </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal Lahir</label>
-                                        <input type="date" class="form-control mb-2" v-model="form.birth_date">
+                                    <div class="mb-5">
+                                        <label class="required form-label">Status</label>
+                                        <select class="form-select mb-2" v-model="form.status">
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Non Aktif</option>
+                                        </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('birth_date')">
-                                            {{ getMessage('birth_date') }}
-                                        </div>
-                                    </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Kota</label>
-                                        <input type="text" class="form-control mb-2" v-model="form.city">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('city')">
-                                            {{ getMessage('city') }}
+                                             v-if="getStatus('status')">
+                                            {{ getMessage('status') }}
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3 card-flush">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>HOME</h2>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="mb-5">
+                                    <label class="required form-label">Pemain 1</label>
+                                    <vue-select label="full_name"
+                                                v-model="form.home_first_player_id"
+                                                :reduce="full_name => full_name.id"
+                                                :options="form_props.players"></vue-select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('home_first_player_id')">
+                                        {{ getMessage('home_first_player_id') }}
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="required form-label">Pemain 2</label>
+                                    <vue-select label="full_name"
+                                                v-model="form.home_second_player_id"
+                                                :reduce="full_name => full_name.id"
+                                                :options="form_props.players"></vue-select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('home_second_player_id')">
+                                        {{ getMessage('home_second_player_id') }}
+                                    </div>
+                                </div>
+                                <div class="mb-5 fv-row fv-plugins-icon-container">
+                                    <label class="required form-label">Skor</label>
+                                    <input type="number" min="0" class="form-control mb-2"
+                                           v-model="form.home_final_score">
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('home_final_score')">
+                                        {{ getMessage('home_final_score') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-flush mb-3">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>AWAY</h2>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="mb-5">
+                                    <label class="required form-label">Pemain 1</label>
+                                    <vue-select label="full_name"
+                                                v-model="form.away_first_player_id"
+                                                :reduce="full_name => full_name.id"
+                                                :options="form_props.players"></vue-select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('away_first_player_id')">
+                                        {{ getMessage('away_first_player_id') }}
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="required form-label">Pemain 2</label>
+                                    <vue-select label="full_name"
+                                                v-model="form.away_second_player_id"
+                                                :reduce="full_name => full_name.id"
+                                                :options="form_props.players"></vue-select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('away_second_player_id')">
+                                        {{ getMessage('away_second_player_id') }}
+                                    </div>
+                                </div>
+                                <div class="mb-5 fv-row fv-plugins-icon-container">
+                                    <label class="required form-label">Skor</label>
+                                    <input type="number" min="0" class="form-control mb-2"
+                                           v-model="form.away_final_score">
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                         v-if="getStatus('away_final_score')">
+                                        {{ getMessage('away_final_score') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-end">
-                            <router-link to="/admin/points" class="btn btn-light me-5">Batal</router-link>
+                            <router-link to="/admin/matches" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
                                     :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
@@ -97,7 +178,6 @@
                             </button>
                         </div>
                     </div>
-                    <div></div>
                 </div>
             </div>
         </div>
@@ -110,9 +190,10 @@ import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
 import {useRouter, useRoute} from "vue-router";
 import {useFilterStore} from "../../src/store_filter";
+import VueSelect from "vue-select";
 
 export default {
-    components: {Breadcrumb},
+    components: {VueSelect, Breadcrumb},
     setup() {
         const {postData, getData, patchData} = useAxios()
         const router = useRouter()
@@ -125,8 +206,9 @@ export default {
             is_loading: false,
             errors: [],
             edit_mode: false,
-            clients: [],
-            roles: [],
+            competitions: [],
+            competition_categories: [],
+            players: [],
         })
 
         const param_id = route.params.id
@@ -137,39 +219,70 @@ export default {
 
         const form = reactive({
             id: '',
-            reg_id: '',
-            full_name: '',
-            first_name: '',
-            surname_name: '',
-            gender: '',
-            city: '',
-            city_init: '',
-            birth_date: '',
+            competition_id: '',
+            competition_name: '',
+            competition_category_code: '',
+            home_first_player_id: '',
+            home_first_player_name: '',
+            home_second_player_id: '',
+            home_second_player_name: '',
+            home_final_score: '',
+            away_first_player_id: '',
+            away_first_player_name: '',
+            away_second_player_id: '',
+            away_second_player_name: '',
+            away_final_score: '',
+            winner: '',
+            date: '',
+            user_id: '',
             status: 1,
         })
 
         if (form_props.edit_mode) {
-            getData('points/' + param_id)
+            getData('matches/' + param_id)
                 .then((data) => {
                     form.id = data.result.id
-                    form.reg_id = data.result.reg_id
-                    form.full_name = data.result.full_name
-                    form.first_name = data.result.first_name
-                    form.surname_name = data.result.surname_name
-                    form.gender = data.result.gender
-                    form.birth_date = data.result.birth_date
-                    form.city = data.result.city
-                    form.city_init = data.result.city_init
+                    form.competition_id = data.result.competition_id
+                    form.competition_name = data.result.competition_name
+                    form.competition_category_code = data.result.competition_category_code
+                    form.home_first_player_id = data.result.home_first_player_id
+                    form.home_first_player_name = data.result.home_first_player_name
+                    form.home_second_player_id = data.result.home_second_player_id
+                    form.home_second_player_name = data.result.home_second_player_name
+                    form.home_final_score = data.result.home_final_score
+                    form.away_first_player_id = data.result.away_first_player_id
+                    form.away_first_player_name = data.result.away_first_player_name
+                    form.away_second_player_id = data.result.away_second_player_id
+                    form.away_second_player_name = data.result.away_second_player_name
+                    form.away_final_score = data.result.away_final_score
+                    form.winner = data.result.winner
+                    form.date = data.result.date
+                    form.user_id = data.result.user_id
                     form.status = data.result.status
                 })
         }
 
         function createData() {
-            form_props.is_loading = true
-            postData('points', form).then((data) => {
+            // form_props.is_loading = true
+            postData('matches', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/points')
+                    router.push('/admin/matches')
+                    resetErrors()
+                } else {
+                    setErrors(data.errors)
+                }
+            }).catch(()=>{
+                form_props.is_loading = false
+            })
+        }
+
+        function editData() {
+            form_props.is_loading = true
+            patchData('matches/' + param_id, form).then((data) => {
+                form_props.is_loading = false;
+                if (data.success) {
+                    router.push('/admin/matches')
                     resetErrors()
                 } else {
                     setErrors(data.errors)
@@ -177,18 +290,32 @@ export default {
             })
         }
 
-        function editData() {
-            form_props.is_loading = true
-            patchData('points/' + param_id, form).then((data) => {
-                form_props.is_loading = false;
-                if (data.success) {
-                    router.push('/admin/points')
-                    resetErrors()
-                } else {
-                    setErrors(data.errors)
-                }
-            })
+        function loadPlayerList() {
+            getData('players-list')
+                .then((data) => {
+                    form_props.players = data.result
+                })
         }
+
+        loadPlayerList()
+
+        function loadCompetitionList() {
+            getData('competitions-list')
+                .then((data) => {
+                    form_props.competitions = data.result
+                })
+        }
+
+        loadCompetitionList()
+
+        function loadCompetitionCategoryList() {
+            getData('competition-categories-list', {name: form_props.competition_name})
+                .then((data) => {
+                    form_props.competition_categories = data.result
+                })
+        }
+
+        loadCompetitionCategoryList()
 
         return {
             breadcrumb_list,

@@ -43,15 +43,31 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
+                                        <label class="form-label">Nomor</label>
+                                        <input type="text" class="form-control mb-2" v-model="form.reg_id">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                             v-if="getStatus('reg_id')">
+                                            {{ getMessage('reg_id') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.full_name">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                              v-if="getStatus('full_name')">
                                             {{ getMessage('full_name') }}
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="text" placeholder="First Name" class="form-control mb-2" v-model="form.first_name">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" placeholder="Surname" class="form-control mb-2" v-model="form.surname_name">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Jenis Kelamin</label>
+                                        <label class="form-label">Jenis Kelamin</label>
                                         <select class="form-control mb-2" v-model="form.gender">
                                             <option value="M">Laki Laki</option>
                                             <option value="F">Perempuan</option>
@@ -62,7 +78,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal Lahir</label>
+                                        <label class="form-label">Tanggal Lahir</label>
                                         <input type="date" class="form-control mb-2" v-model="form.birth_date">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                              v-if="getStatus('birth_date')">
@@ -70,11 +86,19 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Kota</label>
+                                        <label class="form-label">Kota</label>
                                         <input type="text" class="form-control mb-2" v-model="form.city">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                              v-if="getStatus('city')">
                                             {{ getMessage('city') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                                        <label class="form-label">Inisal Kota</label>
+                                        <input type="text" class="form-control mb-2" v-model="form.city_init">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                             v-if="getStatus('city_init')">
+                                            {{ getMessage('city_init') }}
                                         </div>
                                     </div>
                                 </form>

@@ -95,38 +95,6 @@
                                             {{ getMessage('password_confirmation') }}
                                         </div>
                                     </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container" v-if="app_store.role_id === 1">
-                                        <label class="form-label">Klien</label>
-                                        <select class="form-control mb-2" v-model="form.client_id">
-                                            <option :value="client.id" :key="client.id"
-                                                    v-for="client in form_props.clients">{{ client.name }}
-                                            </option>
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('client_id')">{{ getMessage('client_id') }}
-                                        </div>
-                                    </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label"><span v-if="form_props.edit_mode">Ganti</span> PIN</label>
-                                        <input type="password" class="form-control mb-2" autocomplete="new-password"
-                                               v-model="form.pin_key">
-                                        <span class="text-small text-gray-600" v-if="form_props.edit_mode">
-                                            Kosongkan bila tidak akan mengganti PIN
-                                        </span>
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('pin_key')">{{ getMessage('pin_key') }}
-                                        </div>
-                                    </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label">
-                                            Konfirmasi <span v-if="form_props.edit_mode">Ganti</span> PIN
-                                        </label>
-                                        <input type="password" class="form-control mb-2" autocomplete="new-password"
-                                               v-model="form.pin_key_confirmation">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('pin_key_confirmation')">{{ getMessage('pin_key_confirmation') }}
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -189,13 +157,10 @@ export default {
         const form = reactive({
             id: '',
             status: 1,
-            client_id: '',
             name: '',
             email: '',
             password: '',
             password_confirmation: '',
-            pin_key: '',
-            pin_key_confirmation: '',
             role_id: '',
         })
 

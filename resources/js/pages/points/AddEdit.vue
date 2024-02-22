@@ -85,10 +85,25 @@
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Point</label>
-                                        <input type="text" class="form-control mb-2" v-model="form.point">
+                                        <input type="number" min="0" class="form-control mb-2" v-model="form.point">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                              v-if="getStatus('point')">
                                             {{ getMessage('point') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                                        <div class="d-flex">
+                                            <label
+                                                class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                       v-model="form.is_cut_off">
+                                                <span class="form-check-label">Data Cut Off</span>
+                                            </label>
+                                            <label class="form-check form-check-sm form-check-custom form-check-solid">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                       v-model="form.is_historical">
+                                                <span class="form-check-label">Historikal</span>
+                                            </label>
                                         </div>
                                     </div>
                                 </form>
@@ -112,7 +127,6 @@
                             </button>
                         </div>
                     </div>
-                    <div></div>
                 </div>
             </div>
         </div>
@@ -156,17 +170,18 @@ export default {
 
         const form = reactive({
             id: '',
-            player_id:'',
-            player_name:'',
-            player_number:'',
-            competition_id:'',
-            competition_name:'',
-            competition_category_code:'',
-            point:'',
-            is_cut_off:'',
-            date:'',
-            user_id:'',
-            status:1,
+            player_id: '',
+            player_name: '',
+            player_reg_id: '',
+            competition_id: '',
+            competition_name: '',
+            competition_category_code: '',
+            point: '',
+            is_cut_off: false,
+            is_historical: false,
+            date: '',
+            user_id: '',
+            status: 1,
         })
 
         if (form_props.edit_mode) {
@@ -175,12 +190,13 @@ export default {
                     form.id = data.result.id
                     form.player_id = data.result.player_id
                     form.player_name = data.result.player_name
-                    form.player_number = data.result.player_number
+                    form.player_reg_id = data.result.player_reg_id
                     form.competition_id = data.result.competition_id
                     form.competition_name = data.result.competition_name
                     form.competition_category_code = data.result.competition_category_code
                     form.point = data.result.point
-                    form.is_cut_off = data.result.is_cut_off
+                    form.is_cut_off = data.result.is_cut_off === 1
+                    form.is_historical = data.result.is_historical === 1
                     form.user_id = data.result.user_id
                     form.status = data.result.status
                     form.date = data.result.date
@@ -197,6 +213,8 @@ export default {
                 } else {
                     setErrors(data.errors)
                 }
+            }).catch(() => {
+                form_props.is_loading = false;
             })
         }
 
@@ -213,28 +231,31 @@ export default {
             })
         }
 
-        function loadPlayerList(){
+        function loadPlayerList() {
             getData('players-list', {name: form_props.player_name})
                 .then((data) => {
                     form_props.players = data.result
                 })
         }
+
         loadPlayerList()
 
-        function loadCompetitionList(){
+        function loadCompetitionList() {
             getData('competitions-list', {name: form_props.competition_name})
                 .then((data) => {
                     form_props.competitions = data.result
                 })
         }
+
         loadCompetitionList()
 
-        function loadCompetitionCategoryList(){
+        function loadCompetitionCategoryList() {
             getData('competition-categories-list', {name: form_props.competition_name})
                 .then((data) => {
                     form_props.competition_categories = data.result
                 })
         }
+
         loadCompetitionCategoryList()
 
         return {

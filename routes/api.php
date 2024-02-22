@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('competitions', CompetitionController::class);
     Route::resource('competition-categories', CompetitionCategoryController::class);
     Route::resource('points', PointController::class);
-    Route::resource('matched', MatchController::class);
+    Route::resource('matches', MatchController::class);
 
     Route::get('roles-list', [RoleController::class, 'list']);
     Route::get('menu-role', [MenuController::class, 'menuRole']);

@@ -22,8 +22,8 @@ class PlayerController extends Controller
     public function list(Request $request)
     {
         $this->response['result'] = Player::orderBy('full_name')
-            ->when($request->name, function ($q) use ($request){
-                $q->where('full_name', 'LIKE', '%'.$request->name.'%');
+            ->when($request->name, function ($q) use ($request) {
+                $q->where('full_name', 'LIKE', '%' . $request->name . '%');
             })
             ->limit(20)
             ->get();
@@ -54,10 +54,12 @@ class PlayerController extends Controller
             // Update
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required',
+                'reg_id'    => 'nullable|unique:players,reg_id,' . $request->id,
             ]);
         } else {
             $validator = Validator::make($request->all(), [
                 'full_name' => 'required',
+                'reg_id'    => 'nullable|unique:players,reg_id',
             ]);
         }
 

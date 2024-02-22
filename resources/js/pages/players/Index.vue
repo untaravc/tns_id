@@ -46,7 +46,7 @@
                                         <th>Nama</th>
                                         <th>Gender</th>
                                         <th>TTL</th>
-                                        <th>Kota</th>
+                                        <th>Status</th>
                                         <th class="text-end">Aksi</th>
                                     </tr>
                                     </thead>
@@ -58,6 +58,8 @@
                                         <td>{{ d + 1 }}</td>
                                         <td>
                                             <b>{{ data.full_name }}</b>
+                                            <br>
+                                            <i>{{data.city}}</i>
                                         </td>
                                         <td>
                                             {{ data.gender }}
@@ -66,7 +68,7 @@
                                             {{ data.birth_date}}
                                         </td>
                                         <td>
-                                            {{data.city}}
+                                            <StatusDefault :status="data.status"/>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown">
