@@ -18,14 +18,14 @@ class MenuSeed extends Seeder
         $data = [
             [
                 'title'    => "Dashboard",
-                'icon'     => "md-spacedashboard",
+                'icon'     => "bi-columns-gap",
                 'url'      => "/admin/dashboard",
                 'children' => [],
                 'type'     => "menu",
             ],
             [
                 'title'    => "Poin Pemain",
-                'icon'     => "md-scoreboard",
+                'icon'     => "bi-cursor",
                 'url'      => "/admin/points--",
                 'type'     => "menu",
                 'children' => [
@@ -51,7 +51,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Pertandingan",
-                'icon'     => "md-sports",
+                'icon'     => "bi-vector-pen",
                 'url'      => "/admin/matches--",
                 'type'     => "menu",
                 'children' => [
@@ -71,7 +71,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Berita",
-                'icon'     => "md-newspaper",
+                'icon'     => "bi-newspaper",
                 'url'      => "/admin/posts--",
                 'type'     => "menu",
                 'children' => [
@@ -98,7 +98,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Pemain",
-                'icon'     => "md-emojipeople",
+                'icon'     => "bi-people",
                 'url'      => "/admin/players--",
                 'type'     => "menu",
                 'children' => [
@@ -117,28 +117,28 @@ class MenuSeed extends Seeder
                 ]
             ],
             [
-                'title'    => "Kategori Kompetisi",
-                'icon'     => "md-category-outlined",
-                'url'      => "/admin/competition-categories--",
+                'title'    => "Kategori",
+                'icon'     => "bi-archive",
+                'url'      => "/admin/categories--",
                 'type'     => "menu",
                 'children' => [
                     [
                         'title' => "Tambah Baru",
                         'icon'  => "",
-                        'url'   => "/admin/competition-categories/add",
+                        'url'   => "/admin/categories/add",
                         'type'  => "submenu",
                     ],
                     [
                         'title' => "Data",
                         'icon'  => "",
-                        'url'   => "/admin/competition-categories",
+                        'url'   => "/admin/categories",
                         'type'  => "submenu",
                     ],
                 ]
             ],
             [
                 'title'    => "Kompetisi",
-                'icon'     => "md-tour",
+                'icon'     => "bi-bookmark-star",
                 'url'      => "/admin/competitions--",
                 'type'     => "menu",
                 'children' => [
@@ -157,28 +157,8 @@ class MenuSeed extends Seeder
                 ]
             ],
             [
-                'title'    => "Kategori Berita",
-                'icon'     => "md-tablerows",
-                'url'      => "/admin/post-categories--",
-                'type'     => "menu",
-                'children' => [
-                    [
-                        'title' => "Tambah Baru",
-                        'icon'  => "",
-                        'url'   => "/admin/post-categories/add",
-                        'type'  => "submenu",
-                    ],
-                    [
-                        'title' => "Data",
-                        'icon'  => "",
-                        'url'   => "/admin/post-categories",
-                        'type'  => "submenu",
-                    ],
-                ]
-            ],
-            [
                 'title'    => "Admin",
-                'icon'     => "md-verifieduser",
+                'icon'     => "bi-shield-check",
                 'url'      => "/admin/users--",
                 'type'     => "menu",
                 'children' => [
@@ -198,7 +178,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Role",
-                'icon'     => "md-altroute",
+                'icon'     => "bi-bezier2",
                 'url'      => "/admin/roles--",
                 'type'     => "menu",
                 'children' => [
@@ -218,7 +198,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Menu",
-                'icon'     => "md-menuopen",
+                'icon'     => "bi-menu-button-wide",
                 'url'      => "/admin/menus--",
                 'type'     => "menu",
                 'children' => [
@@ -244,6 +224,7 @@ class MenuSeed extends Seeder
             ]
         ];
 
+        $active_ids = [];
         foreach ($data as $key => $datum) {
             $menu_created = Menu::whereUrl($datum['url'])->first();
             if (!$menu_created) {
@@ -263,12 +244,13 @@ class MenuSeed extends Seeder
                     "type"  => $datum['type'],
                 ]);
             }
+            $active_ids[] = $menu_created->id;
 
             if (count($datum['children']) > 0) {
                 foreach ($datum['children'] as $cld => $child) {
                     $child_created = Menu::whereUrl($child['url'])->first();
                     if (!$child_created) {
-                        Menu::create([
+                        $child_created = Menu::create([
                             "order"     => $cld + 1,
                             "title"     => $child['title'],
                             "icon"      => $child['icon'],
@@ -286,9 +268,12 @@ class MenuSeed extends Seeder
                             "parent_id" => $menu_created['id'],
                         ]);
                     }
+                    $active_ids[] = $child_created->id;
                 }
             }
         }
+
+        Menu::whereNotIn('id', $active_ids)->delete();
 
         $menus = Menu::get();
         foreach ($menus as $mn) {

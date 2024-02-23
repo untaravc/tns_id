@@ -8,7 +8,6 @@ use App\Models\Player;
 use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions\F;
 
 class PointController extends Controller
 {

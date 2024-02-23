@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Models\CompetitionCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CompetitionCategoryController extends Controller
+class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = CompetitionCategory::orderBy('name');
+        $dataContent = Category::orderBy('name');
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 
@@ -20,9 +20,9 @@ class CompetitionCategoryController extends Controller
     }
     public function list(Request $request)
     {
-        $this->response['result'] = CompetitionCategory::orderBy('name')
-            ->when($request->name, function ($q) use ($request){
-                $q->where('name', 'LIKE', '%'.$request->name.'%');
+        $this->response['result'] = Category::orderBy('name')
+            ->when($request->name, function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->name . '%');
             })
             ->limit(20)
             ->get();
@@ -33,14 +33,14 @@ class CompetitionCategoryController extends Controller
     {
         $this->validateData($request);
 
-        CompetitionCategory::create($request->all());
+        Category::create($request->all());
 
         return $this->response;
     }
 
     public function show($id)
     {
-        $data = CompetitionCategory::find($id);
+        $data = Category::find($id);
 
         $this->response['result'] = $data;
         return $this->response;
@@ -51,13 +51,15 @@ class CompetitionCategoryController extends Controller
         if ($request->id) {
             // Update
             $validator = Validator::make($request->all(), [
+                'type'     => 'required',
                 'name'     => 'required',
-                'code'     => 'required',
+                'code'     => 'required|unique:categories,code,' . $request->id,
             ]);
         } else {
             $validator = Validator::make($request->all(), [
+                'type'     => 'required',
                 'name'     => 'required',
-                'code'     => 'required',
+                'code'     => 'required|unique:categories,code',
             ]);
         }
 
@@ -83,7 +85,7 @@ class CompetitionCategoryController extends Controller
 
         $this->validateData($request);
 
-        $data = CompetitionCategory::find($request->id);
+        $data = Category::find($request->id);
         if ($data) {
             $data->update($request->all());
             $this->response['message'] = 'Updated!';
@@ -97,7 +99,7 @@ class CompetitionCategoryController extends Controller
 
     public function destroy($id)
     {
-        $data = CompetitionCategory::where('id', '!=', 1)->find($id);
+        $data = Category::where('id', '!=', 1)->find($id);
 
         if ($data) {
             $data->delete();

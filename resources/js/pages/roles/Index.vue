@@ -22,7 +22,7 @@
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="md-search" />
+                                    <v-icon name="bi-search" />
                                 </span>
                                 <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
                                     class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">

@@ -18,6 +18,12 @@
  */
 
 /**
+ * Vue 3 Loading Overlay 0.0.0
+ * (c) 2020
+ * @license MIT
+ */
+
+/**
 * @vue/shared v3.4.19
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT

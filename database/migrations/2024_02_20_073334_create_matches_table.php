@@ -18,6 +18,7 @@ class CreateMatchesTable extends Migration
             $table->integer('competition_id');
             $table->string('competition_name');
             $table->string('competition_category_code');
+            $table->string('player_category_code');
             $table->integer('home_first_player_id');
             $table->string('home_first_player_name');
             $table->integer('home_second_player_id')->nullable();

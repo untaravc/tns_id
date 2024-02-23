@@ -9,7 +9,7 @@ use App\Http\Controllers\Panel\MenuController;
 use App\Http\Controllers\Panel\RoleController;
 use App\Http\Controllers\Panel\PlayerController;
 use App\Http\Controllers\Panel\CompetitionController;
-use App\Http\Controllers\Panel\CompetitionCategoryController;
+use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\PointController;
 use App\Http\Controllers\Panel\MatchController;
 
@@ -24,7 +24,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('roles', RoleController::class);
     Route::resource('players', PlayerController::class);
     Route::resource('competitions', CompetitionController::class);
-    Route::resource('competition-categories', CompetitionCategoryController::class);
+    Route::resource('categories', CategoryController::class);
     Route::resource('points', PointController::class);
     Route::resource('matches', MatchController::class);
 
@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('menus-list', [MenuController::class, 'list']);
     Route::get('players-list', [PlayerController::class, 'list']);
     Route::get('competitions-list', [CompetitionController::class, 'list']);
-    Route::get('competition-categories-list', [CompetitionCategoryController::class, 'list']);
+    Route::get('categories-list', [CategoryController::class, 'list']);
 
     Route::get('import-players', [ImportPlayerController::class, 'import']);
 });

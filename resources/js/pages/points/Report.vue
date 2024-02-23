@@ -25,7 +25,7 @@
                 <label class="form-label">.</label>
                 <div>
                   <button class="btn btn-sm btn-primary" @click="loadDataContent">
-                    <v-icon name="md-search" />
+                    <v-icon name="bi-search" />
                   </button>
                 </div>
               </div>
