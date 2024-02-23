@@ -25,7 +25,7 @@
                 <label class="form-label">.</label>
                 <div>
                   <button class="btn btn-sm btn-primary" @click="loadDataContent">
-                    <CustomIcon name="MagnifiyingGlass" width="16" height="16" />
+                    <v-icon name="md-search" />
                   </button>
                 </div>
               </div>
@@ -89,7 +89,6 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import CustomIcon from "../../src/Icon";
 import PerPage from '../../components/PerPage'
 import useAxios from "../../src/service";
 import { reactive, ref } from "vue";
@@ -97,7 +96,7 @@ import { useFilterStore } from "../../src/store_filter";
 import VueSelect from "vue-select";
 
 export default {
-  components: { CustomIcon, Breadcrumb, PerPage, VueSelect },
+  components: { Breadcrumb, PerPage, VueSelect },
   setup() {
     const title = "Report Point"
     const breadcrumb_list = ["Poin", "Report"];

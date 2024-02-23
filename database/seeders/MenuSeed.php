@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Menu;
 use App\Models\MenuRole;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class MenuSeed extends Seeder
 {
@@ -19,14 +18,14 @@ class MenuSeed extends Seeder
         $data = [
             [
                 'title'    => "Dashboard",
-                'icon'     => "Menus",
+                'icon'     => "md-spacedashboard",
                 'url'      => "/admin/dashboard",
                 'children' => [],
                 'type'     => "menu",
             ],
             [
                 'title'    => "Poin Pemain",
-                'icon'     => "User",
+                'icon'     => "md-scoreboard",
                 'url'      => "/admin/points--",
                 'type'     => "menu",
                 'children' => [
@@ -52,7 +51,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Pertandingan",
-                'icon'     => "User",
+                'icon'     => "md-sports",
                 'url'      => "/admin/matches--",
                 'type'     => "menu",
                 'children' => [
@@ -71,6 +70,26 @@ class MenuSeed extends Seeder
                 ]
             ],
             [
+                'title'    => "Berita",
+                'icon'     => "md-newspaper",
+                'url'      => "/admin/posts--",
+                'type'     => "menu",
+                'children' => [
+                    [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/posts/add",
+                        'type'  => "submenu",
+                    ],
+                    [
+                        'title' => "Data",
+                        'icon'  => "",
+                        'url'   => "/admin/posts",
+                        'type'  => "submenu",
+                    ],
+                ]
+            ],
+            [
                 'title'    => "Master Data",
                 'icon'     => "",
                 'url'      => "/admin/master-data--",
@@ -79,7 +98,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Pemain",
-                'icon'     => "User",
+                'icon'     => "md-emojipeople",
                 'url'      => "/admin/players--",
                 'type'     => "menu",
                 'children' => [
@@ -99,7 +118,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Kategori Kompetisi",
-                'icon'     => "Users",
+                'icon'     => "md-category-outlined",
                 'url'      => "/admin/competition-categories--",
                 'type'     => "menu",
                 'children' => [
@@ -119,7 +138,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Kompetisi",
-                'icon'     => "Users",
+                'icon'     => "md-tour",
                 'url'      => "/admin/competitions--",
                 'type'     => "menu",
                 'children' => [
@@ -138,8 +157,28 @@ class MenuSeed extends Seeder
                 ]
             ],
             [
+                'title'    => "Kategori Berita",
+                'icon'     => "md-tablerows",
+                'url'      => "/admin/post-categories--",
+                'type'     => "menu",
+                'children' => [
+                    [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/post-categories/add",
+                        'type'  => "submenu",
+                    ],
+                    [
+                        'title' => "Data",
+                        'icon'  => "",
+                        'url'   => "/admin/post-categories",
+                        'type'  => "submenu",
+                    ],
+                ]
+            ],
+            [
                 'title'    => "Admin",
-                'icon'     => "Screw",
+                'icon'     => "md-verifieduser",
                 'url'      => "/admin/users--",
                 'type'     => "menu",
                 'children' => [
@@ -159,7 +198,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Role",
-                'icon'     => "Screw",
+                'icon'     => "md-altroute",
                 'url'      => "/admin/roles--",
                 'type'     => "menu",
                 'children' => [
@@ -179,7 +218,7 @@ class MenuSeed extends Seeder
             ],
             [
                 'title'    => "Menu",
-                'icon'     => "Layout",
+                'icon'     => "md-menuopen",
                 'url'      => "/admin/menus--",
                 'type'     => "menu",
                 'children' => [
@@ -215,6 +254,14 @@ class MenuSeed extends Seeder
                     "url"   => $datum['url'],
                     "type"  => $datum['type'],
                 ]);
+            } else {
+                $menu_created->update([
+                    "order" => $key + 1,
+                    "title" => $datum['title'],
+                    "icon"  => $datum['icon'],
+                    "url"   => $datum['url'],
+                    "type"  => $datum['type'],
+                ]);
             }
 
             if (count($datum['children']) > 0) {
@@ -222,6 +269,15 @@ class MenuSeed extends Seeder
                     $child_created = Menu::whereUrl($child['url'])->first();
                     if (!$child_created) {
                         Menu::create([
+                            "order"     => $cld + 1,
+                            "title"     => $child['title'],
+                            "icon"      => $child['icon'],
+                            "url"       => $child['url'],
+                            "type"      => $child['type'],
+                            "parent_id" => $menu_created['id'],
+                        ]);
+                    } else {
+                        $child_created->update([
                             "order"     => $cld + 1,
                             "title"     => $child['title'],
                             "icon"      => $child['icon'],

@@ -18,112 +18,107 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
-                         data-select2-id="select2-data-124-lq0k">
+                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <CustomIcon name="MagnifiyingGlass"/>
+                                    <v-icon name="md-search" />
                                 </span>
                                 <input type="text" v-model="filter.title" @keyup.enter="loadDataContent"
-                                       class="form-control form-control-solid w-250px ps-14"
-                                       placeholder="Cari..">
+                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
                             </div>
                         </div>
                         <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                             data-select2-id="select2-data-123-4p2n">
+                            data-select2-id="select2-data-123-4p2n">
                         </div>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="kt_ecommerce_products_table_wrapper"
-                             class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="table-responsive">
-                                <Loading :active="is_loading" :loader="'dots'" :is-full-page="false"/>
+                                <Loading :active="is_loading" :loader="'dots'" :is-full-page="false" />
                                 <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
-                                       id="kt_ecommerce_products_table">
+                                    id="kt_ecommerce_products_table">
                                     <thead>
-                                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                                        <th>No</th>
-                                        <th>Judul</th>
-                                        <th>Url</th>
-                                        <th>Icon</th>
-                                        <th>Status</th>
-                                        <th class="text-end">Aksi</th>
-                                    </tr>
+                                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                            <th>No</th>
+                                            <th>Judul</th>
+                                            <th>Url</th>
+                                            <th>Icon</th>
+                                            <th>Status</th>
+                                            <th class="text-end">Aksi</th>
+                                        </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
-                                    <tr v-if="response.data_content.total === 0">
-                                        <td colspan="6" class="text-center"><i>Tidak ada data.</i></td>
-                                    </tr>
-                                    <tr v-for="(data, d) in response.data_content.data">
-                                        <td>{{ d + 1 }}</td>
-                                        <td>{{ data.title }}</td>
-                                        <td>{{ data.url }}</td>
-                                        <td>{{ data.icon }}</td>
-                                        <td>
-                                            <StatusDefault :status="data.status"/>
-                                        </td>
-                                        <td class="text-end">
-                                            <div class="dropdown">
-                                                <button
-                                                    class="btn btn-light dropdown-toggle btn-sm" data-toggle="dropdown">
-                                                    Aksi
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <router-link :to="'/admin/menus/' + data.id"
-                                                                 class="dropdown-item">
-                                                        Edit
-                                                    </router-link>
-                                                    <button class="dropdown-item text-danger"
-                                                            @click="deleteModal(data.id)">
-                                                        Hapus
+                                        <tr v-if="response.data_content.total === 0">
+                                            <td colspan="6" class="text-center"><i>Tidak ada data.</i></td>
+                                        </tr>
+                                        <tr v-for="(data, d) in response.data_content.data">
+                                            <td>{{ d + 1 }}</td>
+                                            <td>{{ data.title }}</td>
+                                            <td>{{ data.url }}</td>
+                                            <td>{{ data.icon }}</td>
+                                            <td>
+                                                <StatusDefault :status="data.status" />
+                                            </td>
+                                            <td class="text-end">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-light dropdown-toggle btn-sm"
+                                                        data-toggle="dropdown">
+                                                        Aksi
                                                     </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <router-link :to="'/admin/menus/' + data.id" class="dropdown-item">
+                                                            Edit
+                                                        </router-link>
+                                                        <button class="dropdown-item text-danger"
+                                                            @click="deleteModal(data.id)">
+                                                            Hapus
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="row">
                                 <div
                                     class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-                                    <PerPage :value="filter.per_page" @change-per-page="changePerPage"/>
+                                    <PerPage :value="filter.per_page" @change-per-page="changePerPage" />
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
                                     <Bootstrap4Pagination :data="response.data_content"
-                                                          @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
+                                        @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <WidgetContainerModal/>
+            <WidgetContainerModal />
         </div>
     </div>
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import CustomIcon from "../../src/Icon";
 import PerPage from '../../components/PerPage'
 import StatusDefault from '../../components/StatusDefault'
 import useAxios from "../../src/service";
 import DeleteModal from "./DeleteModal"
-import {reactive, ref} from "vue";
-import {container, promptModal} from "jenesius-vue-modal";
+import { reactive, ref } from "vue";
+import { container, promptModal } from "jenesius-vue-modal";
 import SwalToast from '../../src/swal_toast'
-import {useFilterStore} from "../../src/store_filter";
+import { useFilterStore } from "../../src/store_filter";
 
 export default {
-    components: {CustomIcon, Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault},
+    components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
     setup() {
         const title = "Data Menu"
         const breadcrumb_list = ["Menu", "Data"];
-        const {getData, deleteData} = useAxios()
+        const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const {menu_store} = useFilterStore()
+        const { menu_store } = useFilterStore()
 
         const filter = reactive({
             page: menu_store.page,
@@ -158,7 +153,7 @@ export default {
         }
 
         async function deleteModal(id) {
-            const delete_modal = await promptModal(DeleteModal, {title: "Hapus data?"})
+            const delete_modal = await promptModal(DeleteModal, { title: "Hapus data?" })
             if (delete_modal) {
                 deleteData('menus/' + id)
                     .then((data) => {
