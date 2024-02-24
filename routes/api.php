@@ -17,10 +17,11 @@ use App\Http\Controllers\Panel\PostController;
 
 //Route::post('import-player', [ImportPlayerController::class, 'import']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('upload', [DashboardController::class, 'upload']);
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth', [AuthController::class, 'auth']);
     Route::get('menu', [AuthController::class, 'menu']);
-    Route::get('dashboard-stats', [DashboardController::class, 'dashboardStats']);
 
     Route::resource('users', UserController::class);
     Route::resource('menus', MenuController::class);
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('players-list', [PlayerController::class, 'list']);
     Route::get('competitions-list', [CompetitionController::class, 'list']);
     Route::get('categories-list', [CategoryController::class, 'list']);
+    Route::get('dashboard-stats', [DashboardController::class, 'dashboardStats']);
 
     Route::get('import-players', [ImportPlayerController::class, 'import']);
 });
