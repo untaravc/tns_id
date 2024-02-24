@@ -16,7 +16,7 @@
                         <div class="rounded-3 bg-white p-4">
                             <div class="text-lg h4">Pemain</div>
                             <div class="h2 font-bold text-green-600">
-                                {{ content.stats.today_count }}
+                                {{ content.stats.players_count }}
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="rounded-3 bg-white p-4">
                             <div class="text-lg h4">Kompetisi</div>
                             <div class="h2 font-bold text-green-600">
-                                {{ content.stats.pending_count }}
+                                {{ content.stats.competitions_count }}
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <div class="rounded-3 bg-white p-4">
                             <div class="text-lg h4">Catatan Poin</div>
                             <div class="h2 font-bold text-green-600">
-                                {{ content.stats.process_count }}
+                                {{ content.stats.points_count }}
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="rounded-3 bg-white p-4">
                             <div class="text-lg h4">Catatan Pertandingan</div>
                             <div class="h2 font-bold text-green-600">
-                                {{ content.stats.stay_count }}
+                                {{ content.stats.matches_count }}
                             </div>
                         </div>
                     </div>
@@ -62,24 +62,12 @@ export default {
         const { getData } = useAxios()
         const content = reactive({
             stats: {
-                today_count: 0,
-                pending_count: 0,
-                process_count: 0,
-                stay_count: 0,
-                finish_count: 0,
+                players_count: 0,
+                competitions_count: 0,
+                points_count: 0,
+                matches_count: 0,
             }
         })
-
-        const chart_data = {
-            labels: ['1', '2', '3', '4'],
-            datasets: [
-                {
-                    label: 'Antrian',
-                    backgroundColor: 'rgba(62,56,206,0.64)',
-                    data: [40, 20, 12, 22]
-                }
-            ]
-        };
 
         function loadStats() {
             getData('dashboard-stats').then((data) => {
@@ -87,13 +75,12 @@ export default {
             })
         }
 
-        // loadStats()
+        loadStats()
 
         return {
             title,
             breadcrumb_list,
             content,
-            chart_data
         }
     }
 }

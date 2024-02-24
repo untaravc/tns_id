@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
-use App\Models\Match;
+use App\Models\MatchModel;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +13,7 @@ class MatchController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = Match::orderByDesc('created_at');
+        $dataContent = MatchModel::orderByDesc('created_at');
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 
@@ -44,14 +44,14 @@ class MatchController extends Controller
             'away_second_player_name' => $request->away_second_player_id ? $players->where('id', $request->away_second_player_id)->first()['full_name'] : "",
         ]);
 
-        Match::create($request->all());
+        MatchModel::create($request->all());
 
         return $this->response;
     }
 
     public function show($id)
     {
-        $data = Match::find($id);
+        $data = MatchModel::find($id);
 
         $this->response['result'] = $data;
         return $this->response;
@@ -63,7 +63,7 @@ class MatchController extends Controller
             // Update
             $validator = Validator::make($request->all(), [
                 'competition_id'            => 'required',
-                'competition_category_code' => 'required',
+                'player_category_code' => 'required',
                 'winner'                    => 'required',
                 'date'                      => 'required',
                 'home_final_score'          => 'required',
@@ -74,7 +74,7 @@ class MatchController extends Controller
         } else {
             $validator = Validator::make($request->all(), [
                 'competition_id'            => 'required',
-                'competition_category_code' => 'required',
+                'player_category_code' => 'required',
                 'winner'                    => 'required',
                 'date'                      => 'required',
                 'home_final_score'          => 'required',
@@ -106,7 +106,7 @@ class MatchController extends Controller
 
         $this->validateData($request);
 
-        $data = Match::find($request->id);
+        $data = MatchModel::find($request->id);
         if ($data) {
             $data->update($request->all());
             $this->response['message'] = 'Updated!';
@@ -120,7 +120,7 @@ class MatchController extends Controller
 
     public function destroy($id)
     {
-        $data = Match::where('id', '!=', 1)->find($id);
+        $data = MatchModel::where('id', '!=', 1)->find($id);
 
         if ($data) {
             $data->delete();

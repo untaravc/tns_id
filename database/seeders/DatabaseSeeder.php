@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeed::class);
         $this->call(MenuSeed::class);
         $this->call(RoleSeed::class);
-        $this->call(CompetitionCategorySeeder::class);
+        $this->call(CategorySeeder::class);
         $this->call(DummySeeder::class);
     }
 }

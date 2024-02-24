@@ -120,10 +120,10 @@ class PointController extends Controller
             ->get();
 
         $points = Point::whereIn('player_id', $players->pluck('id')->toArray())
-            ->where('competition_category_code', $request->competition_category_code)
+            ->where('player_category_code', $request->player_category_code)
             ->groupBy('player_id')
             ->whereIsHistorical(0)
-            ->selectRaw('SUM(point) as points, player_id, player_name, competition_category_code')
+            ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
             ->get();
 
         foreach ($players as $player) {

@@ -18,8 +18,8 @@
             <div class="row">
               <div class="col-md-4">
                 <label class="required form-label">Kategori</label>
-                <vue-select label="name" v-model="filter.competition_category_code" :reduce="name => name.code"
-                  :options="filter_props.competition_categories"></vue-select>
+                <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
+                  :options="filter_props.player_categories"></vue-select>
               </div>
               <div class="col-md-4">
                 <label class="form-label">.</label>
@@ -65,7 +65,7 @@
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <router-link :to="'/admin/points/' + data.id" class="dropdown-item">
-                              Edit
+                              Detail
                             </router-link>
                           </div>
                         </div>
@@ -108,11 +108,11 @@ export default {
       page: staff_store.page,
       name: '',
       limit: 25,
-      competition_category_code: '',
+      player_category_code: '',
     })
 
     const filter_props = reactive({
-      competition_categories: []
+      player_categories: []
     })
 
     function loadDataContent() {
@@ -137,14 +137,14 @@ export default {
       loadDataContent()
     }
 
-    function loadCompetitionCategoryList() {
-      getData('competition-categories-list')
+    function loadCategoryList() {
+      getData('categories-list', { type: 'player' })
         .then((data) => {
-          filter_props.competition_categories = data.result
+          filter_props.player_categories = data.result
         })
     }
 
-    loadCompetitionCategoryList()
+    loadCategoryList()
 
     return {
       breadcrumb_list,

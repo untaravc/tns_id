@@ -9,7 +9,7 @@
                     <Breadcrumb :list="breadcrumb_list"></Breadcrumb>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <router-link to="/admin/competition-categories/add" class="btn btn-sm fw-bold btn-primary">
+                    <router-link to="/admin/categories/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
                     </router-link>
                 </div>
@@ -18,18 +18,21 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
-                            </div>
+                    <div class="row mx-6 mt-8 mb-2">
+                        <div class="col-md-4 my-1">
+                            <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                                <v-icon name="bi-search" />
+                            </span>
+                            <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
+                                class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
                         </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
+                        <div class="col-md-4">
+                            <select class="form-control form-control-sm" v-model="category_store.type"
+                                @change="loadDataContent">
+                                <option value="post">Post</option>
+                                <option value="competition">Competition</option>
+                                <option value="player">Player</option>
+                            </select>
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -41,6 +44,7 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th>Tipe</th>
                                             <th>Nama</th>
                                             <th>Kode</th>
                                             <th>Status</th>
@@ -53,6 +57,7 @@
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>{{ d + 1 }}</td>
+                                            <td>{{ data.type }}</td>
                                             <td>
                                                 <b>{{ data.name }}</b>
                                             </td>
@@ -69,7 +74,7 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/competition-categories/' + data.id"
+                                                        <router-link :to="'/admin/categories/' + data.id"
                                                             class="dropdown-item">
                                                             Edit
                                                         </router-link>
@@ -117,23 +122,25 @@ import { useFilterStore } from "../../src/store_filter";
 export default {
     components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
     setup() {
-        const title = "Data Kompetisi"
-        const breadcrumb_list = ["Kompetisi", "Data"];
+        const title = "Data Kategori"
+        const breadcrumb_list = ["Kategori", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { staff_store, app_store } = useFilterStore()
+        const { category_store, app_store } = useFilterStore()
 
         const filter = reactive({
-            page: staff_store.page,
+            page: category_store.page,
             name: '',
+            type: '',
             per_page: 25,
         })
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            staff_store.page = page
+            category_store.page = page
+            filter.type = category_store.type
             filter.page = page
-            getData('competition-categories', filter)
+            getData('categories', filter)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
@@ -142,7 +149,7 @@ export default {
                 })
         }
 
-        loadDataContent(staff_store.page)
+        loadDataContent(category_store.page)
 
         const response = reactive({
             data_content: {
@@ -158,7 +165,7 @@ export default {
         async function deleteModal(id) {
             const delete_modal = await promptModal(DeleteModal, { title: "Hapus data?" })
             if (delete_modal) {
-                deleteData('competition-categories/' + id)
+                deleteData('categories/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
                         loadDataContent(filter.page)
@@ -173,6 +180,7 @@ export default {
             filter,
             is_loading,
             app_store,
+            category_store,
             loadDataContent,
             changePerPage,
             deleteModal

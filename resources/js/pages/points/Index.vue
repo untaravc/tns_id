@@ -58,7 +58,7 @@
                                                 {{ data.competition_name }}
                                             </td>
                                             <td>
-                                                {{ data.competition_category_code }}
+                                                {{ data.player_category_code }}
                                             </td>
                                             <td>
                                                 {{ data.player_name }}

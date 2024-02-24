@@ -1,5 +1,5 @@
-import {defineStore} from 'pinia'
-import {reactive} from "vue";
+import { defineStore } from 'pinia'
+import { reactive } from "vue";
 
 export const useFilterStore = defineStore('filter', () => {
     const app_store = reactive({
@@ -13,8 +13,9 @@ export const useFilterStore = defineStore('filter', () => {
         role_id: null,
     })
 
-    const clients_store = reactive({
-        page: 1
+    const category_store = reactive({
+        page: 1,
+        type: '',
     })
 
     const staff_store = reactive({
@@ -33,17 +34,6 @@ export const useFilterStore = defineStore('filter', () => {
         page: 1
     })
 
-    const channels_store = reactive({
-        page: 1
-    })
-
-    const station_store = reactive({
-        page: 1
-    })
-
-    const report_station_store = reactive({
-        page: 1
-    })
 
     const token_store = reactive({
         page: 1,
@@ -60,16 +50,11 @@ export const useFilterStore = defineStore('filter', () => {
     })
 
     return {
-        clients_store,
         staff_store,
-        department_store,
         role_store,
         menu_store,
-        channels_store,
-        station_store,
-        token_store,
+        category_store,
         app_store,
-        report_station_store,
         config_ctk
     }
 })

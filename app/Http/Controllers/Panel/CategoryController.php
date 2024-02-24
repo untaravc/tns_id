@@ -24,6 +24,9 @@ class CategoryController extends Controller
             ->when($request->name, function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->name . '%');
             })
+            ->when($request->type, function ($q) use ($request) {
+                $q->whereType($request->type);
+            })
             ->limit(20)
             ->get();
 
@@ -73,6 +76,9 @@ class CategoryController extends Controller
     {
         if ($request->name) {
             $dataContent = $dataContent->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+        if ($request->type) {
+            $dataContent = $dataContent->where('type', $request->type);
         }
         return $dataContent;
     }

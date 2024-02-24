@@ -12,7 +12,7 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-header">
@@ -43,43 +43,36 @@
                                 <form>
                                     <div class="mb-5">
                                         <label class="required form-label">Pemain</label>
-                                        <vue-select label="full_name"
-                                                    v-model="form.player_id"
-                                                    :reduce="full_name => full_name.id"
-                                                    :options="form_props.players"></vue-select>
+                                        <vue-select label="full_name" v-model="form.player_id"
+                                            :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('player_id')">
+                                            v-if="getStatus('player_id')">
                                             {{ getMessage('player_id') }}
                                         </div>
                                     </div>
                                     <div class="mb-5">
                                         <label class="required form-label">Kopetisi</label>
-                                        <vue-select label="name"
-                                                    v-model="form.competition_id"
-                                                    :reduce="name => name.id"
-                                                    :options="form_props.competitions"></vue-select>
+                                        <vue-select label="name" v-model="form.competition_id" :reduce="name => name.id"
+                                            :options="form_props.competitions"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('competition_id')">
+                                            v-if="getStatus('competition_id')">
                                             {{ getMessage('competition_id') }}
                                         </div>
                                     </div>
                                     <div class="mb-5">
                                         <label class="required form-label">Kategori</label>
-                                        <vue-select label="name"
-                                                    v-model="form.competition_category_code"
-                                                    :reduce="name => name.code"
-                                                    :options="form_props.competition_categories"></vue-select>
+                                        <vue-select label="name" v-model="form.player_category_code"
+                                            :reduce="name => name.code" :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('competition_category_code')">
-                                            {{ getMessage('competition_category_code') }}
+                                            v-if="getStatus('player_category_code')">
+                                            {{ getMessage('player_category_code') }}
                                         </div>
                                     </div>
 
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Tanggal</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('date')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
                                     </div>
@@ -87,21 +80,20 @@
                                         <label class="required form-label">Point</label>
                                         <input type="number" min="0" class="form-control mb-2" v-model="form.point">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('point')">
+                                            v-if="getStatus('point')">
                                             {{ getMessage('point') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <div class="d-flex">
-                                            <label
-                                                class="form-check form-check-sm form-check-custom form-check-solid me-5">
+                                            <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
                                                 <input class="form-check-input" type="checkbox" value="1"
-                                                       v-model="form.is_cut_off">
+                                                    v-model="form.is_cut_off">
                                                 <span class="form-check-label">Data Cut Off</span>
                                             </label>
                                             <label class="form-check form-check-sm form-check-custom form-check-solid">
                                                 <input class="form-check-input" type="checkbox" value="1"
-                                                       v-model="form.is_historical">
+                                                    v-model="form.is_historical">
                                                 <span class="form-check-label">Historikal</span>
                                             </label>
                                         </div>
@@ -112,14 +104,14 @@
                         <div class="d-flex justify-content-end">
                             <router-link to="/admin/points" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -134,21 +126,21 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
-import {useFilterStore} from "../../src/store_filter";
+import { useRouter, useRoute } from "vue-router";
+import { useFilterStore } from "../../src/store_filter";
 import VueSelect from "vue-select";
 
 export default {
-    components: {Breadcrumb, VueSelect},
+    components: { Breadcrumb, VueSelect },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
-        const {app_store} = useFilterStore()
+        const { app_store } = useFilterStore()
 
         // Cek Mode
         const form_props = reactive({
@@ -159,7 +151,7 @@ export default {
             players: [],
             competition_name: '',
             competitions: [],
-            competition_categories: [],
+            categories: [],
         })
 
         const param_id = route.params.id
@@ -175,7 +167,7 @@ export default {
             player_reg_id: '',
             competition_id: '',
             competition_name: '',
-            competition_category_code: '',
+            player_category_code: '',
             point: '',
             is_cut_off: false,
             is_historical: false,
@@ -193,7 +185,7 @@ export default {
                     form.player_reg_id = data.result.player_reg_id
                     form.competition_id = data.result.competition_id
                     form.competition_name = data.result.competition_name
-                    form.competition_category_code = data.result.competition_category_code
+                    form.player_category_code = data.result.player_category_code
                     form.point = data.result.point
                     form.is_cut_off = data.result.is_cut_off === 1
                     form.is_historical = data.result.is_historical === 1
@@ -232,7 +224,7 @@ export default {
         }
 
         function loadPlayerList() {
-            getData('players-list', {name: form_props.player_name})
+            getData('players-list', { name: form_props.player_name })
                 .then((data) => {
                     form_props.players = data.result
                 })
@@ -241,7 +233,7 @@ export default {
         loadPlayerList()
 
         function loadCompetitionList() {
-            getData('competitions-list', {name: form_props.competition_name})
+            getData('competitions-list', { name: form_props.competition_name })
                 .then((data) => {
                     form_props.competitions = data.result
                 })
@@ -249,14 +241,14 @@ export default {
 
         loadCompetitionList()
 
-        function loadCompetitionCategoryList() {
-            getData('competition-categories-list', {name: form_props.competition_name})
+        function loadCategoryList() {
+            getData('categories-list', { type: 'player' })
                 .then((data) => {
-                    form_props.competition_categories = data.result
+                    form_props.categories = data.result
                 })
         }
 
-        loadCompetitionCategoryList()
+        loadCategoryList()
 
         return {
             breadcrumb_list,
@@ -272,8 +264,3 @@ export default {
     }
 }
 </script>
-<style scoped>
->>> {
-    --vs-line-height: 2;
-}
-</style>

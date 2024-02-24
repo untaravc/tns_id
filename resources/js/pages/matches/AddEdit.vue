@@ -23,31 +23,26 @@
                                 <form>
                                     <div class="mb-5">
                                         <label class="required form-label">Kopetisi</label>
-                                        <vue-select label="name"
-                                                    v-model="form.competition_id"
-                                                    :reduce="name => name.id"
-                                                    :options="form_props.competitions"></vue-select>
+                                        <vue-select label="name" v-model="form.competition_id" :reduce="name => name.id"
+                                            :options="form_props.competitions"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('competition_id')">
+                                            v-if="getStatus('competition_id')">
                                             {{ getMessage('competition_id') }}
                                         </div>
                                     </div>
                                     <div class="mb-5">
                                         <label class="required form-label">Kategori</label>
-                                        <vue-select label="name"
-                                                    v-model="form.competition_category_code"
-                                                    :reduce="name => name.code"
-                                                    :options="form_props.competition_categories"></vue-select>
+                                        <vue-select label="name" v-model="form.player_category_code"
+                                            :reduce="name => name.code" :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('competition_category_code')">
-                                            {{ getMessage('competition_category_code') }}
+                                            v-if="getStatus('player_category_code')">
+                                            {{ getMessage('player_category_code') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Tanggal</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('date')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
                                     </div>
@@ -58,7 +53,7 @@
                                             <option value="away">Away</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('winner')">
+                                            v-if="getStatus('winner')">
                                             {{ getMessage('winner') }}
                                         </div>
                                     </div>
@@ -69,7 +64,7 @@
                                             <option value="0">Non Aktif</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('status')">
+                                            v-if="getStatus('status')">
                                             {{ getMessage('status') }}
                                         </div>
                                     </div>
@@ -88,32 +83,27 @@
                             <div class="card-body pt-0">
                                 <div class="mb-5">
                                     <label class="required form-label">Pemain 1</label>
-                                    <vue-select label="full_name"
-                                                v-model="form.home_first_player_id"
-                                                :reduce="full_name => full_name.id"
-                                                :options="form_props.players"></vue-select>
+                                    <vue-select label="full_name" v-model="form.home_first_player_id"
+                                        :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('home_first_player_id')">
+                                        v-if="getStatus('home_first_player_id')">
                                         {{ getMessage('home_first_player_id') }}
                                     </div>
                                 </div>
                                 <div class="mb-5">
                                     <label class="required form-label">Pemain 2</label>
-                                    <vue-select label="full_name"
-                                                v-model="form.home_second_player_id"
-                                                :reduce="full_name => full_name.id"
-                                                :options="form_props.players"></vue-select>
+                                    <vue-select label="full_name" v-model="form.home_second_player_id"
+                                        :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('home_second_player_id')">
+                                        v-if="getStatus('home_second_player_id')">
                                         {{ getMessage('home_second_player_id') }}
                                     </div>
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control mb-2"
-                                           v-model="form.home_final_score">
+                                    <input type="number" min="0" class="form-control mb-2" v-model="form.home_final_score">
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('home_final_score')">
+                                        v-if="getStatus('home_final_score')">
                                         {{ getMessage('home_final_score') }}
                                     </div>
                                 </div>
@@ -128,32 +118,27 @@
                             <div class="card-body pt-0">
                                 <div class="mb-5">
                                     <label class="required form-label">Pemain 1</label>
-                                    <vue-select label="full_name"
-                                                v-model="form.away_first_player_id"
-                                                :reduce="full_name => full_name.id"
-                                                :options="form_props.players"></vue-select>
+                                    <vue-select label="full_name" v-model="form.away_first_player_id"
+                                        :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('away_first_player_id')">
+                                        v-if="getStatus('away_first_player_id')">
                                         {{ getMessage('away_first_player_id') }}
                                     </div>
                                 </div>
                                 <div class="mb-5">
                                     <label class="required form-label">Pemain 2</label>
-                                    <vue-select label="full_name"
-                                                v-model="form.away_second_player_id"
-                                                :reduce="full_name => full_name.id"
-                                                :options="form_props.players"></vue-select>
+                                    <vue-select label="full_name" v-model="form.away_second_player_id"
+                                        :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('away_second_player_id')">
+                                        v-if="getStatus('away_second_player_id')">
                                         {{ getMessage('away_second_player_id') }}
                                     </div>
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control mb-2"
-                                           v-model="form.away_final_score">
+                                    <input type="number" min="0" class="form-control mb-2" v-model="form.away_final_score">
                                     <div class="fv-plugins-message-container invalid-feedback"
-                                         v-if="getStatus('away_final_score')">
+                                        v-if="getStatus('away_final_score')">
                                         {{ getMessage('away_final_score') }}
                                     </div>
                                 </div>
@@ -163,14 +148,14 @@
                         <div class="d-flex justify-content-end">
                             <router-link to="/admin/matches" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -185,21 +170,21 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
-import {useFilterStore} from "../../src/store_filter";
+import { useRouter, useRoute } from "vue-router";
+import { useFilterStore } from "../../src/store_filter";
 import VueSelect from "vue-select";
 
 export default {
-    components: {VueSelect, Breadcrumb},
+    components: { VueSelect, Breadcrumb },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
-        const {app_store} = useFilterStore()
+        const { app_store } = useFilterStore()
 
         // Cek Mode
         const form_props = reactive({
@@ -207,21 +192,21 @@ export default {
             errors: [],
             edit_mode: false,
             competitions: [],
-            competition_categories: [],
+            categories: [],
             players: [],
         })
 
         const param_id = route.params.id
         form_props.edit_mode = param_id !== 'add'
 
-        const title = form_props.edit_mode ? "Edit Player" : "Tambah Staff"
-        const breadcrumb_list = ["Player", form_props.edit_mode ? "Edit" : "Tambah"];
+        const title = form_props.edit_mode ? "Edit Pertandingan" : "Tambah Pertandingan"
+        const breadcrumb_list = ["Pertandingan", form_props.edit_mode ? "Edit" : "Tambah"];
 
         const form = reactive({
             id: '',
             competition_id: '',
             competition_name: '',
-            competition_category_code: '',
+            player_category_code: '',
             home_first_player_id: '',
             home_first_player_name: '',
             home_second_player_id: '',
@@ -244,7 +229,7 @@ export default {
                     form.id = data.result.id
                     form.competition_id = data.result.competition_id
                     form.competition_name = data.result.competition_name
-                    form.competition_category_code = data.result.competition_category_code
+                    form.player_category_code = data.result.player_category_code
                     form.home_first_player_id = data.result.home_first_player_id
                     form.home_first_player_name = data.result.home_first_player_name
                     form.home_second_player_id = data.result.home_second_player_id
@@ -272,7 +257,7 @@ export default {
                 } else {
                     setErrors(data.errors)
                 }
-            }).catch(()=>{
+            }).catch(() => {
                 form_props.is_loading = false
             })
         }
@@ -309,9 +294,9 @@ export default {
         loadCompetitionList()
 
         function loadCompetitionCategoryList() {
-            getData('competition-categories-list', {name: form_props.competition_name})
+            getData('categories-list', { type: 'player' })
                 .then((data) => {
-                    form_props.competition_categories = data.result
+                    form_props.categories = data.result
                 })
         }
 

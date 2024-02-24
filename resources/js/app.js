@@ -10,6 +10,7 @@ import filter from './src/filter'
 import registerIcon from "./src/oh_icon";
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 import registerComponents from './src/components';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 const app = createApp(App);
 const pinia = createPinia()
@@ -26,6 +27,7 @@ app.config.globalProperties.$filter = filter
 registerIcon(app)
 registerComponents(app)
 
+app.use(CKEditor)
 app.use(pinia)
 app.use(router)
     .mount('#app')

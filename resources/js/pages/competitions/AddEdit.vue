@@ -12,8 +12,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
+                    data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-header">
@@ -45,16 +45,24 @@
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('name')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
                                             {{ getMessage('name') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5">
+                                        <label class="required form-label">Kategori</label>
+                                        <vue-select label="name" v-model="form.competition_category_code"
+                                            :reduce="name => name.code" :options="form_props.categories"></vue-select>
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('competition_category_code')">
+                                            {{ getMessage('competition_category_code') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Penyelenggara</label>
                                         <input type="text" class="form-control mb-2" v-model="form.capital">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('capital')">
+                                            v-if="getStatus('capital')">
                                             {{ getMessage('capital') }}
                                         </div>
                                     </div>
@@ -62,7 +70,7 @@
                                         <label class="required form-label">Tanggal Mulai</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date_start">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('date_start')">
+                                            v-if="getStatus('date_start')">
                                             {{ getMessage('date_start') }}
                                         </div>
                                     </div>
@@ -70,7 +78,7 @@
                                         <label class="required form-label">Tanggal Selesai</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date_end">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('date_end')">
+                                            v-if="getStatus('date_end')">
                                             {{ getMessage('date_end') }}
                                         </div>
                                     </div>
@@ -78,7 +86,7 @@
                                         <label class="required form-label">Lokasi</label>
                                         <input type="text" class="form-control mb-2" v-model="form.address">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('address')">
+                                            v-if="getStatus('address')">
                                             {{ getMessage('address') }}
                                         </div>
                                     </div>
@@ -88,14 +96,14 @@
                         <div class="d-flex justify-content-end">
                             <router-link to="/admin/competitions" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -111,28 +119,28 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
-import {useFilterStore} from "../../src/store_filter";
+import { useRouter, useRoute } from "vue-router";
+import { useFilterStore } from "../../src/store_filter";
+import VueSelect from "vue-select";
 
 export default {
-    components: {Breadcrumb},
+    components: { Breadcrumb, VueSelect },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
-        const {app_store} = useFilterStore()
+        const { app_store } = useFilterStore()
 
         // Cek Mode
         const form_props = reactive({
             is_loading: false,
             errors: [],
             edit_mode: false,
-            clients: [],
-            roles: [],
+            categories: [],
         })
 
         const param_id = route.params.id
@@ -145,6 +153,7 @@ export default {
             id: '',
             capital: '',
             name: '',
+            competition_category_code: '',
             date_start: '',
             date_end: '',
             address: '',
@@ -158,6 +167,7 @@ export default {
                     form.id = data.result.id
                     form.capital = data.result.capital
                     form.name = data.result.name
+                    form.competition_category_code = data.result.competition_category_code
                     form.date_start = data.result.date_start
                     form.date_end = data.result.date_end
                     form.address = data.result.address
@@ -191,6 +201,15 @@ export default {
                 }
             })
         }
+
+        function loadCategoriesList() {
+            getData('categories-list', { type: 'competition' })
+                .then((data) => {
+                    form_props.categories = data.result
+                })
+        }
+
+        loadCategoriesList()
 
         return {
             breadcrumb_list,

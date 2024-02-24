@@ -12,8 +12,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
+                    data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-header">
@@ -43,18 +43,27 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
+                                        <label class="required form-label">Tipe</label>
+                                        <select class="form-control mb-2" v-model="form.type">
+                                            <option value="post">Post</option>
+                                            <option value="competition">Competition</option>
+                                            <option value="player">Player</option>
+                                        </select>
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('type')">
+                                            {{ getMessage('type') }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('name')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Kode</label>
                                         <input type="text" class="form-control mb-2" v-model="form.code">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('code')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('code')">
                                             {{ getMessage('code') }}
                                         </div>
                                     </div>
@@ -62,16 +71,16 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <router-link to="/admin/competition-categories" class="btn btn-light me-5">Batal</router-link>
+                            <router-link to="/admin/categories" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -87,20 +96,20 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
-import {useFilterStore} from "../../src/store_filter";
+import { useRouter, useRoute } from "vue-router";
+import { useFilterStore } from "../../src/store_filter";
 
 export default {
-    components: {Breadcrumb},
+    components: { Breadcrumb },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
-        const {app_store} = useFilterStore()
+        const { app_store } = useFilterStore()
 
         // Cek Mode
         const form_props = reactive({
@@ -119,15 +128,17 @@ export default {
 
         const form = reactive({
             id: '',
+            type: '',
             name: '',
             code: '',
             status: 1,
         })
 
         if (form_props.edit_mode) {
-            getData('competition-categories/' + param_id)
+            getData('categories/' + param_id)
                 .then((data) => {
                     form.id = data.result.id
+                    form.type = data.result.type
                     form.name = data.result.name
                     form.code = data.result.code
                     form.status = data.result.status
@@ -136,10 +147,10 @@ export default {
 
         function createData() {
             form_props.is_loading = true
-            postData('competition-categories', form).then((data) => {
+            postData('categories', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/competition-categories')
+                    router.push('/admin/categories')
                     resetErrors()
                 } else {
                     setErrors(data.errors)
@@ -149,10 +160,10 @@ export default {
 
         function editData() {
             form_props.is_loading = true
-            patchData('competition-categories/' + param_id, form).then((data) => {
+            patchData('categories/' + param_id, form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/competition-categories')
+                    router.push('/admin/categories')
                     resetErrors()
                 } else {
                     setErrors(data.errors)

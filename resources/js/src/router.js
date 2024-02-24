@@ -16,8 +16,8 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 
 import Competition from "../pages/competitions/Index.vue";
 import CompetitionAddEdit from "../pages/competitions/AddEdit.vue";
-import CompetitionCategory from "../pages/categories/Index.vue";
-import CompetitionCategoryAddEdit from "../pages/categories/AddEdit.vue";
+import Category from "../pages/categories/Index.vue";
+import CategoryAddEdit from "../pages/categories/AddEdit.vue";
 import Player from "../pages/players/Index.vue";
 import PlayerAddEdit from "../pages/players/AddEdit.vue";
 import Matches from "../pages/matches/Index.vue";
@@ -25,6 +25,8 @@ import MatchesAddEdit from "../pages/matches/AddEdit.vue";
 import Points from "../pages/points/Index.vue";
 import PointsAddEdit from "../pages/points/AddEdit.vue";
 import PointsReport from "../pages/points/Report.vue";
+import Posts from "../pages/posts/Index.vue";
+import PostsAddEdit from "../pages/posts/AddEdit.vue";
 
 const routes = [
     {
@@ -44,8 +46,8 @@ const routes = [
 
             { path: 'players', component: Player, meta: { protected: true, title: "Player" } },
             { path: 'players/:id', component: PlayerAddEdit, meta: { protected: true, title: "Player" } },
-            { path: 'categories/:id', component: CompetitionCategoryAddEdit, meta: { protected: true, title: "Competition Category" } },
-            { path: 'categories', component: CompetitionCategory, meta: { protected: true, title: "Competition Category" } },
+            { path: 'categories/:id', component: CategoryAddEdit, meta: { protected: true, title: "Category" } },
+            { path: 'categories', component: Category, meta: { protected: true, title: "Category" } },
             { path: 'competitions/:id', component: CompetitionAddEdit, meta: { protected: true, title: "Competition" } },
             { path: 'competitions', component: Competition, meta: { protected: true, title: "Competition" } },
             { path: 'points', component: Points, meta: { protected: true, title: "Points" } },
@@ -53,6 +55,8 @@ const routes = [
             { path: 'point-reports', component: PointsReport, meta: { protected: true, title: "Points" } },
             { path: 'matches', component: Matches, meta: { protected: true, title: "Matches" } },
             { path: 'matches/:id', component: MatchesAddEdit, meta: { protected: true, title: "Matches" } },
+            { path: 'posts', component: Posts, meta: { protected: true, title: "Posts" } },
+            { path: 'posts/:id', component: PostsAddEdit, meta: { protected: true, title: "Post" } },
         ]
     },
     { path: "/auth/404", name: "not-found", component: NotFound },

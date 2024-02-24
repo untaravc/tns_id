@@ -20,7 +20,6 @@ class CreatePointsTable extends Migration
             $table->string('player_reg_id');
             $table->integer('competition_id');
             $table->string('competition_name');
-            $table->string('competition_category_code');
             $table->string('player_category_code');
             $table->integer('point');
             $table->boolean('is_cut_off')->default(0);
