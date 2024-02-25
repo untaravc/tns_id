@@ -42,11 +42,6 @@ class PlayerController extends Controller
     public function store(Request $request)
     {
         $this->validateData($request);
-
-        $request->merge([
-            'image' => $this->uploadFileService->fileUploadProcessing($request, 'players', 'image')
-        ]);
-
         Player::create($request->all());
 
         return $this->response;
