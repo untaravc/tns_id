@@ -48,6 +48,7 @@
                                             <option value="post">Post</option>
                                             <option value="competition">Competition</option>
                                             <option value="player">Player</option>
+                                            <option value="round">Round</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('type')">
                                             {{ getMessage('type') }}

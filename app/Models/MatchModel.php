@@ -9,5 +9,31 @@ class MatchModel extends Model
 {
     use HasFactory;
     protected $table = 'matches';
-    protected $guarded = [];
+
+    protected $fillable = [
+        "competition_id",
+        "competition_name",
+        "competition_category_code",
+        "player_category_code",
+        "round_category_id",
+        "home_first_player_id",
+        "home_first_player_name",
+        "home_second_player_id",
+        "home_second_player_name",
+        "home_final_score",
+        "away_first_player_id",
+        "away_first_player_name",
+        "away_second_player_id",
+        "away_second_player_name",
+        "away_final_score",
+        "winner",
+        "date",
+        "user_id",
+        "status",
+    ];
+
+    public function match_detail()
+    {
+        return $this->hasOne(MatchDetail::class, 'match_id');
+    }
 }

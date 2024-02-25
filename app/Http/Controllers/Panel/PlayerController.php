@@ -33,7 +33,7 @@ class PlayerController extends Controller
             ->when($request->name, function ($q) use ($request) {
                 $q->where('full_name', 'LIKE', '%' . $request->name . '%');
             })
-            ->limit(20)
+            ->whereStatus(1)
             ->get();
 
         return $this->response;

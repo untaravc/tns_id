@@ -39,9 +39,18 @@
                                             {{ getMessage('player_category_code') }}
                                         </div>
                                     </div>
+                                    <div class="mb-5">
+                                        <label class="required form-label">Babak</label>
+                                        <vue-select label="name" v-model="form.round_category_id" :reduce="name => name.id"
+                                            :options="form_props.rounds"></vue-select>
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('round_category_id')">
+                                            {{ getMessage('round_category_id') }}
+                                        </div>
+                                    </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Tanggal</label>
-                                        <input type="date" class="form-control mb-2" v-model="form.date">
+                                        <input type="date" class="form-control form-control-sm mb-2" v-model="form.date">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
@@ -101,7 +110,8 @@
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control mb-2" v-model="form.home_final_score">
+                                    <input type="number" min="0" class="form-control form-control-sm mb-2"
+                                        v-model="form.home_final_score">
                                     <div class="fv-plugins-message-container invalid-feedback"
                                         v-if="getStatus('home_final_score')">
                                         {{ getMessage('home_final_score') }}
@@ -136,7 +146,8 @@
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control mb-2" v-model="form.away_final_score">
+                                    <input type="number" min="0" class="form-control form-control-sm mb-2"
+                                        v-model="form.away_final_score">
                                     <div class="fv-plugins-message-container invalid-feedback"
                                         v-if="getStatus('away_final_score')">
                                         {{ getMessage('away_final_score') }}
@@ -145,7 +156,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-end mb-3">
                             <router-link to="/admin/matches" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
                                 :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
@@ -163,6 +174,108 @@
                             </button>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="card mb-3 card-flush">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>Detail Skor</h2>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <table class="table table-striped score-table">
+                                    <tr class="font-bold">
+                                        <td></td>
+                                        <td>Set 1</td>
+                                        <td>Set 2</td>
+                                        <td>Set 3</td>
+                                        <td>Set 4</td>
+                                        <td>Set 5</td>
+                                        <td>Hasil</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">
+                                            Waktu <br>(menit)
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.first_time_minutes">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.second_time_minutes">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.third_time_minutes">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fourth_time_minutes">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fifth_time_minutes">
+                                        </td>
+                                        <td>
+                                            {{ time_sum }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">HOME</td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.first_home_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.second_home_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.third_home_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fourth_home_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fifth_home_points">
+                                        </td>
+                                        <td>
+                                            {{ home_final }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">AWAY</td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.first_away_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.second_away_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.third_away_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fourth_away_points">
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control form-control-sm"
+                                                v-model="form.match_detail.fifth_away_points">
+                                        </td>
+                                        <td>
+                                            {{ away_final }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -170,7 +283,7 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
 import { useRouter, useRoute } from "vue-router";
@@ -194,6 +307,7 @@ export default {
             competitions: [],
             categories: [],
             players: [],
+            rounds: [],
         })
 
         const param_id = route.params.id
@@ -206,6 +320,7 @@ export default {
             id: '',
             competition_id: '',
             competition_name: '',
+            round_category_id: '',
             player_category_code: '',
             home_first_player_id: '',
             home_first_player_name: '',
@@ -221,6 +336,26 @@ export default {
             date: '',
             user_id: '',
             status: 1,
+            match_detail: {
+                first_home_points: '',
+                first_away_points: '',
+                first_time_minutes: '',
+                second_home_points: '',
+                second_away_points: '',
+                second_time_minutes: '',
+                third_home_points: '',
+                third_away_points: '',
+                third_time_minutes: '',
+                fourth_home_points: '',
+                fourth_away_points: '',
+                fourth_time_minutes: '',
+                fifth_home_points: '',
+                fifth_away_points: '',
+                fifth_time_minutes: '',
+                final_home_points: '',
+                final_away_points: '',
+                final_time_minutes: '',
+            }
         })
 
         if (form_props.edit_mode) {
@@ -229,6 +364,7 @@ export default {
                     form.id = data.result.id
                     form.competition_id = data.result.competition_id
                     form.competition_name = data.result.competition_name
+                    form.round_category_id = data.result.round_category_id
                     form.player_category_code = data.result.player_category_code
                     form.home_first_player_id = data.result.home_first_player_id
                     form.home_first_player_name = data.result.home_first_player_name
@@ -244,6 +380,9 @@ export default {
                     form.date = data.result.date
                     form.user_id = data.result.user_id
                     form.status = data.result.status
+                    if (data.result.match_detail !== null) {
+                        form.match_detail = data.result.match_detail
+                    }
                 })
         }
 
@@ -302,12 +441,60 @@ export default {
 
         loadCompetitionCategoryList()
 
+        function loadRoundCategoryList() {
+            getData('categories-list', { type: 'round' })
+                .then((data) => {
+                    form_props.rounds = data.result
+                })
+        }
+
+        loadRoundCategoryList()
+
+        const time_sum = computed(() => {
+            let time = 0;
+            time += form.match_detail.first_time_minutes ? parseInt(form.match_detail.first_time_minutes) : 0;
+            time += form.match_detail.second_time_minutes ? parseInt(form.match_detail.second_time_minutes) : 0;
+            time += form.match_detail.third_time_minutes ? parseInt(form.match_detail.third_time_minutes) : 0;
+            time += form.match_detail.fourth_time_minutes ? parseInt(form.match_detail.fourth_time_minutes) : 0;
+            time += form.match_detail.fifth_time_minutes ? parseInt(form.match_detail.fifth_time_minutes) : 0;
+
+            form.match_detail.final_time_minutes = time
+            return time;
+        });
+
+        const home_final = computed(() => {
+            let home_final = 0;
+            home_final += form.match_detail.first_home_points > form.match_detail.first_away_points ? 1 : 0;
+            home_final += form.match_detail.second_home_points > form.match_detail.second_away_points ? 1 : 0;
+            home_final += form.match_detail.third_home_points > form.match_detail.third_away_points ? 1 : 0;
+            home_final += form.match_detail.fourth_home_points > form.match_detail.fourth_away_points ? 1 : 0;
+            home_final += form.match_detail.fifth_home_points > form.match_detail.fifth_away_points ? 1 : 0;
+
+            form.match_detail.final_home_points = home_final
+            return home_final;
+        });
+
+        const away_final = computed(() => {
+            let away_final = 0;
+            away_final += form.match_detail.first_home_points < form.match_detail.first_away_points ? 1 : 0;
+            away_final += form.match_detail.second_home_points < form.match_detail.second_away_points ? 1 : 0;
+            away_final += form.match_detail.third_home_points < form.match_detail.third_away_points ? 1 : 0;
+            away_final += form.match_detail.fourth_home_points < form.match_detail.fourth_away_points ? 1 : 0;
+            away_final += form.match_detail.fifth_home_points < form.match_detail.fifth_away_points ? 1 : 0;
+
+            form.match_detail.final_away_points = away_final
+            return away_final;
+        });
+
         return {
             breadcrumb_list,
             title,
             form,
             form_props,
             app_store,
+            time_sum,
+            home_final,
+            away_final,
             createData,
             getStatus,
             getMessage,
@@ -316,3 +503,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+.score-table tr td {
+    padding: 2px;
+    max-width: 20px;
+    text-align: center;
+}
+</style>

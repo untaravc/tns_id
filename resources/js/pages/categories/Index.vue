@@ -32,6 +32,7 @@
                                 <option value="post">Post</option>
                                 <option value="competition">Competition</option>
                                 <option value="player">Player</option>
+                                <option value="round">Round</option>
                             </select>
                         </div>
                     </div>

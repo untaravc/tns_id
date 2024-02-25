@@ -19,3 +19,7 @@
   background-size: cover !important;
   border-radius: 5px !important;
 }
+
+.font-bold{
+  font-weight: bold !important;
+}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\MatchDetail;
 use App\Models\MatchModel;
 use App\Models\Player;
 use Illuminate\Http\Request;
@@ -44,14 +45,25 @@ class MatchController extends Controller
             'away_second_player_name' => $request->away_second_player_id ? $players->where('id', $request->away_second_player_id)->first()['full_name'] : "",
         ]);
 
-        MatchModel::create($request->all());
+        $data = MatchModel::create($request->all());
+
+        $match_detail_req = $request->match_detail;
+        $match_detail_req['match_id'] = $data->id;
+
+        $match_detail = MatchDetail::whereMatchId($data->id)->first();
+
+        if ($match_detail) {
+            $match_detail->update($match_detail_req);
+        } else {
+            MatchDetail::create($match_detail_req);
+        }
 
         return $this->response;
     }
 
     public function show($id)
     {
-        $data = MatchModel::find($id);
+        $data = MatchModel::with('match_detail')->find($id);
 
         $this->response['result'] = $data;
         return $this->response;
@@ -113,6 +125,17 @@ class MatchController extends Controller
         } else {
             $this->response['success'] = false;
             $this->response['message'] = 'No Data';
+        }
+
+        $match_detail_req = $request->match_detail;
+        $match_detail_req['match_id'] = $data['id'];
+
+        $match_detail = MatchDetail::whereMatchId($id)->first();
+
+        if ($match_detail) {
+            $match_detail->update($match_detail_req);
+        } else {
+            MatchDetail::create($match_detail_req);
         }
 
         return $this->response;
