@@ -18,6 +18,7 @@ use App\Http\Controllers\Panel\PostController;
 //Route::post('import-player', [ImportPlayerController::class, 'import']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('upload', [DashboardController::class, 'upload']);
+Route::post('test', [DashboardController::class, 'test']);
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('auth', [AuthController::class, 'auth']);

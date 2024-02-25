@@ -41,6 +41,7 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th></th>
                                             <th>Nama</th>
                                             <th>Gender</th>
                                             <th>TTL</th>
@@ -53,7 +54,15 @@
                                             <td colspan="6" class="text-center"><i>Tidak ada data.</i></td>
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
-                                            <td>{{ d + 1 }}</td>
+                                            <td>
+                                                {{ response.data_content.per_page *
+                                                    (response.data_content.current_page - 1) + d + 1 }}
+                                            </td>
+                                            <td style="width: 80px;">
+                                                <div v-if="data.image" class="bg-thumbnail"
+                                                    :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                </div>
+                                            </td>
                                             <td>
                                                 <b>{{ data.full_name }}</b>
                                                 <br>

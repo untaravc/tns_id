@@ -105,7 +105,7 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
-        $data = Category::where('id', '!=', 1)->find($id);
+        $data = Category::find($id);
 
         if ($data) {
             $data->delete();

@@ -13,3 +13,9 @@
 [type='number'], [type='text'], [type='date']{
   border: 1px solid var(--kt-input-border-color);
 }
+
+.bg-thumbnail{
+  background-position: center !important;
+  background-size: cover !important;
+  border-radius: 5px !important;
+}

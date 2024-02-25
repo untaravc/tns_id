@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Player;
+use App\Services\UploadFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PlayerController extends Controller
 {
+    private $uploadFileService;
+
+    function __consturctor()
+    {
+        $this->uploadFileService = new UploadFileService();
+    }
+
     public function index(Request $request)
     {
         $dataContent = Player::orderByDesc('created_at');
@@ -34,6 +42,10 @@ class PlayerController extends Controller
     public function store(Request $request)
     {
         $this->validateData($request);
+
+        $request->merge([
+            'image' => $this->uploadFileService->fileUploadProcessing($request, 'players', 'image')
+        ]);
 
         Player::create($request->all());
 
@@ -99,7 +111,7 @@ class PlayerController extends Controller
 
     public function destroy($id)
     {
-        $data = Player::where('id', '!=', 1)->find($id);
+        $data = Player::find($id);
 
         if ($data) {
             $data->delete();

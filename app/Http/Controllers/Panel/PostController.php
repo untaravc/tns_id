@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = Post::orderByDesc('created_at');
+        $dataContent = Post::orderByDesc('created_at')->with('category');
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 
@@ -87,7 +87,7 @@ class PostController extends Controller
 
     public function destroy($id)
     {
-        $data = Post::where('id', '!=', 1)->find($id);
+        $data = Post::find($id);
 
         if ($data) {
             $data->delete();

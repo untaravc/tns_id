@@ -7,17 +7,17 @@ use App\Models\Competition;
 use App\Models\Player;
 use App\Models\Point;
 use App\Models\MatchModel;
-use App\Services\FirebaseStorage;
+use App\Services\UploadFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
-    private $firebaseStorage;
+    private $fileUpload;
 
     function __construct()
     {
-        $this->firebaseStorage = new FirebaseStorage();
+        $this->fileUpload = new UploadFileService();
     }
 
     public function dashboard()
@@ -47,10 +47,14 @@ class DashboardController extends Controller
             return $validator->errors()->first();
         }
 
-        $imageName = time() . $request->file->getClientOriginalName();
+        $file_name = $this->fileUpload->fileUploadProcessing($request, 'players');
 
-        $response = $this->firebaseStorage->upload($imageName, $request->file);
+        $this->response['result'] = env('APP_URL') . '/storage/' . $file_name;
+        return $this->response;
+    }
 
-        return $response;
+    public function test(Request $request)
+    {
+        return $this->fileUpload->fileUploadProcessing($request, 'players');
     }
 }

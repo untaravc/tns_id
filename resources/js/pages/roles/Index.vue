@@ -50,7 +50,10 @@
                                             <td colspan="5" class="text-center"><i>Tidak ada data.</i></td>
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
-                                            <td>{{ d + 1 }}</td>
+                                            <td>
+                                                {{ response.data_content.per_page *
+                                                    (response.data_content.current_page - 1) + d + 1 }}
+                                            </td>
                                             <td>{{ data.name }}</td>
                                             <td class="text-end">
                                                 <div class="dropdown">

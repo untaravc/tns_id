@@ -33,7 +33,7 @@ class AuthController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'client_id'=> $request->client_id,
+            'client_id' => $request->client_id,
         ]);
 
         //return response JSON user is created
@@ -66,16 +66,6 @@ class AuthController extends Controller
         //get credentials from request
         $credentials = $request->only('email', 'password');
 
-        //if auth failed
-//        if (!$token = auth()->guard('api')->attempt($credentials)) {
-//            return response()->json([
-//                'success' => false,
-//                'message' => 'Email atau Password Anda salah'
-//            ], 401);
-//        }
-
-
-
         //Create token
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
@@ -100,7 +90,8 @@ class AuthController extends Controller
         return $this->response;
     }
 
-    public function auth(Request $request){
+    public function auth(Request $request)
+    {
         $user = $request->user();
 
         $result = User::with(['role', 'station', 'client'])->find($user['id']);
@@ -109,7 +100,8 @@ class AuthController extends Controller
         return $this->response;
     }
 
-    public function menu(Request $request){
+    public function menu(Request $request)
+    {
         $user = $request->user();
 
         $role_id = $user['role_id'];

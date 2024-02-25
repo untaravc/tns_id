@@ -12,22 +12,35 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
+                    data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>Status</h2>
-                                </div>
-                            </div>
                             <div class="card-body pt-0">
-                                <select class="form-select mb-2" v-model="form.status">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Non Aktif</option>
-                                </select>
-                                <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
-                                    {{ getMessage('status') }}
+                                <div class="mb-3">
+                                    <label>Status</label>
+                                    <select class="form-select mb-2" v-model="form.status">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Non Aktif</option>
+                                    </select>
+                                    <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
+                                        {{ getMessage('status') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <Loading Loading :active="form_props.image_loader" :loader="'dots'"
+                                        :is-full-page="false"></Loading>
+                                    <div class="form-group">
+                                        <label>Foto</label>
+                                        <div>
+                                            <input type="file" id="photo-file"
+                                                accept="image/png,image/gif,image/jpeg,application/pdf"
+                                                @change="uploadProof($event)" />
+                                        </div>
+                                    </div>
+                                    <div class="p-2">
+                                        <img :src="form.image" style="width: 100%; height: auto" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -46,7 +59,7 @@
                                         <label class="form-label">Nomor</label>
                                         <input type="text" class="form-control mb-2" v-model="form.reg_id">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('reg_id')">
+                                            v-if="getStatus('reg_id')">
                                             {{ getMessage('reg_id') }}
                                         </div>
                                     </div>
@@ -54,15 +67,17 @@
                                         <label class="required form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.full_name">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('full_name')">
+                                            v-if="getStatus('full_name')">
                                             {{ getMessage('full_name') }}
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <input type="text" placeholder="First Name" class="form-control mb-2" v-model="form.first_name">
+                                                <input type="text" placeholder="First Name" class="form-control mb-2"
+                                                    v-model="form.first_name">
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" placeholder="Surname" class="form-control mb-2" v-model="form.surname_name">
+                                                <input type="text" placeholder="Surname" class="form-control mb-2"
+                                                    v-model="form.surname_name">
                                             </div>
                                         </div>
                                     </div>
@@ -73,7 +88,7 @@
                                             <option value="F">Perempuan</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('gender')">
+                                            v-if="getStatus('gender')">
                                             {{ getMessage('gender') }}
                                         </div>
                                     </div>
@@ -81,15 +96,14 @@
                                         <label class="form-label">Tanggal Lahir</label>
                                         <input type="date" class="form-control mb-2" v-model="form.birth_date">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('birth_date')">
+                                            v-if="getStatus('birth_date')">
                                             {{ getMessage('birth_date') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Kota</label>
                                         <input type="text" class="form-control mb-2" v-model="form.city">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('city')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('city')">
                                             {{ getMessage('city') }}
                                         </div>
                                     </div>
@@ -97,7 +111,7 @@
                                         <label class="form-label">Inisal Kota</label>
                                         <input type="text" class="form-control mb-2" v-model="form.city_init">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('city_init')">
+                                            v-if="getStatus('city_init')">
                                             {{ getMessage('city_init') }}
                                         </div>
                                     </div>
@@ -107,14 +121,14 @@
                         <div class="d-flex justify-content-end">
                             <router-link to="/admin/players" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -130,20 +144,20 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
-import {useFilterStore} from "../../src/store_filter";
+import { useRouter, useRoute } from "vue-router";
+import { useFilterStore } from "../../src/store_filter";
 
 export default {
-    components: {Breadcrumb},
+    components: { Breadcrumb },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
-        const {app_store} = useFilterStore()
+        const { app_store } = useFilterStore()
 
         // Cek Mode
         const form_props = reactive({
@@ -152,6 +166,8 @@ export default {
             edit_mode: false,
             clients: [],
             roles: [],
+            image_url: '',
+            image_loader: false,
         })
 
         const param_id = route.params.id
@@ -167,6 +183,7 @@ export default {
             first_name: '',
             surname_name: '',
             gender: '',
+            image: '',
             city: '',
             city_init: '',
             birth_date: '',
@@ -184,6 +201,7 @@ export default {
                     form.gender = data.result.gender
                     form.birth_date = data.result.birth_date
                     form.city = data.result.city
+                    form.image = data.result.image
                     form.city_init = data.result.city_init
                     form.status = data.result.status
                 })
@@ -215,6 +233,33 @@ export default {
             })
         }
 
+        function uploadProof(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = (file) => {
+                form.image = reader.result;
+            };
+            form_props.image_url = URL.createObjectURL(file);
+            reader.readAsDataURL(file)
+
+            const form_file = document.getElementById('photo-file');
+            const formData = new FormData();
+            if (form_file != '') {
+                formData.append('file', form_file.files[0]);
+            }
+
+            form_props.image_loader = true;
+            postData('upload', formData)
+                .then((data) => {
+                    form_props.image_loader = false;
+                    document.getElementById('photo-file').value = '';
+                    form.image = data.result;
+                }).catch(() => {
+                    form_props.image_loader = false;
+                    alert('file upload failed');
+                })
+        }
+
         return {
             breadcrumb_list,
             title,
@@ -224,7 +269,8 @@ export default {
             createData,
             getStatus,
             getMessage,
-            editData
+            editData,
+            uploadProof
         }
     }
 }

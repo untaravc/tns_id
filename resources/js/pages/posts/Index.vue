@@ -41,8 +41,9 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th></th>
                                             <th>Judul</th>
-                                            <th>Dibuat</th>
+                                            <th>Kategori</th>
                                             <th>Status</th>
                                             <th class="text-end">Aksi</th>
                                         </tr>
@@ -52,12 +53,23 @@
                                             <td colspan="5" class="text-center"><i>Tidak ada data.</i></td>
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
-                                            <td>{{ d + 1 }}</td>
                                             <td>
-                                                {{ data.title }}
+                                                {{ response.data_content.per_page *
+                                                    (response.data_content.current_page - 1) + d + 1 }}
+                                            </td>
+                                            <td style="width: 80px;">
+                                                <div v-if="data.image" class="bg-thumbnail"
+                                                    :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                </div>
                                             </td>
                                             <td>
-                                                {{ $filter.formatDate(data.created_at) }}
+                                                {{ data.title }}
+                                                <div>
+                                                    <small>{{ $filter.formatDate(data.created_at) }}</small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span v-if="data.category"> {{ data.category.name }}</span>
                                             </td>
                                             <td>
                                                 <StatusDefault :status="data.status" />

@@ -21,8 +21,8 @@ class CompetitionController extends Controller
     public function list(Request $request)
     {
         $this->response['result'] = Competition::orderBy('name')
-            ->when($request->name, function ($q) use ($request){
-                $q->where('name', 'LIKE', '%'.$request->name.'%');
+            ->when($request->name, function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->name . '%');
             })
             ->limit(20)
             ->get();
@@ -95,7 +95,7 @@ class CompetitionController extends Controller
 
     public function destroy($id)
     {
-        $data = Competition::where('id', '!=', 1)->find($id);
+        $data = Competition::find($id);
 
         if ($data) {
             $data->delete();
