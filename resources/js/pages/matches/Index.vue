@@ -70,11 +70,39 @@
                                                 <div>{{ data.home_first_player_name }}</div>
                                                 <div>{{ data.home_second_player_name }}</div>
                                                 <div class="font-bold"><b>{{ data.home_final_score }}</b></div>
+                                                <div v-if="data.match_detail">
+                                                    [
+                                                    <span v-if="data.match_detail.first_home_points">
+                                                        {{ data.match_detail.first_home_points }}</span>
+                                                    <span v-if="data.match_detail.second_home_points">,
+                                                        {{ data.match_detail.second_home_points }}</span>
+                                                    <span v-if="data.match_detail.third_home_points">,
+                                                        {{ data.match_detail.third_home_points }}</span>
+                                                    <span v-if="data.match_detail.fourth_home_points">,
+                                                        {{ data.match_detail.fourth_home_points }}</span>
+                                                    <span v-if="data.match_detail.fifth_home_points">,
+                                                        {{ data.match_detail.fifth_home_points }}</span>
+                                                    ]
+                                                </div>
                                             </td>
                                             <td class="text-center">
                                                 <div>{{ data.away_first_player_name }}</div>
                                                 <div>{{ data.away_second_player_name }}</div>
                                                 <div class="font-bold"><b>{{ data.away_final_score }}</b></div>
+                                                <div v-if="data.match_detail">
+                                                    [
+                                                    <span v-if="data.match_detail.first_away_points">
+                                                        {{ data.match_detail.first_away_points }}</span>
+                                                    <span v-if="data.match_detail.second_away_points">,
+                                                        {{ data.match_detail.second_away_points }}</span>
+                                                    <span v-if="data.match_detail.third_away_points">,
+                                                        {{ data.match_detail.third_away_points }}</span>
+                                                    <span v-if="data.match_detail.fourth_away_points">,
+                                                        {{ data.match_detail.fourth_away_points }}</span>
+                                                    <span v-if="data.match_detail.fifth_away_points">,
+                                                        {{ data.match_detail.fifth_away_points }}</span>
+                                                    ]
+                                                </div>
                                             </td>
                                             <td class="text-end">
                                                 <div class="dropdown">

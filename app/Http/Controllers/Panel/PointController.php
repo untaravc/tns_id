@@ -115,22 +115,21 @@ class PointController extends Controller
 
     public function pointReports(Request $request)
     {
-        $players = Player::whereStatus(1)->orderBy('full_name')
-            ->limit($request->limit ?? 50)
-            ->get();
-
-        $points = Point::whereIn('player_id', $players->pluck('id')->toArray())
+        $points = Point::whereIsHistorical(0)
             ->where('player_category_code', $request->player_category_code)
             ->groupBy('player_id')
-            ->whereIsHistorical(0)
             ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
+            ->orderByDesc('points')
             ->get();
 
-        foreach ($players as $player) {
-            $player->setAttribute('points', $points->where('player_id', $player->id)->first());
+        $players = Player::whereIn('id', $points->pluck('player_id')->toArray())
+            ->get();
+
+        foreach ($points as $point) {
+            $point->setAttribute('player', $players->where('id', $point->player_id)->first());
         }
 
-        $this->response['result'] = $players;
+        $this->response['result'] = $points;
         return $this->response;
     }
 }

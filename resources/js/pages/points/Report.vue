@@ -53,10 +53,10 @@
                     <tr v-for="(data, d) in response.result">
                       <td>{{ d + 1 }}</td>
                       <td>
-                        {{ data.full_name }}
+                        {{ data.player_name }}
                       </td>
                       <td>
-                        <span v-if="data.points">{{ data.points.points }}</span>
+                        <span v-if="data.points">{{ data.points }}</span>
                       </td>
                       <td class="text-end">
                         <div class="dropdown">
@@ -64,9 +64,9 @@
                             Aksi
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <router-link :to="'/admin/points/' + data.id" class="dropdown-item">
-                              Detail
-                            </router-link>
+                            <!-- <router-link :to="'/admin/points/' + data.id" class="dropdown-item"> -->
+                            Detail
+                            <!-- </router-link> -->
                           </div>
                         </div>
                       </td>

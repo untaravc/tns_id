@@ -17,7 +17,7 @@ class CreatePointsTable extends Migration
             $table->id();
             $table->integer('player_id');
             $table->string('player_name');
-            $table->string('player_reg_id');
+            $table->string('player_reg_id')->nullable();
             $table->integer('competition_id');
             $table->string('competition_name');
             $table->string('player_category_code');

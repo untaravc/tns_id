@@ -14,7 +14,7 @@ class MatchController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = MatchModel::orderByDesc('created_at');
+        $dataContent = MatchModel::orderByDesc('created_at')->with('match_detail');
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 

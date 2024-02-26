@@ -110,12 +110,7 @@
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control form-control-sm mb-2"
-                                        v-model="form.home_final_score">
-                                    <div class="fv-plugins-message-container invalid-feedback"
-                                        v-if="getStatus('home_final_score')">
-                                        {{ getMessage('home_final_score') }}
-                                    </div>
+                                    <div class="h3">{{ form.home_final_score }}</div>
                                 </div>
                             </div>
                         </div>
@@ -146,12 +141,7 @@
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
                                     <label class="required form-label">Skor</label>
-                                    <input type="number" min="0" class="form-control form-control-sm mb-2"
-                                        v-model="form.away_final_score">
-                                    <div class="fv-plugins-message-container invalid-feedback"
-                                        v-if="getStatus('away_final_score')">
-                                        {{ getMessage('away_final_score') }}
-                                    </div>
+                                    <div class="h3">{{ form.away_final_score }}</div>
                                 </div>
                             </div>
                         </div>
@@ -471,6 +461,7 @@ export default {
             home_final += form.match_detail.fifth_home_points > form.match_detail.fifth_away_points ? 1 : 0;
 
             form.match_detail.final_home_points = home_final
+            form.home_final_score = home_final
             return home_final;
         });
 
@@ -483,6 +474,7 @@ export default {
             away_final += form.match_detail.fifth_home_points < form.match_detail.fifth_away_points ? 1 : 0;
 
             form.match_detail.final_away_points = away_final
+            form.away_final_score = away_final
             return away_final;
         });
 

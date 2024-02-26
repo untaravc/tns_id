@@ -94,7 +94,7 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        $result = User::with(['role', 'station', 'client'])->find($user['id']);
+        $result = User::with(['role'])->find($user['id']);
 
         $this->response['result'] = $result;
         return $this->response;
