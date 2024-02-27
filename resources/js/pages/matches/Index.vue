@@ -42,7 +42,7 @@
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
                                             <th>Kompetisi</th>
-                                            <th>Tanggal</th>
+                                            <th>Keterangan</th>
                                             <th class="text-center">Home</th>
                                             <th class="text-center">Away</th>
                                             <th class="text-end">Aksi</th>
@@ -58,19 +58,23 @@
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
-                                                {{ data.competition_name }}
+                                                <b>{{ data.competition_name }} </b>
+                                                <span v-if="data.competition_category_code">({{
+                                                    data.competition_category_code }})</span>
                                                 <div>
-                                                    <i>{{ data.competition_category_code }}</i>
+                                                    <i>{{ $filter.formatDate(data.date) }}</i>
                                                 </div>
                                             </td>
                                             <td>
-                                                {{ $filter.formatDate(data.date) }}
+                                                <div v-if="data.match_type">{{ data.match_type.name }}</div>
+                                                <div v-if="data.player_category">{{ data.player_category.name }}</div>
+                                                <div v-if="data.round_category">{{ data.round_category.name }}</div>
                                             </td>
                                             <td class="text-center">
                                                 <div>{{ data.home_first_player_name }}</div>
                                                 <div>{{ data.home_second_player_name }}</div>
-                                                <div class="font-bold"><b>{{ data.home_final_score }}</b></div>
                                                 <div v-if="data.match_detail">
+                                                    <b>{{ data.home_final_score }}</b>
                                                     [
                                                     <span v-if="data.match_detail.first_home_points">
                                                         {{ data.match_detail.first_home_points }}</span>
@@ -88,8 +92,8 @@
                                             <td class="text-center">
                                                 <div>{{ data.away_first_player_name }}</div>
                                                 <div>{{ data.away_second_player_name }}</div>
-                                                <div class="font-bold"><b>{{ data.away_final_score }}</b></div>
                                                 <div v-if="data.match_detail">
+                                                    <b>{{ data.away_final_score }}</b>
                                                     [
                                                     <span v-if="data.match_detail.first_away_points">
                                                         {{ data.match_detail.first_away_points }}</span>

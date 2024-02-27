@@ -16,6 +16,7 @@ class MatchModel extends Model
         "competition_category_code",
         "player_category_code",
         "round_category_id",
+        "match_type_category_id",
         "home_first_player_id",
         "home_first_player_name",
         "home_second_player_id",
@@ -35,5 +36,20 @@ class MatchModel extends Model
     public function match_detail()
     {
         return $this->hasOne(MatchDetail::class, 'match_id');
+    }
+
+    public function match_type()
+    {
+        return $this->belongsTo(Category::class, 'match_type_category_id', 'id');
+    }
+
+    public function round_category()
+    {
+        return $this->belongsTo(Category::class, 'round_category_id', 'id');
+    }
+
+    public function player_category()
+    {
+        return $this->belongsTo(Category::class, 'player_category_code', 'code');
     }
 }

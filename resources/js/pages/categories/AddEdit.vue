@@ -49,6 +49,7 @@
                                             <option value="competition">Competition</option>
                                             <option value="player">Player</option>
                                             <option value="round">Round</option>
+                                            <option value="match_type">Match Type</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('type')">
                                             {{ getMessage('type') }}

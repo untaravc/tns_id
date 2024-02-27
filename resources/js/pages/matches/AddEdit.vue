@@ -48,6 +48,15 @@
                                             {{ getMessage('round_category_id') }}
                                         </div>
                                     </div>
+                                    <div class="mb-5">
+                                        <label class="required form-label">Tipe</label>
+                                        <vue-select label="name" v-model="form.match_type_category_id"
+                                            :reduce="name => name.id" :options="form_props.match_types"></vue-select>
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('match_type_category_id')">
+                                            {{ getMessage('match_type_category_id') }}
+                                        </div>
+                                    </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="required form-label">Tanggal</label>
                                         <input type="date" class="form-control form-control-sm mb-2" v-model="form.date">
@@ -298,6 +307,7 @@ export default {
             categories: [],
             players: [],
             rounds: [],
+            match_types: [],
         })
 
         const param_id = route.params.id
@@ -312,6 +322,7 @@ export default {
             competition_name: '',
             round_category_id: '',
             player_category_code: '',
+            match_type_category_id: '',
             home_first_player_id: '',
             home_first_player_name: '',
             home_second_player_id: '',
@@ -356,6 +367,7 @@ export default {
                     form.competition_name = data.result.competition_name
                     form.round_category_id = data.result.round_category_id
                     form.player_category_code = data.result.player_category_code
+                    form.match_type_category_id = data.result.match_type_category_id
                     form.home_first_player_id = data.result.home_first_player_id
                     form.home_first_player_name = data.result.home_first_player_name
                     form.home_second_player_id = data.result.home_second_player_id
@@ -439,6 +451,15 @@ export default {
         }
 
         loadRoundCategoryList()
+
+        function loadMatchTypeList() {
+            getData('categories-list', { type: 'match_type' })
+                .then((data) => {
+                    form_props.match_types = data.result
+                })
+        }
+
+        loadMatchTypeList()
 
         const time_sum = computed(() => {
             let time = 0;

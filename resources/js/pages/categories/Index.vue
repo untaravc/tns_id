@@ -33,6 +33,7 @@
                                 <option value="competition">Competition</option>
                                 <option value="player">Player</option>
                                 <option value="round">Round</option>
+                                <option value="match_type">Match Type</option>
                             </select>
                         </div>
                     </div>
@@ -59,7 +60,7 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                                                    (response.data_content.current_page - 1) + d + 1 }}
+                                                                                                (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>{{ data.type }}</td>
                                             <td>
