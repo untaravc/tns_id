@@ -46,11 +46,17 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-
+                        <div class="card card-flush p-10">
+                            <div class="h4">Cek nama</div>
+                            <div class="mb-5">
+                                <vue-select label="full_name" v-model="form_props.player_name"
+                                    :options="form_props.players"></vue-select>
+                            </div>
+                        </div>
                         <div class="card card-flush py-4">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h2>Detail</h2>
+                                    <div class="h4">Detail</div>
                                 </div>
                             </div>
                             <div class="card-body pt-0">
@@ -149,9 +155,10 @@ import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
 import { useRouter, useRoute } from "vue-router";
 import { useFilterStore } from "../../src/store_filter";
+import VueSelect from "vue-select";
 
 export default {
-    components: { Breadcrumb },
+    components: { Breadcrumb, VueSelect },
     setup() {
         const { postData, getData, patchData } = useAxios()
         const router = useRouter()
@@ -164,10 +171,10 @@ export default {
             is_loading: false,
             errors: [],
             edit_mode: false,
-            clients: [],
-            roles: [],
+            players: [],
             image_url: '',
             image_loader: false,
+            player_name: '',
         })
 
         const param_id = route.params.id
@@ -259,6 +266,15 @@ export default {
                     alert('file upload failed');
                 })
         }
+
+        function loadPlayerList() {
+            getData('players-list')
+                .then((data) => {
+                    form_props.players = data.result
+                })
+        }
+
+        loadPlayerList()
 
         return {
             breadcrumb_list,
