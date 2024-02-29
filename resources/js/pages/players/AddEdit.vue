@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Nama</label>
+                                        <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.full_name">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('full_name')">

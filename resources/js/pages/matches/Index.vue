@@ -18,24 +18,34 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
+                    <div class="px-8 pt-8 pb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Pemain</label>
+                                <vue-select label="full_name" v-model="filter.player_id" :reduce="full_name => full_name.id"
+                                    :options="filter_props.players"></vue-select>
                             </div>
-                        </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
+                            <div class="col-md-3">
+                                <label>Kompetisi</label>
+                                <vue-select label="name" v-model="filter.competition_id" :reduce="name => name.id"
+                                    :options="filter_props.competitions"></vue-select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Kategori</label>
+                                <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
+                                    :options="filter_props.player_categories"></vue-select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Round</label>
+                                <vue-select label="name" v-model="filter.round_category_id" :reduce="name => name.id"
+                                    :options="filter_props.rounds"></vue-select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body pt-0">
                         <div class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="table-responsive">
-                                <Loading :active="is_loading" :loader="'dots'" :is-full-page="false" />
+                                <Loading :active="filter_props.is_loading" :loader="'dots'" :is-full-page="false" />
                                 <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
                                     id="kt_ecommerce_products_table">
                                     <thead>
@@ -74,17 +84,17 @@
                                                 <div>{{ data.home_first_player_name }}</div>
                                                 <div>{{ data.home_second_player_name }}</div>
                                                 <div v-if="data.match_detail">
-                                                    <b>{{ data.home_final_score }}</b>
+                                                    <b class="h2">{{ data.home_final_score }}</b>
                                                     [
-                                                    <span v-if="data.match_detail.first_home_points">
+                                                    <span v-if="data.match_detail.first_home_points !== null">
                                                         {{ data.match_detail.first_home_points }}</span>
-                                                    <span v-if="data.match_detail.second_home_points">,
+                                                    <span v-if="data.match_detail.second_home_points !== null">,
                                                         {{ data.match_detail.second_home_points }}</span>
-                                                    <span v-if="data.match_detail.third_home_points">,
+                                                    <span v-if="data.match_detail.third_home_points !== null">,
                                                         {{ data.match_detail.third_home_points }}</span>
-                                                    <span v-if="data.match_detail.fourth_home_points">,
+                                                    <span v-if="data.match_detail.fourth_home_points !== null">,
                                                         {{ data.match_detail.fourth_home_points }}</span>
-                                                    <span v-if="data.match_detail.fifth_home_points">,
+                                                    <span v-if="data.match_detail.fifth_home_points !== null">,
                                                         {{ data.match_detail.fifth_home_points }}</span>
                                                     ]
                                                 </div>
@@ -93,17 +103,17 @@
                                                 <div>{{ data.away_first_player_name }}</div>
                                                 <div>{{ data.away_second_player_name }}</div>
                                                 <div v-if="data.match_detail">
-                                                    <b>{{ data.away_final_score }}</b>
+                                                    <b class="h2">{{ data.away_final_score }}</b>
                                                     [
-                                                    <span v-if="data.match_detail.first_away_points">
+                                                    <span v-if="data.match_detail.first_away_points !== null">
                                                         {{ data.match_detail.first_away_points }}</span>
-                                                    <span v-if="data.match_detail.second_away_points">,
+                                                    <span v-if="data.match_detail.second_away_points !== null">,
                                                         {{ data.match_detail.second_away_points }}</span>
-                                                    <span v-if="data.match_detail.third_away_points">,
+                                                    <span v-if="data.match_detail.third_away_points !== null">,
                                                         {{ data.match_detail.third_away_points }}</span>
-                                                    <span v-if="data.match_detail.fourth_away_points">,
+                                                    <span v-if="data.match_detail.fourth_away_points !== null">,
                                                         {{ data.match_detail.fourth_away_points }}</span>
-                                                    <span v-if="data.match_detail.fifth_away_points">,
+                                                    <span v-if="data.match_detail.fifth_away_points !== null">,
                                                         {{ data.match_detail.fifth_away_points }}</span>
                                                     ]
                                                 </div>
@@ -155,28 +165,40 @@ import PerPage from '../../components/PerPage'
 import StatusDefault from '../../components/StatusDefault'
 import useAxios from "../../src/service";
 import DeleteModal from "./DeleteModal"
-import { reactive, ref } from "vue";
+import { reactive, watch } from "vue";
 import { container, promptModal } from "jenesius-vue-modal";
 import SwalToast from '../../src/swal_toast'
 import { useFilterStore } from "../../src/store_filter";
-
+import VueSelect from "vue-select";
 export default {
-    components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
+    components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault, VueSelect },
     setup() {
         const title = "Data Pertandingan"
         const breadcrumb_list = ["Pertandingan", "Data"];
         const { getData, deleteData } = useAxios()
-        const is_loading = ref(true)
         const { staff_store, app_store } = useFilterStore()
 
         const filter = reactive({
             page: staff_store.page,
             name: '',
             per_page: 25,
+            player_id: '',
+            competition_id: '',
+            round_category_id: '',
+            player_category_code: '',
+        })
+
+        const filter_props = reactive({
+            is_loading: false,
+            players: [],
+            competitions: [],
+            rounds: [],
+            match_types: [],
+            player_categories: [],
         })
 
         function loadDataContent(page = 1) {
-            is_loading.value = true
+            filter_props.is_loading = true
             staff_store.page = page
             filter.page = page
             getData('matches', filter)
@@ -184,7 +206,7 @@ export default {
                     if (data.success) {
                         response.data_content = data
                     }
-                    is_loading.value = false
+                    filter_props.is_loading = false
                 })
         }
 
@@ -212,13 +234,65 @@ export default {
             }
         }
 
+        function loadPlayerList() {
+            getData('players-list')
+                .then((data) => {
+                    filter_props.players = data.result
+                })
+        }
+
+        loadPlayerList()
+
+        function loadCompetitionList() {
+            getData('competitions-list')
+                .then((data) => {
+                    filter_props.competitions = data.result
+                })
+        }
+
+        loadCompetitionList()
+
+        function loadRoundCategoryList() {
+            getData('categories-list', { type: 'round' })
+                .then((data) => {
+                    filter_props.rounds = data.result
+                })
+        }
+
+        loadRoundCategoryList()
+
+        function loadPlayerCategoryList() {
+            getData('categories-list', { type: 'player' })
+                .then((data) => {
+                    filter_props.player_categories = data.result
+                })
+        }
+
+        loadPlayerCategoryList()
+
+        watch(() => _.cloneDeep(filter.player_id), () => {
+            loadDataContent()
+        });
+
+        watch(() => _.cloneDeep(filter.competition_id), () => {
+            loadDataContent()
+        });
+
+        watch(() => _.cloneDeep(filter.round_category_id), () => {
+            loadDataContent()
+        });
+
+        watch(() => _.cloneDeep(filter.player_category_code), () => {
+            loadDataContent()
+        });
+
         return {
             breadcrumb_list,
             title,
             response,
             filter,
-            is_loading,
             app_store,
+            filter_props,
             loadDataContent,
             changePerPage,
             deleteModal

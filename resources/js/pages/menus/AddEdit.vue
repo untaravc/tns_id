@@ -12,8 +12,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
+                    data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-header">
@@ -43,46 +43,44 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Judul</label>
+                                        <label class="form-label">Judul</label>
                                         <input type="text" class="form-control mb-2" v-model="form.title">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('title')">
+                                            v-if="getStatus('title')">
                                             {{ getMessage('title') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Url</label>
+                                        <label class="form-label">Url</label>
                                         <input type="text" class="form-control mb-2" v-model="form.url">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('url')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('url')">
                                             {{ getMessage('url') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Icon</label>
+                                        <label class="form-label">Icon</label>
                                         <input type="text" class="form-control mb-2" v-model="form.icon">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('icon')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('icon')">
                                             {{ getMessage('icon') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Urutan</label>
+                                        <label class="form-label">Urutan</label>
                                         <input type="text" class="form-control mb-2" v-model="form.order">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('order')">
+                                            v-if="getStatus('order')">
                                             {{ getMessage('order') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Parent Menu</label>
                                         <select class="form-control mb-2" v-model="form.parent_id">
-                                            <option :value="menu.id" :key="menu.id"
-                                                    v-for="menu in form_props.menus">{{ menu.title }}
+                                            <option :value="menu.id" :key="menu.id" v-for="menu in form_props.menus">{{
+                                                menu.title }}
                                             </option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('parent_id')">{{ getMessage('parent_id') }}
+                                            v-if="getStatus('parent_id')">{{ getMessage('parent_id') }}
                                         </div>
                                     </div>
                                 </form>
@@ -91,14 +89,14 @@
                         <div class="d-flex justify-content-end">
                             <router-link to="/admin/menus" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                             <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -114,17 +112,17 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
-import {useRouter, useRoute} from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 export default {
-    components: {Breadcrumb},
+    components: { Breadcrumb },
     setup() {
-        const {postData, getData, patchData} = useAxios()
+        const { postData, getData, patchData } = useAxios()
         const router = useRouter()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         const route = useRoute()
         // Cek Mode
         const form_props = reactive({
@@ -142,10 +140,10 @@ export default {
 
         const form = reactive({
             id: '',
-            parent_id:'',
-            title:'',
-            url:'',
-            icon:'',
+            parent_id: '',
+            title: '',
+            url: '',
+            icon: '',
             status: 1,
             order: 1,
         })
@@ -190,7 +188,7 @@ export default {
         }
 
         function loadMenus() {
-            getData('menus-list', {type: 'main'})
+            getData('menus-list', { type: 'main' })
                 .then((data) => {
                     form_props.menus = data.result
                 })

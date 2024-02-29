@@ -33,7 +33,6 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
-
                         <div class="card card-flush py-4">
                             <div class="card-header">
                                 <div class="card-title">
@@ -43,7 +42,7 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tipe</label>
+                                        <label class="form-label">Tipe</label>
                                         <select class="form-control mb-2" v-model="form.type">
                                             <option value="post">Post</option>
                                             <option value="competition">Competition</option>
@@ -56,14 +55,14 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Nama</label>
+                                        <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Kode</label>
+                                        <label class="form-label">Kode</label>
                                         <input type="text" class="form-control mb-2" v-model="form.code">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('code')">
                                             {{ getMessage('code') }}

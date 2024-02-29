@@ -22,7 +22,7 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kopetisi</label>
+                                        <label class="form-label">Kopetisi</label>
                                         <vue-select label="name" v-model="form.competition_id" :reduce="name => name.id"
                                             :options="form_props.competitions"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kategori</label>
+                                        <label class="form-label">Kategori</label>
                                         <vue-select label="name" v-model="form.player_category_code"
                                             :reduce="name => name.code" :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -40,7 +40,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Babak</label>
+                                        <label class="form-label">Babak</label>
                                         <vue-select label="name" v-model="form.round_category_id" :reduce="name => name.id"
                                             :options="form_props.rounds"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -49,7 +49,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Tipe</label>
+                                        <label class="form-label">Tipe</label>
                                         <vue-select label="name" v-model="form.match_type_category_id"
                                             :reduce="name => name.id" :options="form_props.match_types"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -58,14 +58,14 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal</label>
+                                        <label class="form-label">Tanggal</label>
                                         <input type="date" class="form-control form-control-sm mb-2" v-model="form.date">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Pemenang</label>
+                                        <label class="form-label">Pemenang</label>
                                         <select class="form-select mb-2" v-model="form.winner">
                                             <option value="home">Home</option>
                                             <option value="away">Away</option>
@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Status</label>
+                                        <label class="form-label">Status</label>
                                         <select class="form-select mb-2" v-model="form.status">
                                             <option value="1">Aktif</option>
                                             <option value="0">Non Aktif</option>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="mb-5">
-                                    <label class="required form-label">Pemain 1</label>
+                                    <label class="form-label">Pemain 1</label>
                                     <vue-select label="full_name" v-model="form.home_first_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-5">
-                                    <label class="required form-label">Pemain 2</label>
+                                    <label class="form-label">Pemain 2</label>
                                     <vue-select label="full_name" v-model="form.home_second_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
-                                    <label class="required form-label">Skor</label>
+                                    <label class="form-label">Skor</label>
                                     <div class="h3">{{ form.home_final_score }}</div>
                                 </div>
                             </div>
@@ -131,7 +131,7 @@
                             </div>
                             <div class="card-body pt-0">
                                 <div class="mb-5">
-                                    <label class="required form-label">Pemain 1</label>
+                                    <label class="form-label">Pemain 1</label>
                                     <vue-select label="full_name" v-model="form.away_first_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-5">
-                                    <label class="required form-label">Pemain 2</label>
+                                    <label class="form-label">Pemain 2</label>
                                     <vue-select label="full_name" v-model="form.away_second_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                     <div class="fv-plugins-message-container invalid-feedback"
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-5 fv-row fv-plugins-icon-container">
-                                    <label class="required form-label">Skor</label>
+                                    <label class="form-label">Skor</label>
                                     <div class="h3">{{ form.away_final_score }}</div>
                                 </div>
                             </div>

@@ -42,7 +42,7 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5">
-                                        <label class="required form-label">Pemain</label>
+                                        <label class="form-label">Pemain</label>
                                         <vue-select label="full_name" v-model="form.player_id"
                                             :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -51,7 +51,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kopetisi</label>
+                                        <label class="form-label">Kopetisi</label>
                                         <vue-select label="name" v-model="form.competition_id" :reduce="name => name.id"
                                             :options="form_props.competitions"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kategori</label>
+                                        <label class="form-label">Kategori</label>
                                         <vue-select label="name" v-model="form.player_category_code"
                                             :reduce="name => name.code" :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -70,14 +70,14 @@
                                     </div>
 
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal</label>
+                                        <label class="form-label">Tanggal</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Point</label>
+                                        <label class="form-label">Point</label>
                                         <input type="number" min="0" class="form-control mb-2" v-model="form.point">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('point')">

@@ -43,14 +43,14 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Nama</label>
+                                        <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
                                         <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kategori</label>
+                                        <label class="form-label">Kategori</label>
                                         <vue-select label="name" v-model="form.competition_category_code"
                                             :reduce="name => name.code" :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Penyelenggara</label>
+                                        <label class="form-label">Penyelenggara</label>
                                         <input type="text" class="form-control mb-2" v-model="form.capital">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('capital')">
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal Mulai</label>
+                                        <label class="form-label">Tanggal Mulai</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date_start">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('date_start')">
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Tanggal Selesai</label>
+                                        <label class="form-label">Tanggal Selesai</label>
                                         <input type="date" class="form-control mb-2" v-model="form.date_end">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('date_end')">
@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Lokasi</label>
+                                        <label class="form-label">Lokasi</label>
                                         <input type="text" class="form-control mb-2" v-model="form.address">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('address')">

@@ -17,7 +17,7 @@
           <div class="p-8">
             <div class="row">
               <div class="col-md-4">
-                <label class="required form-label">Kategori</label>
+                <label class="form-label">Kategori</label>
                 <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
                   :options="filter_props.player_categories"></vue-select>
               </div>

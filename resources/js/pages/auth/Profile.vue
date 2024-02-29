@@ -12,36 +12,35 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                     class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Nama</label>
+                                        <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('name')">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Email</label>
+                                        <label class="form-label">Email</label>
                                         <input type="text" class="form-control mb-2" v-model="form.email"
-                                               autocomplete="new-password">
+                                            autocomplete="new-password">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('email')">
+                                            v-if="getStatus('email')">
                                             {{ getMessage('email') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">
+                                        <label class="form-label">
                                             <span>Ganti</span> Password
                                         </label>
                                         <input type="password" class="form-control mb-2" v-model="form.password"
-                                               autocomplete="new-password">
+                                            autocomplete="new-password">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('password')">
+                                            v-if="getStatus('password')">
                                             {{ getMessage('password') }}
                                         </div>
                                         <span class="text-small text-gray-600">
@@ -49,13 +48,13 @@
                                         </span>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">
+                                        <label class="form-label">
                                             <span>Ganti</span>Password Konfirmasi
                                         </label>
                                         <input type="password" class="form-control mb-2" autocomplete="new-password"
-                                               v-model="form.password_confirmation">
+                                            v-model="form.password_confirmation">
                                         <div class="fv-plugins-message-container invalid-feedback"
-                                             v-if="getStatus('password_confirmation')">
+                                            v-if="getStatus('password_confirmation')">
                                             {{ getMessage('password_confirmation') }}
                                         </div>
                                     </div>
@@ -63,8 +62,8 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button id="kt_ecommerce_add_product_submit"
-                                    :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                            <button id="kt_ecommerce_add_product_submit" :disabled="form_props.is_loading" @click="editData"
+                                class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -80,16 +79,16 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import {reactive} from "vue";
+import { reactive } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
 import Swal from "../../src/swal_toast"
 
 export default {
-    components: {Breadcrumb},
+    components: { Breadcrumb },
     setup() {
-        const {getData, patchData} = useAxios()
-        const {setErrors, getStatus, getMessage, resetErrors} = useValidation()
+        const { getData, patchData } = useAxios()
+        const { setErrors, getStatus, getMessage, resetErrors } = useValidation()
         // Cek Mode
         const form_props = reactive({
             is_loading: false,

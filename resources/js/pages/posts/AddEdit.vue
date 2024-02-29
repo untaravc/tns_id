@@ -56,7 +56,7 @@
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="required form-label">Judul</label>
+                                        <label class="form-label">Judul</label>
                                         <input type="text" class="form-control mb-2" v-model="form.title">
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('title')">
@@ -72,7 +72,7 @@
                                         </div>
                                     </div>
                                     <div class="mb-5">
-                                        <label class="required form-label">Kategori</label>
+                                        <label class="form-label">Kategori</label>
                                         <vue-select label="name" v-model="form.category_id" :reduce="name => name.id"
                                             :options="form_props.categories"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"

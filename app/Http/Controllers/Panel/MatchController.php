@@ -105,8 +105,23 @@ class MatchController extends Controller
 
     private function withFilter($dataContent, $request)
     {
-        if ($request->name) {
-            $dataContent = $dataContent->where('players.name', 'LIKE', '%' . $request->name . '%');
+        if ($request->player_id) {
+            $dataContent = $dataContent->where(function ($q) use ($request) {
+                $q->where('home_first_player_id', $request->player_id)
+                    ->orWhere('home_second_player_id', $request->player_id)
+                    ->orWhere('away_first_player_id', $request->player_id)
+                    ->orWhere('away_second_player_id', $request->player_id);
+            });
+        }
+
+        if ($request->competition_id) {
+            $dataContent = $dataContent->where('competition_id', $request->competition_id);
+        }
+        if ($request->round_category_id) {
+            $dataContent = $dataContent->where('round_category_id', $request->round_category_id);
+        }
+        if ($request->player_category_code) {
+            $dataContent = $dataContent->where('player_category_code', $request->player_category_code);
         }
         return $dataContent;
     }
