@@ -102,7 +102,7 @@
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                                    <Bootstrap4Pagination :data="response.data_content"
+                                    <Bootstrap4Pagination :data="response.data_content" :limit="2"
                                         @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
                                 </div>
                             </div>
@@ -132,17 +132,16 @@ export default {
         const breadcrumb_list = ["Post", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { staff_store, app_store } = useFilterStore()
+        const { app_store } = useFilterStore()
 
         const filter = reactive({
-            page: staff_store.page,
+            page: 1,
             name: '',
             per_page: 25,
         })
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            staff_store.page = page
             filter.page = page
             getData('posts', filter)
                 .then((data) => {
@@ -153,7 +152,7 @@ export default {
                 })
         }
 
-        loadDataContent(staff_store.page)
+        loadDataContent()
 
         const response = reactive({
             data_content: {

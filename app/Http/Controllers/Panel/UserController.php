@@ -58,20 +58,13 @@ class UserController extends Controller
                 'email'    => 'required|email|unique:users,id,' . $request->id,
                 'password' => 'nullable',
                 'role_id'  => 'required',
-                'pin_key'  => 'nullable|confirmed|digits:4',
-            ], [
-                "pin_key.unique" => "Kode PIN telah digunakan oleh orang lain",
-                "pin_key.min"    => "Kode PIN harus 4 digit",
             ]);
         } else {
             $validator = Validator::make($request->all(), [
                 'name'     => 'required',
                 'email'    => 'required|unique:users|email',
                 'password' => 'required|confirmed',
-                'pin_key'  => 'required|confirmed|digits:4',
                 'role_id'  => 'required',
-            ], [
-                "pin_key.min" => "Kode PIN harus 4 digit",
             ]);
         }
 
@@ -80,11 +73,11 @@ class UserController extends Controller
             abort(response($this->response, 422));
         }
 
-        if($request->pin_key){
+        if ($request->pin_key) {
             $used = User::whereClientId($request->client_id)
                 ->where('pin_key', $request->pin_key)
                 ->first();
-            if($used){
+            if ($used) {
                 $this->response['errors'] = [
                     'pin_key' => ['Kode PIN telah digunakan']
                 ];
@@ -155,7 +148,6 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $this->response['result'] = User::orderBy('name')
-            ->whereClientId(client_id($request))
             ->get();
 
         return $this->response;
@@ -201,35 +193,6 @@ class UserController extends Controller
         }
 
         $this->response['result'] = $user;
-        return $this->response;
-    }
-
-    public function setFcmToken(Request $request)
-    {
-        $user = $request->user();
-
-        if (!$user) {
-            return $this->response;
-        }
-
-        $user_web_token = UserWebToken::whereUserId($user->id)
-            ->whereToken($request->token)
-            ->first();
-
-        if (!$user_web_token) {
-            UserWebToken::create([
-                "user_id" => $user['id'],
-                "token"   => $request->token,
-                "status"  => 1
-            ]);
-        } else {
-            $user_web_token->update([
-                "status"     => 1,
-                "updated_at" => now()
-            ]);
-        }
-
-        // update inactive token
         return $this->response;
     }
 }

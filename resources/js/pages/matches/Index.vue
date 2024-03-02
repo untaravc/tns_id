@@ -147,7 +147,7 @@
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                                    <Bootstrap4Pagination :data="response.data_content"
+                                    <Bootstrap4Pagination :data="response.data_content" :limit="2"
                                         @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
                                 </div>
                             </div>
@@ -176,10 +176,10 @@ export default {
         const title = "Data Pertandingan"
         const breadcrumb_list = ["Pertandingan", "Data"];
         const { getData, deleteData } = useAxios()
-        const { staff_store, app_store } = useFilterStore()
+        const { match_store, app_store } = useFilterStore()
 
         const filter = reactive({
-            page: staff_store.page,
+            page: match_store.page,
             name: '',
             per_page: 25,
             player_id: '',
@@ -197,9 +197,10 @@ export default {
             player_categories: [],
         })
 
+        filter.player_id = match_store.player_id
+
         function loadDataContent(page = 1) {
             filter_props.is_loading = true
-            staff_store.page = page
             filter.page = page
             getData('matches', filter)
                 .then((data) => {
@@ -210,7 +211,7 @@ export default {
                 })
         }
 
-        loadDataContent(staff_store.page)
+        loadDataContent()
 
         const response = reactive({
             data_content: {
@@ -271,6 +272,7 @@ export default {
         loadPlayerCategoryList()
 
         watch(() => _.cloneDeep(filter.player_id), () => {
+            match_store.filter.player_id
             loadDataContent()
         });
 

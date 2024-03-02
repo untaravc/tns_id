@@ -18,27 +18,16 @@ export const useFilterStore = defineStore('filter', () => {
         type: '',
     })
 
-    const staff_store = reactive({
-        page: 1
-    })
-
-    const department_store = reactive({
-        page: 1
-    })
-
     const role_store = reactive({
         page: 1
     })
 
-    const menu_store = reactive({
-        page: 1
-    })
-
-
-    const token_store = reactive({
+    const match_store = reactive({
         page: 1,
-        station_id: '',
-        auto_call: false,
+        player_id: '',
+        competition_id: '',
+        player_category_code: '',
+        round_category_id: '',
     })
 
     const config_ctk = reactive({
@@ -50,11 +39,10 @@ export const useFilterStore = defineStore('filter', () => {
     })
 
     return {
-        staff_store,
         role_store,
-        menu_store,
         category_store,
         app_store,
-        config_ctk
+        config_ctk,
+        match_store,
     }
 })

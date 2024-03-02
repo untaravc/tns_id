@@ -102,10 +102,10 @@ export default {
     const breadcrumb_list = ["Poin", "Report"];
     const { getData } = useAxios()
     const is_loading = ref(false)
-    const { staff_store, app_store } = useFilterStore()
+    const { app_store } = useFilterStore()
 
     const filter = reactive({
-      page: staff_store.page,
+      page: 1,
       name: '',
       limit: 25,
       player_category_code: '',

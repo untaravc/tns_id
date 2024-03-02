@@ -101,7 +101,7 @@
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                                    <Bootstrap4Pagination :data="response.data_content"
+                                    <Bootstrap4Pagination :data="response.data_content" :limit="2"
                                         @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
                                 </div>
                             </div>

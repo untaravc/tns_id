@@ -81,6 +81,15 @@ class PlayerController extends Controller
         if ($request->name) {
             $dataContent = $dataContent->where('players.full_name', 'LIKE', '%' . $request->name . '%');
         }
+        if ($request->city) {
+            $dataContent = $dataContent->where('players.city', 'LIKE', '%' . $request->city . '%');
+        }
+        if ($request->status !== null) {
+            $dataContent = $dataContent->where('players.status', $request->status);
+        }
+        if ($request->gender) {
+            $dataContent = $dataContent->where('players.gender', $request->gender);
+        }
         return $dataContent;
     }
 

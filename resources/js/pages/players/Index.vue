@@ -9,27 +9,43 @@
                     <Breadcrumb :list="breadcrumb_list"></Breadcrumb>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
+                    <div class="btn btn-sm btn-secondary" @click="clearFilter">
+                        Hapus Filter
+                    </div>
                     <router-link to="/admin/players/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
                     </router-link>
+                
                 </div>
             </div>
         </div>
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
+                    <div class="px-8 pt-8 pb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Nama</label>
+                                <input type="text" class="form-control" v-model="filter.name" @keyup.enter="loadDataContent">
                             </div>
-                        </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
+                            <div class="col-md-3">
+                                <label>Kota</label>
+                                <input type="text" class="form-control" v-model="filter.city" @keyup.enter="loadDataContent">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Jenis Kel</label>
+                                <select class="form-control" v-model="filter.gender" @change="loadDataContent">
+                                    <option value="F">Perempuan</option>
+                                    <option value="M">Laki-laki</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Status</label>
+                                <select class="form-control" v-model="filter.status" @change="loadDataContent">
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Non Aktif</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -106,7 +122,7 @@
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                                    <Bootstrap4Pagination :data="response.data_content"
+                                    <Bootstrap4Pagination :data="response.data_content" :limit="2"
                                         @pagination-change-page="loadDataContent"></Bootstrap4Pagination>
                                 </div>
                             </div>
@@ -136,17 +152,19 @@ export default {
         const breadcrumb_list = ["Pemain", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { staff_store, app_store } = useFilterStore()
+        const { app_store } = useFilterStore()
 
         const filter = reactive({
-            page: staff_store.page,
-            name: '',
+            page: 1,
             per_page: 25,
+            name: '',
+            status: '',
+            city: '',
+            gender: '',
         })
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            staff_store.page = page
             filter.page = page
             getData('players', filter)
                 .then((data) => {
@@ -157,7 +175,7 @@ export default {
                 })
         }
 
-        loadDataContent(staff_store.page)
+        loadDataContent()
 
         const response = reactive({
             data_content: {
@@ -179,7 +197,17 @@ export default {
                         loadDataContent(filter.page)
                     })
             }
+            
         }
+
+        function clearFilter(){
+                filter.name =  '',
+                filter.status =  '',
+                filter.city =  '',
+                filter.gender =  '',
+
+                loadDataContent()
+            }
 
         return {
             breadcrumb_list,
@@ -190,7 +218,8 @@ export default {
             app_store,
             loadDataContent,
             changePerPage,
-            deleteModal
+            deleteModal,
+            clearFilter
         }
     }
 }
