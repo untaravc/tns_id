@@ -274,6 +274,8 @@ export default {
                     filter_props.player_categories = data.result
                 })
         }
+
+        loadPlayerCategoryList()
         
         function loadMatchCategoryList() {
             getData('categories-list', { type: 'match_type' })

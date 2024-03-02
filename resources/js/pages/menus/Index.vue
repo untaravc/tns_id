@@ -121,17 +121,15 @@ export default {
         const breadcrumb_list = ["Menu", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { menu_store } = useFilterStore()
 
         const filter = reactive({
-            page: menu_store.page,
+            page: 1,
             title: '',
             per_page: 25,
         })
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            menu_store.page = page
             filter.page = page
             getData('menus', filter)
                 .then((data) => {
@@ -142,7 +140,7 @@ export default {
                 })
         }
 
-        loadDataContent(menu_store.page)
+        loadDataContent()
 
         const response = reactive({
             data_content: {
