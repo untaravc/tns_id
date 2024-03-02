@@ -31,7 +31,7 @@
                                     :options="filter_props.competitions"></vue-select>
                             </div>
                             <div class="col-md-3">
-                                <label>Kategori</label>
+                                <label>Tingkat Umur</label>
                                 <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
                                     :options="filter_props.player_categories"></vue-select>
                             </div>
@@ -39,6 +39,11 @@
                                 <label>Round</label>
                                 <vue-select label="name" v-model="filter.round_category_id" :reduce="name => name.id"
                                     :options="filter_props.rounds"></vue-select>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Kategori Pertandingan</label>
+                                <vue-select label="name" v-model="filter.match_type_category_id" :reduce="name => name.id"
+                                    :options="filter_props.match_types"></vue-select>
                             </div>
                         </div>
                     </div>
@@ -180,12 +185,12 @@ export default {
 
         const filter = reactive({
             page: match_store.page,
-            name: '',
             per_page: 25,
             player_id: '',
             competition_id: '',
             round_category_id: '',
             player_category_code: '',
+            match_type_category_id: '',
         })
 
         const filter_props = reactive({
@@ -195,6 +200,7 @@ export default {
             rounds: [],
             match_types: [],
             player_categories: [],
+            match_categoties: [],
         })
 
         filter.player_id = match_store.player_id
@@ -268,8 +274,15 @@ export default {
                     filter_props.player_categories = data.result
                 })
         }
+        
+        function loadMatchCategoryList() {
+            getData('categories-list', { type: 'match_type' })
+                .then((data) => {
+                    filter_props.match_types = data.result
+                })
+        }
 
-        loadPlayerCategoryList()
+        loadMatchCategoryList()
 
         watch(() => _.cloneDeep(filter.player_id), () => {
             match_store.filter.player_id
@@ -285,6 +298,10 @@ export default {
         });
 
         watch(() => _.cloneDeep(filter.player_category_code), () => {
+            loadDataContent()
+        });
+        
+        watch(() => _.cloneDeep(filter.match_type_category_id), () => {
             loadDataContent()
         });
 

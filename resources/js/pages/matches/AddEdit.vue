@@ -108,7 +108,7 @@
                                         {{ getMessage('home_first_player_id') }}
                                     </div>
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5" v-if="form_props.player_number === 2">
                                     <label class="form-label">Pemain 2</label>
                                     <vue-select label="full_name" v-model="form.home_second_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
@@ -139,7 +139,7 @@
                                         {{ getMessage('away_first_player_id') }}
                                     </div>
                                 </div>
-                                <div class="mb-5">
+                                <div class="mb-5" v-if="form_props.player_number === 2">
                                     <label class="form-label">Pemain 2</label>
                                     <vue-select label="full_name" v-model="form.away_second_player_id"
                                         :reduce="full_name => full_name.id" :options="form_props.players"></vue-select>
@@ -156,21 +156,29 @@
                         </div>
 
                         <div class="d-flex justify-content-end mb-3">
-                            <router-link to="/admin/matches" class="btn btn-light me-5">Batal</router-link>
-                            <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
-                                :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
+                            <router-link to="/admin/matches" class="btn btn-light me-2">Batal</router-link>
+                            <button v-if="!form_props.edit_mode"
+                                :disabled="form_props.is_loading" @click="createData(1)" class="btn btn-primary me-2">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
-                            <button id="kt_ecommerce_add_product_submit" v-if="form_props.edit_mode"
-                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary">
+                            <button v-if="!form_props.edit_mode"
+                                :disabled="form_props.is_loading" @click="createData(2)" class="btn btn-success me-2">
+                                <span v-if="!form_props.is_loading">Simpan, input lagi</span>
+                                <span v-if="form_props.is_loading">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                            <button v-if="form_props.edit_mode"
+                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary me-2">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
+                            
                         </div>
                     </div>
                     <div class="col-12">
@@ -282,12 +290,13 @@
 </template>
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
-import { reactive, computed } from "vue";
+import { reactive, computed, watch } from "vue";
 import useAxios from "../../src/service";
 import useValidation from "../../src/validation";
 import { useRouter, useRoute } from "vue-router";
 import { useFilterStore } from "../../src/store_filter";
 import VueSelect from "vue-select";
+import Swal from "../../src/swal_toast";
 
 export default {
     components: { VueSelect, Breadcrumb },
@@ -308,6 +317,7 @@ export default {
             players: [],
             rounds: [],
             match_types: [],
+            player_number: 2,
         })
 
         const param_id = route.params.id
@@ -388,12 +398,17 @@ export default {
                 })
         }
 
-        function createData() {
-            // form_props.is_loading = true
+        function createData(type) {
+            form_props.is_loading = true
             postData('matches', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/matches')
+                    if(type === 1){
+                        router.push('/admin/matches')
+                    } else {
+                        Swal("Berhasil menambahkan data pertandingan.")
+                        resetPartial()
+                    }
                     resetErrors()
                 } else {
                     setErrors(data.errors)
@@ -401,6 +416,33 @@ export default {
             }).catch(() => {
                 form_props.is_loading = false
             })
+        }
+
+        function resetPartial(){
+            form.home_first_player_id = ''
+            form.home_second_player_id = ''
+            form.away_first_player_id = ''
+            form.away_second_player_id = ''
+            form.match_detail = {
+                first_home_points: '',
+                first_away_points: '',
+                first_time_minutes: '',
+                second_home_points: '',
+                second_away_points: '',
+                second_time_minutes: '',
+                third_home_points: '',
+                third_away_points: '',
+                third_time_minutes: '',
+                fourth_home_points: '',
+                fourth_away_points: '',
+                fourth_time_minutes: '',
+                fifth_home_points: '',
+                fifth_away_points: '',
+                fifth_time_minutes: '',
+                final_home_points: '',
+                final_away_points: '',
+                final_time_minutes: '',
+            }
         }
 
         function editData() {
@@ -416,8 +458,14 @@ export default {
             })
         }
 
-        function loadPlayerList() {
-            getData('players-list')
+        function loadPlayerList(gender = null) {
+            let params = {}
+            if(gender !== null){
+                params = {
+                    gender: gender
+                }
+            }
+            getData('players-list', params)
                 .then((data) => {
                     form_props.players = data.result
                 })
@@ -460,6 +508,23 @@ export default {
         }
 
         loadMatchTypeList()
+
+        watch(() => _.cloneDeep(form.match_type_category_id), () => {
+            const type = form_props.match_types.find(item=>{
+                return item.id == form.match_type_category_id
+            })
+
+            if(type){
+                const arr = type.name.split(' ');
+                const number = arr[0] === 'Tunggal' ? 1 : 2;
+                const gender = arr[1] === 'Putra' ? 'M' : 'F'
+
+                form_props.player_number = number;
+                form_props.player_gender = gender;
+
+                loadPlayerList(gender)
+            }
+        });
 
         const time_sum = computed(() => {
             let time = 0;

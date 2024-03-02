@@ -123,6 +123,10 @@ class MatchController extends Controller
         if ($request->player_category_code) {
             $dataContent = $dataContent->where('player_category_code', $request->player_category_code);
         }
+
+        if ($request->match_type_category_id) {
+            $dataContent = $dataContent->where('match_type_category_id', $request->match_type_category_id);
+        }
         return $dataContent;
     }
 
