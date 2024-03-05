@@ -15,7 +15,7 @@
                     <router-link to="/admin/players/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
                     </router-link>
-                
+
                 </div>
             </div>
         </div>
@@ -26,22 +26,24 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Nama</label>
-                                <input type="text" class="form-control" v-model="filter.name" @keyup.enter="loadDataContent">
+                                <input type="text" class="form-control" v-model="player_store.name"
+                                    @keyup.enter="loadDataContent">
                             </div>
                             <div class="col-md-3">
                                 <label>Kota</label>
-                                <input type="text" class="form-control" v-model="filter.city" @keyup.enter="loadDataContent">
+                                <input type="text" class="form-control" v-model="player_store.city"
+                                    @keyup.enter="loadDataContent">
                             </div>
                             <div class="col-md-3">
                                 <label>Jenis Kel</label>
-                                <select class="form-control" v-model="filter.gender" @change="loadDataContent">
+                                <select class="form-control" v-model="player_store.gender" @change="loadDataContent">
                                     <option value="F">Perempuan</option>
                                     <option value="M">Laki-laki</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <label>Status</label>
-                                <select class="form-control" v-model="filter.status" @change="loadDataContent">
+                                <select class="form-control" v-model="player_store.status" @change="loadDataContent">
                                     <option value="1">Aktif</option>
                                     <option value="0">Non Aktif</option>
                                 </select>
@@ -72,7 +74,7 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                                                    (response.data_content.current_page - 1) + d + 1 }}
+                            (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td style="width: 80px;">
                                                 <div v-if="data.image" class="bg-thumbnail"
@@ -118,7 +120,7 @@
                             <div class="row">
                                 <div
                                     class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-                                    <PerPage :value="filter.per_page" @change-per-page="changePerPage" />
+                                    <PerPage :value="player_store.per_page" @change-per-page="changePerPage" />
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -134,6 +136,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
 import PerPage from '../../components/PerPage'
@@ -152,30 +155,23 @@ export default {
         const breadcrumb_list = ["Pemain", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { app_store } = useFilterStore()
-
-        const filter = reactive({
-            page: 1,
-            per_page: 25,
-            name: '',
-            status: '',
-            city: '',
-            gender: '',
-        })
+        const { player_store } = useFilterStore()
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            filter.page = page
-            getData('players', filter)
+            player_store.page = page
+            getData('players', player_store)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
                     }
                     is_loading.value = false
+                }).catch(() => {
+                    is_loading.value = false
                 })
         }
 
-        loadDataContent()
+        loadDataContent(player_store.page)
 
         const response = reactive({
             data_content: {
@@ -184,7 +180,7 @@ export default {
         })
 
         function changePerPage(per_page) {
-            filter.per_page = per_page
+            player_store.per_page = per_page
             loadDataContent()
         }
 
@@ -194,28 +190,27 @@ export default {
                 deleteData('players/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
-                        loadDataContent(filter.page)
+                        loadDataContent(player_store.page)
                     })
             }
-            
+
         }
 
-        function clearFilter(){
-                filter.name =  '',
-                filter.status =  '',
-                filter.city =  '',
-                filter.gender =  '',
+        function clearFilter() {
+            player_store.name = ''
+            player_store.status = ''
+            player_store.city = ''
+            player_store.gender = ''
 
-                loadDataContent()
-            }
+            loadDataContent()
+        }
 
         return {
             breadcrumb_list,
             title,
             response,
-            filter,
             is_loading,
-            app_store,
+            player_store,
             loadDataContent,
             changePerPage,
             deleteModal,

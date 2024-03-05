@@ -3,14 +3,7 @@ import { reactive } from "vue";
 
 export const useFilterStore = defineStore('filter', () => {
     const app_store = reactive({
-        client_id: null,
-        client_name: null,
-        client_logo: null,
-        client_mini_logo: null,
-        client_token: null,
-        auto_call: false,
-        station_id: null,
-        role_id: null,
+
     })
 
     const category_store = reactive({
@@ -24,10 +17,21 @@ export const useFilterStore = defineStore('filter', () => {
 
     const match_store = reactive({
         page: 1,
+        name: '',
+        per_page: 25,
         player_id: '',
         competition_id: '',
-        player_category_code: '',
         round_category_id: '',
+        player_category_code: '',
+    })
+
+    const player_store = reactive({
+        page: 1,
+        per_page: 25,
+        name: '',
+        city: '',
+        gender: '',
+        status: '',
     })
 
     const config_ctk = reactive({
@@ -44,5 +48,6 @@ export const useFilterStore = defineStore('filter', () => {
         app_store,
         config_ctk,
         match_store,
+        player_store,
     }
 })

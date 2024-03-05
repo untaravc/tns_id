@@ -18,7 +18,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
+                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
+                        data-select2-id="select2-data-124-lq0k">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
@@ -33,7 +34,8 @@
                         </div>
                     </div>
                     <div class="card-body pt-0">
-                        <div id="kt_ecommerce_products_table_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                        <div id="kt_ecommerce_products_table_wrapper"
+                            class="dataTables_wrapper dt-bootstrap4 no-footer">
                             <div class="table-responsive">
                                 <Loading :active="is_loading" :loader="'dots'" :is-full-page="false" />
                                 <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
@@ -55,7 +57,7 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                                                    (response.data_content.current_page - 1) + d + 1 }}
+                            (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>{{ data.title }}</td>
                                             <td>{{ data.url }}</td>
@@ -70,7 +72,8 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/menus/' + data.id" class="dropdown-item">
+                                                        <router-link :to="'/admin/menus/' + data.id"
+                                                            class="dropdown-item">
                                                             Edit
                                                         </router-link>
                                                         <button class="dropdown-item text-danger"
@@ -103,6 +106,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
 import PerPage from '../../components/PerPage'
@@ -112,7 +116,6 @@ import DeleteModal from "./DeleteModal"
 import { reactive, ref } from "vue";
 import { container, promptModal } from "jenesius-vue-modal";
 import SwalToast from '../../src/swal_toast'
-import { useFilterStore } from "../../src/store_filter";
 
 export default {
     components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
@@ -121,17 +124,15 @@ export default {
         const breadcrumb_list = ["Menu", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
-        const { menu_store } = useFilterStore()
 
         const filter = reactive({
-            page: menu_store.page,
+            page: 1,
             title: '',
             per_page: 25,
         })
 
         function loadDataContent(page = 1) {
             is_loading.value = true
-            menu_store.page = page
             filter.page = page
             getData('menus', filter)
                 .then((data) => {
@@ -142,7 +143,7 @@ export default {
                 })
         }
 
-        loadDataContent(menu_store.page)
+        loadDataContent()
 
         const response = reactive({
             data_content: {
