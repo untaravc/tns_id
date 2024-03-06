@@ -8,56 +8,79 @@ use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $data['page_name'] = 'home';
         return view('front.home.Index', $data);
     }
 
-    public function players(){
+    public function players()
+    {
         $data['page_name'] = 'players';
         return view('front.players.Index', $data);
     }
 
-    public function player_show($id){
+    public function player_show($id)
+    {
         $data['page_name'] = 'players';
         return view('front.players.Show', $data);
     }
 
-    public function events(){
+    public function events()
+    {
         $data['page_name'] = 'events';
         return view('front.events.Index', $data);
     }
 
-    public function matches(){
+    public function matches()
+    {
         $data['page_name'] = 'matches';
         return view('front.matches.Index', $data);
     }
 
-    public function news(){
+    public function news()
+    {
         $data['page_name'] = 'news';
         return view('front.news.Index', $data);
     }
 
-    public function admin(){
+    public function admin()
+    {
         return view('admin.layout');
     }
 
-    public function auth(){
+    public function auth()
+    {
         return view('admin.auth');
     }
 
-    public function test(){
+    public function test()
+    {
         $this->response['message'] = "tist";
         return $this->response;
     }
 
-    public function icons(){
+    public function icons()
+    {
         $files = File::allFiles(public_path('assets\media\icons\duotune'));
-//        file_get_contents($files[0]);
+        //        file_get_contents($files[0]);
         return view('icons', compact('files'));
     }
 
-    public function notFound(){
+    public function notFound()
+    {
         return view('admin.404');
+    }
+
+    public function about()
+    {
+        $data['page_name'] = 'About';
+        return view('front.about.Index', $data);
+    }
+
+    public function privacyPolicy()
+    {
+        $data['page_name'] = 'Kebijakan Privasi';
+        return view('front.privacy_policy.Index', $data);
     }
 }
