@@ -22,23 +22,28 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <label>Pemain</label>
-                                <vue-select label="full_name" v-model="filter.player_id" :reduce="full_name => full_name.id"
-                                    :options="filter_props.players"></vue-select>
+                                <vue-select label="full_name" v-model="match_store.player_id"
+                                    :reduce="full_name => full_name.id" :options="filter_props.players"></vue-select>
                             </div>
                             <div class="col-md-3">
                                 <label>Kompetisi</label>
-                                <vue-select label="name" v-model="filter.competition_id" :reduce="name => name.id"
+                                <vue-select label="name" v-model="match_store.competition_id" :reduce="name => name.id"
                                     :options="filter_props.competitions"></vue-select>
                             </div>
                             <div class="col-md-3">
-                                <label>Kategori</label>
-                                <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
-                                    :options="filter_props.player_categories"></vue-select>
+                                <label>Tingkat Umur</label>
+                                <vue-select label="name" v-model="match_store.player_category_code"
+                                    :reduce="name => name.code" :options="filter_props.player_categories"></vue-select>
                             </div>
                             <div class="col-md-3">
                                 <label>Round</label>
-                                <vue-select label="name" v-model="filter.round_category_id" :reduce="name => name.id"
-                                    :options="filter_props.rounds"></vue-select>
+                                <vue-select label="name" v-model="match_store.round_category_id"
+                                    :reduce="name => name.id" :options="filter_props.rounds"></vue-select>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label>Kategori Pertandingan</label>
+                                <vue-select label="name" v-model="match_store.match_type_category_id"
+                                    :reduce="name => name.id" :options="filter_props.match_types"></vue-select>
                             </div>
                         </div>
                     </div>
@@ -65,12 +70,12 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                                                    (response.data_content.current_page - 1) + d + 1 }}
+                            (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
                                                 <b>{{ data.competition_name }} </b>
                                                 <span v-if="data.competition_category_code">({{
-                                                    data.competition_category_code }})</span>
+                            data.competition_category_code }})</span>
                                                 <div>
                                                     <i>{{ $filter.formatDate(data.date) }}</i>
                                                 </div>
@@ -143,7 +148,7 @@
                             <div class="row">
                                 <div
                                     class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-                                    <PerPage :value="filter.per_page" @change-per-page="changePerPage" />
+                                    <PerPage :value="match_store.per_page" @change-per-page="changePerPage" />
                                 </div>
                                 <div
                                     class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -159,6 +164,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import Breadcrumb from "../../components/Breadcrumb";
 import PerPage from '../../components/PerPage'
@@ -180,12 +186,12 @@ export default {
 
         const filter = reactive({
             page: match_store.page,
-            name: '',
             per_page: 25,
             player_id: '',
             competition_id: '',
             round_category_id: '',
             player_category_code: '',
+            match_type_category_id: '',
         })
 
         const filter_props = reactive({
@@ -195,14 +201,13 @@ export default {
             rounds: [],
             match_types: [],
             player_categories: [],
+            match_categoties: [],
         })
-
-        filter.player_id = match_store.player_id
 
         function loadDataContent(page = 1) {
             filter_props.is_loading = true
-            filter.page = page
-            getData('matches', filter)
+            match_store.page = page
+            getData('matches', match_store)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
@@ -220,7 +225,7 @@ export default {
         })
 
         function changePerPage(per_page) {
-            filter.per_page = per_page
+            match_store.per_page = per_page
             loadDataContent()
         }
 
@@ -230,7 +235,7 @@ export default {
                 deleteData('matches/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
-                        loadDataContent(filter.page)
+                        loadDataContent(match_store.page)
                     })
             }
         }
@@ -271,20 +276,32 @@ export default {
 
         loadPlayerCategoryList()
 
-        watch(() => _.cloneDeep(filter.player_id), () => {
-            match_store.filter.player_id
+        function loadMatchCategoryList() {
+            getData('categories-list', { type: 'match_type' })
+                .then((data) => {
+                    filter_props.match_types = data.result
+                })
+        }
+
+        loadMatchCategoryList()
+
+        watch(() => _.cloneDeep(match_store.player_id), () => {
             loadDataContent()
         });
 
-        watch(() => _.cloneDeep(filter.competition_id), () => {
+        watch(() => _.cloneDeep(match_store.competition_id), () => {
             loadDataContent()
         });
 
-        watch(() => _.cloneDeep(filter.round_category_id), () => {
+        watch(() => _.cloneDeep(match_store.round_category_id), () => {
             loadDataContent()
         });
 
-        watch(() => _.cloneDeep(filter.player_category_code), () => {
+        watch(() => _.cloneDeep(match_store.player_category_code), () => {
+            loadDataContent()
+        });
+
+        watch(() => _.cloneDeep(match_store.match_type_category_id), () => {
             loadDataContent()
         });
 
@@ -293,7 +310,7 @@ export default {
             title,
             response,
             filter,
-            app_store,
+            match_store,
             filter_props,
             loadDataContent,
             changePerPage,

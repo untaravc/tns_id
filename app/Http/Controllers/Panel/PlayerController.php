@@ -32,6 +32,8 @@ class PlayerController extends Controller
         $this->response['result'] = Player::orderBy('full_name')
             ->when($request->name, function ($q) use ($request) {
                 $q->where('full_name', 'LIKE', '%' . $request->name . '%');
+            })->when($request->gender, function ($q) use ($request) {
+                $q->where('gender', $request->gender);
             })
             ->whereStatus(1)
             ->get();

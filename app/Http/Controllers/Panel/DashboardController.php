@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
-    private $fileUpload;
-
-    function __construct()
-    {
-        $this->fileUpload = new UploadFileService();
-    }
-
     public function dashboard()
     {
         return view('admin.Layout');
@@ -37,7 +30,7 @@ class DashboardController extends Controller
         return $this->response;
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request, UploadFileService $uploadService)
     {
         $validator = Validator::make($request->all(), [
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -47,14 +40,14 @@ class DashboardController extends Controller
             return $validator->errors()->first();
         }
 
-        $file_name = $this->fileUpload->fileUploadProcessing($request, 'players');
+        $file_name = $uploadService->fileUploadProcessing($request, 'players');
 
         $this->response['result'] = env('APP_URL') . '/storage/' . $file_name;
         return $this->response;
     }
 
-    public function test(Request $request)
+    public function test(Request $request, UploadFileService $uploadService)
     {
-        return $this->fileUpload->fileUploadProcessing($request, 'players');
+        return $uploadService->fileUploadProcessing($request, 'players');
     }
 }
