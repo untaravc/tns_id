@@ -3,14 +3,33 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Competition;
+use App\Models\MatchModel;
+use App\Models\Player;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $data['page_name'] = 'home';
+        $data['matches'] = MatchModel::orderByDesc('id')
+            ->with([
+                'competition',
+                'round_category',
+                'match_type',
+                'home_first_player',
+                'away_first_player',
+                'match_detail'
+            ])->limit(3)->get();
+
+        $data['news_head'] = Post::orderByDesc('id')->first();
+        $data['news'] = Post::orderByDesc('id')->skip(1)->limit(3)->get();
+        $data['competitions'] = Competition::orderByDesc('date_start')->limit(5)->get();
+        $data['male_players'] = Player::whereGender('M')->limit(5)->get();
+        $data['female_players'] = Player::whereGender('F')->limit(5)->get();
         return view('front.home.Index', $data);
     }
 

@@ -33,6 +33,11 @@ class MatchModel extends Model
         "status",
     ];
 
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
+    }
+
     public function match_detail()
     {
         return $this->hasOne(MatchDetail::class, 'match_id');
@@ -51,5 +56,15 @@ class MatchModel extends Model
     public function player_category()
     {
         return $this->belongsTo(Category::class, 'player_category_code', 'code');
+    }
+
+    public function home_first_player()
+    {
+        return $this->belongsTo(Player::class, 'home_first_player_id', 'id');
+    }
+
+    public function away_first_player()
+    {
+        return $this->belongsTo(Player::class, 'away_first_player_id', 'id');
     }
 }
