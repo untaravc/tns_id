@@ -21,6 +21,19 @@
     @include('front.components.Footer')
 
     {{-- <script src="/js/app.js"></script> --}}
+    <!-- Default Statcounter code for Tenis Indo http://tenisindo.com -->
+    <script type="text/javascript">
+        var sc_project = 12978658;
+        var sc_invisible = 1;
+        var sc_security = "69ffd98b";
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
+                    class="statcounter" src="https://c.statcounter.com/12978658/0/69ffd98b/1/" alt="Web Analytics"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
 </body>
 
 </html>
