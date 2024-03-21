@@ -28,10 +28,10 @@
                                 <td class="flex">
                                     @if ($match->home_first_player)
                                         <div class="w-8" title="{{ $match->home_first_player->city }}">
-                                            {{ truncate($match->home_first_player->city_init) }}
+                                            {{ truncate_str($match->home_first_player->city_init) }}
                                         </div>
                                         <div class="font-medium" title="{{ $match->home_first_player->full_name }}">
-                                            {{ truncate($match->home_first_player->full_name) }}
+                                            {{ truncate_str($match->home_first_player->full_name) }}
                                         </div>
                                     @endif
                                 </td>
@@ -59,10 +59,10 @@
                                 <td class="flex">
                                     @if ($match->away_first_player)
                                         <div class="w-8" title="{{ $match->away_first_player->city }}">
-                                            {{ truncate($match->away_first_player->city_init) }}
+                                            {{ truncate_str($match->away_first_player->city_init) }}
                                         </div>
                                         <div class="font-medium" title="{{ $match->away_first_player->full_name }}">
-                                            {{ truncate($match->away_first_player->full_name) }}
+                                            {{ truncate_str($match->away_first_player->full_name) }}
                                         </div>
                                     @endif
                                 </td>
@@ -100,14 +100,14 @@
                 </div>
                 <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
                     <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
-                    <div class="text-md text-slate-100">{!! truncate($news_head->body_content, 70) !!}</div>
+                    <div class="text-md text-slate-100">{!! truncate_str($news_head->body_content, 70) !!}</div>
                 </div>
             </div>
             @foreach ($news as $new)
                 <div
                     class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
                     <div class="text-sm w-2/3">
-                        {{ truncate($new->title, 60) }}
+                        {{ truncate_str($new->title, 60) }}
                         <div class="text-xs italic text-slate-500">
                             {{ date('d/m/y', strtotime($new->created_at)) }}
                         </div>
@@ -150,7 +150,7 @@
                                 <div class="flex items-center">
                                     <img class="rounded-full w-9 h-9" alt="pic" src="/assets/logo/icon-male.jpg">
                                     <div class="ml-2">
-                                        <div class="font-medium">{{ truncate($male->full_name, 20) }}</div>
+                                        <div class="font-medium">{{ truncate_str($male->full_name, 20) }}</div>
                                         <div class="italic text-xs">{{ $male->city }}</div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                 <div class="flex items-center">
                                     <img class="rounded-full w-9 h-9" alt="pic" src="/assets/logo/icon-female.jpg">
                                     <div class="ml-2">
-                                        <div class="font-medium">{{ truncate($female->full_name, 20) }}</div>
+                                        <div class="font-medium">{{ truncate_str($female->full_name, 20) }}</div>
                                         <div class="italic text-xs">{{ $female->city }}</div>
                                     </div>
                                 </div>

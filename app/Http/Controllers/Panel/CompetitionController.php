@@ -52,10 +52,12 @@ class CompetitionController extends Controller
             // Update
             $validator = Validator::make($request->all(), [
                 'name'     => 'required',
+                'competition_category_code'     => 'required',
             ]);
         } else {
             $validator = Validator::make($request->all(), [
                 'name'     => 'required',
+                'competition_category_code'     => 'required',
             ]);
         }
 
