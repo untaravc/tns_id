@@ -27,7 +27,12 @@ class MatchController extends Controller
             $match_type->setAttribute('matches', $own_matches);
         }
 
-        return $match_types;
+        $data['match_types'] = $match_types;
+        if($request->json == 1){
+            return $data;
+        }
+        $data['page_name'] = 'matches';
+        return view('front.matches.Index', $data);
     }
 
     public function matchPlayer(Request $request)
