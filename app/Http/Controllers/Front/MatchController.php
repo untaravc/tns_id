@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\MatchModel;
+use App\Models\Player;
 use Illuminate\Http\Request;
 
 class MatchController extends Controller
@@ -16,6 +17,7 @@ class MatchController extends Controller
 
         $matches = MatchModel::whereYear('date', $query['year'])
             ->whereMonth('date', $query['month'])
+            ->with('player_category', 'round_category', 'home_first_player', 'away_first_player', 'match_detail')
             ->get();
 
         $match_types = Category::where('type', 'match_type')
@@ -23,7 +25,6 @@ class MatchController extends Controller
 
         foreach ($match_types as $match_type) {
             $own_matches = $matches->where('match_type_category_id', $match_type->id)->flatten();
-
             $match_type->setAttribute('matches', $own_matches);
         }
 
@@ -35,18 +36,21 @@ class MatchController extends Controller
         return view('front.matches.Index', $data);
     }
 
-    public function matchPlayer(Request $request)
+    public function matchPlayer(Request $request, $player_id)
     {
         $query['year'] = $request->year ?? date('Y');
 
         $matches = MatchModel::whereYear('date', $query['year'])
-            ->where(function ($q) use ($request) {
-                $q->where('home_first_player_id', $request->player_id)
-                    ->orWhere('home_second_player_id', $request->player_id)
-                    ->orWhere('away_first_player_id', $request->player_id)
-                    ->orWhere('away_second_player_id', $request->player_id);
+            ->where(function ($q) use ($player_id) {
+                $q->where('home_first_player_id', $player_id)
+                    ->orWhere('home_second_player_id', $player_id)
+                    ->orWhere('away_first_player_id', $player_id)
+                    ->orWhere('away_second_player_id', $player_id);
             })->get();
 
-        return $matches;
+        $data['matches'] = $matches;
+        $data['player'] = Player::find($player_id);
+
+        return view('front.matches.Player', $data);
     }
 }

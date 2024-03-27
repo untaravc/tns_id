@@ -10,6 +10,7 @@ Route::get('/players', [HomeController::class, 'players']);
 Route::get('/players/{id}', [HomeController::class, 'player_show']);
 Route::get('/events', [HomeController::class, 'events']);
 Route::get('/matches', [MatchController::class, 'index']);
+Route::get('/matches/{player_id}', [MatchController::class, 'matchPlayer']);
 Route::get('/news', [HomeController::class, 'news']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
