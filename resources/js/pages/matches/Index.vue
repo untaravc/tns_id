@@ -88,39 +88,85 @@
                                             <td class="text-center">
                                                 <div>{{ data.home_first_player_name }}</div>
                                                 <div>{{ data.home_second_player_name }}</div>
-                                                <div v-if="data.match_detail">
+                                                <div v-if="data.match_detail && !data.match_detail.is_walkover">
                                                     <b class="h2">{{ data.home_final_score }}</b>
                                                     [
                                                     <span v-if="data.match_detail.first_home_points !== null">
-                                                        {{ data.match_detail.first_home_points }}</span>
+                                                        {{ data.match_detail.first_home_points }}
+                                                        <sup v-if="data.match_detail.is_first_tie_break">
+                                                            {{ data.match_detail.first_home_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.second_home_points !== null">,
-                                                        {{ data.match_detail.second_home_points }}</span>
+                                                        {{ data.match_detail.second_home_points }}
+                                                        <sup v-if="data.match_detail.is_second_tie_break">
+                                                            {{ data.match_detail.second_home_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.third_home_points !== null">,
-                                                        {{ data.match_detail.third_home_points }}</span>
+                                                        {{ data.match_detail.third_home_points }}
+                                                        <sup v-if="data.match_detail.is_third_tie_break">
+                                                            {{ data.match_detail.third_home_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.fourth_home_points !== null">,
-                                                        {{ data.match_detail.fourth_home_points }}</span>
+                                                        {{ data.match_detail.fourth_home_points }}
+                                                        <sup v-if="data.match_detail.is_fourth_tie_break">
+                                                            {{ data.match_detail.fourth_home_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.fifth_home_points !== null">,
-                                                        {{ data.match_detail.fifth_home_points }}</span>
+                                                        {{ data.match_detail.fifth_home_points }}
+                                                        <sup v-if="data.match_detail.is_fifth_tie_break">
+                                                            {{ data.match_detail.fifth_home_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     ]
+                                                </div>
+                                                <div v-if="data.match_detail && data.match_detail.is_walkover">
+                                                    <span v-if="data.match_detail.is_home_walkover">(WO)</span>
                                                 </div>
                                             </td>
                                             <td class="text-center">
                                                 <div>{{ data.away_first_player_name }}</div>
                                                 <div>{{ data.away_second_player_name }}</div>
-                                                <div v-if="data.match_detail">
+                                                <div v-if="data.match_detail && !data.match_detail.is_walkover">
                                                     <b class="h2">{{ data.away_final_score }}</b>
                                                     [
                                                     <span v-if="data.match_detail.first_away_points !== null">
-                                                        {{ data.match_detail.first_away_points }}</span>
+                                                        {{ data.match_detail.first_away_points }}
+                                                        <sup v-if="data.match_detail.is_first_tie_break">
+                                                            {{ data.match_detail.first_away_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.second_away_points !== null">,
-                                                        {{ data.match_detail.second_away_points }}</span>
+                                                        {{ data.match_detail.second_away_points }}
+                                                        <sup v-if="data.match_detail.is_second_tie_break">
+                                                            {{ data.match_detail.second_away_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.third_away_points !== null">,
-                                                        {{ data.match_detail.third_away_points }}</span>
+                                                        {{ data.match_detail.third_away_points }}
+                                                        <sup v-if="data.match_detail.is_third_tie_break">
+                                                            {{ data.match_detail.third_away_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.fourth_away_points !== null">,
-                                                        {{ data.match_detail.fourth_away_points }}</span>
+                                                        {{ data.match_detail.fourth_away_points }}
+                                                        <sup v-if="data.match_detail.is_fourth_tie_break">
+                                                            {{ data.match_detail.fourth_away_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     <span v-if="data.match_detail.fifth_away_points !== null">,
-                                                        {{ data.match_detail.fifth_away_points }}</span>
+                                                        {{ data.match_detail.fifth_away_points }}
+                                                        <sup v-if="data.match_detail.is_fifth_tie_break">
+                                                            {{ data.match_detail.fifth_away_tie_break_points }}
+                                                        </sup>
+                                                    </span>
                                                     ]
+                                                </div>
+                                                <div v-if="data.match_detail && data.match_detail.is_walkover">
+                                                    <span v-if="data.match_detail.is_away_walkover">(WO)</span>
                                                 </div>
                                             </td>
                                             <td class="text-end">

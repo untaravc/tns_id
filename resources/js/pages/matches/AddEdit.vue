@@ -301,22 +301,52 @@
                                             </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.third_home_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.third_home_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_third_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.third_home_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.fourth_home_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.fourth_home_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_fourth_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.fourth_home_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.fifth_home_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.fifth_home_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_fifth_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.fifth_home_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
                                             <div v-if="form.match_detail.is_walkover"
                                                 class="form-check form-check-sm form-check-custom justify-center">
-                                                <input class="form-check-input" type="checkbox"
-                                                    v-model="form.match_detail.is_home_walkover">
+                                                <input class="form-check-input" type="radio" name="wo-radio"
+                                                    value="home" v-model="form.match_detail.is_home_walkover">
                                             </div>
                                         </td>
                                         <td>
@@ -326,30 +356,80 @@
                                     <tr>
                                         <td class="font-bold">AWAY</td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.first_away_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.first_away_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_first_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.first_away_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.second_away_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.second_away_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_second_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.second_away_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.third_away_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.third_away_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_third_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.third_away_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.fourth_away_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.fourth_away_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_fourth_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.fourth_away_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.fifth_away_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.fifth_away_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_fifth_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.fifth_away_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
                                             <div v-if="form.match_detail.is_walkover"
                                                 class="form-check form-check-sm form-check-custom justify-center">
-                                                <input class="form-check-input" type="checkbox"
-                                                    v-model="form.match_detail.is_away_walkover">
+                                                <input class="form-check-input" type="radio" name="wo-radio"
+                                                    value="away" v-model="form.match_detail.is_away_walkover">
                                             </div>
                                         </td>
                                         <td>
@@ -489,12 +569,28 @@ export default {
                     form.status = data.result.status
                     if (data.result.match_detail !== null) {
                         form.match_detail = data.result.match_detail
+
+                        form.match_detail.is_first_tie_break = form.match_detail.is_first_tie_break === 1
+                        form.match_detail.is_second_tie_break = form.match_detail.is_second_tie_break === 1
+                        form.match_detail.is_third_tie_break = form.match_detail.is_third_tie_break === 1
+                        form.match_detail.is_fourth_tie_break = form.match_detail.is_fourth_tie_break === 1
+                        form.match_detail.is_fifth_tie_break = form.match_detail.is_fifth_tie_break === 1
+                        form.match_detail.is_walkover = form.match_detail.is_walkover === 1
+
+                        if (form.match_detail.is_walkover) {
+                            form.match_detail.is_home_walkover = form.match_detail.is_home_walkover ? 'home' : ''
+                            form.match_detail.is_away_walkover = form.match_detail.is_away_walkover ? 'away' : ''
+                        }
                     }
                 })
         }
 
         function createData(type) {
             form_props.is_loading = true
+            if (form.match_detail.is_walkover) {
+                form.match_detail.is_home_walkover = form.match_detail.is_home_walkover === 'home'
+                form.match_detail.is_away_walkover = form.match_detail.is_away_walkover === 'away'
+            }
             postData('matches', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
@@ -560,6 +656,10 @@ export default {
 
         function editData() {
             form_props.is_loading = true
+            if (form.match_detail.is_walkover) {
+                form.match_detail.is_home_walkover = form.match_detail.is_home_walkover === 'home'
+                form.match_detail.is_away_walkover = form.match_detail.is_away_walkover === 'away'
+            }
             patchData('matches/' + param_id, form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
@@ -699,5 +799,17 @@ export default {
     padding: 2px;
     max-width: 20px;
     text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 </style>
