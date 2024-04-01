@@ -41,8 +41,8 @@
                                     </div>
                                     <div class="mb-5">
                                         <label class="form-label">Babak</label>
-                                        <vue-select label="name" v-model="form.round_category_id" :reduce="name => name.id"
-                                            :options="form_props.rounds"></vue-select>
+                                        <vue-select label="name" v-model="form.round_category_id"
+                                            :reduce="name => name.id" :options="form_props.rounds"></vue-select>
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('round_category_id')">
                                             {{ getMessage('round_category_id') }}
@@ -59,8 +59,10 @@
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Tanggal</label>
-                                        <input type="date" class="form-control form-control-sm mb-2" v-model="form.date">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('date')">
+                                        <input type="date" class="form-control form-control-sm mb-2"
+                                            v-model="form.date">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('date')">
                                             {{ getMessage('date') }}
                                         </div>
                                     </div>
@@ -157,28 +159,28 @@
 
                         <div class="d-flex justify-content-end mb-3">
                             <router-link to="/admin/matches" class="btn btn-light me-2">Batal</router-link>
-                            <button v-if="!form_props.edit_mode"
-                                :disabled="form_props.is_loading" @click="createData(1)" class="btn btn-primary me-2">
+                            <button v-if="!form_props.edit_mode" :disabled="form_props.is_loading"
+                                @click="createData(1)" class="btn btn-primary me-2">
                                 <span v-if="!form_props.is_loading">Tambah</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
-                            <button v-if="!form_props.edit_mode"
-                                :disabled="form_props.is_loading" @click="createData(2)" class="btn btn-success me-2">
+                            <button v-if="!form_props.edit_mode" :disabled="form_props.is_loading"
+                                @click="createData(2)" class="btn btn-success me-2">
                                 <span v-if="!form_props.is_loading">Simpan, input lagi</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
-                            <button v-if="form_props.edit_mode"
-                                :disabled="form_props.is_loading" @click="editData" class="btn btn-primary me-2">
+                            <button v-if="form_props.edit_mode" :disabled="form_props.is_loading" @click="editData"
+                                class="btn btn-primary me-2">
                                 <span v-if="!form_props.is_loading">Simpan</span>
                                 <span v-if="form_props.is_loading">Please wait...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
-                            
+
                         </div>
                     </div>
                     <div class="col-12">
@@ -197,7 +199,47 @@
                                         <td>Set 3</td>
                                         <td>Set 4</td>
                                         <td>Set 5</td>
+                                        <td>Walkover</td>
                                         <td>Hasil</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold">Tie Break</td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_first_tie_break">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_second_tie_break">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_third_tie_break">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_fourth_tie_break">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_fifth_tie_break">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_walkover">
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="font-bold">
@@ -223,6 +265,7 @@
                                             <input type="number" class="form-control form-control-sm"
                                                 v-model="form.match_detail.fifth_time_minutes">
                                         </td>
+                                        <td></td>
                                         <td>
                                             {{ time_sum }}
                                         </td>
@@ -230,12 +273,32 @@
                                     <tr>
                                         <td class="font-bold">HOME</td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.first_home_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.first_home_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_first_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.first_home_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm"
-                                                v-model="form.match_detail.second_home_points">
+                                            <table class="w-full">
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <input type="number" class="form-control form-control-sm"
+                                                            v-model="form.match_detail.second_home_points">
+                                                    </td>
+                                                    <td v-if="form.match_detail.is_second_tie_break">
+                                                        <input type="number" class="form-control form-control-sm italic"
+                                                            v-model="form.match_detail.second_home_tie_break_points">
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control form-control-sm"
@@ -248,6 +311,13 @@
                                         <td>
                                             <input type="number" class="form-control form-control-sm"
                                                 v-model="form.match_detail.fifth_home_points">
+                                        </td>
+                                        <td>
+                                            <div v-if="form.match_detail.is_walkover"
+                                                class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_home_walkover">
+                                            </div>
                                         </td>
                                         <td>
                                             {{ home_final }}
@@ -274,6 +344,13 @@
                                         <td>
                                             <input type="number" class="form-control form-control-sm"
                                                 v-model="form.match_detail.fifth_away_points">
+                                        </td>
+                                        <td>
+                                            <div v-if="form.match_detail.is_walkover"
+                                                class="form-check form-check-sm form-check-custom justify-center">
+                                                <input class="form-check-input" type="checkbox"
+                                                    v-model="form.match_detail.is_away_walkover">
+                                            </div>
                                         </td>
                                         <td>
                                             {{ away_final }}
@@ -366,6 +443,24 @@ export default {
                 final_home_points: '',
                 final_away_points: '',
                 final_time_minutes: '',
+                is_walkover: '',
+                is_home_walkover: '',
+                is_away_walkover: '',
+                is_first_tie_break: '',
+                first_home_tie_break_points: '',
+                first_away_tie_break_points: '',
+                is_second_tie_break: '',
+                second_home_tie_break_points: '',
+                second_away_tie_break_points: '',
+                is_third_tie_break: '',
+                third_home_tie_break_points: '',
+                third_away_tie_break_points: '',
+                is_fourth_tie_break: '',
+                fourth_home_tie_break_points: '',
+                fourth_away_tie_break_points: '',
+                is_fifth_tie_break: '',
+                fifth_home_tie_break_points: '',
+                fifth_away_tie_break_points: '',
             }
         })
 
@@ -403,7 +498,7 @@ export default {
             postData('matches', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    if(type === 1){
+                    if (type === 1) {
                         router.push('/admin/matches')
                     } else {
                         Swal("Berhasil menambahkan data pertandingan.")
@@ -418,7 +513,7 @@ export default {
             })
         }
 
-        function resetPartial(){
+        function resetPartial() {
             form.home_first_player_id = ''
             form.home_second_player_id = ''
             form.away_first_player_id = ''
@@ -442,6 +537,24 @@ export default {
                 final_home_points: '',
                 final_away_points: '',
                 final_time_minutes: '',
+                is_walkover: '',
+                is_home_walkover: '',
+                is_away_walkover: '',
+                is_first_tie_break: '',
+                first_home_tie_break_points: '',
+                first_away_tie_break_points: '',
+                is_second_tie_break: '',
+                second_home_tie_break_points: '',
+                second_away_tie_break_points: '',
+                is_third_tie_break: '',
+                third_home_tie_break_points: '',
+                third_away_tie_break_points: '',
+                is_fourth_tie_break: '',
+                fourth_home_tie_break_points: '',
+                fourth_away_tie_break_points: '',
+                is_fifth_tie_break: '',
+                fifth_home_tie_break_points: '',
+                fifth_away_tie_break_points: '',
             }
         }
 
@@ -460,7 +573,7 @@ export default {
 
         function loadPlayerList(gender = null) {
             let params = {}
-            if(gender !== null){
+            if (gender !== null) {
                 params = {
                     gender: gender
                 }
@@ -510,11 +623,11 @@ export default {
         loadMatchTypeList()
 
         watch(() => _.cloneDeep(form.match_type_category_id), () => {
-            const type = form_props.match_types.find(item=>{
+            const type = form_props.match_types.find(item => {
                 return item.id == form.match_type_category_id
             })
 
-            if(type){
+            if (type) {
                 const arr = type.name.split(' ');
                 const number = arr[0] === 'Tunggal' ? 1 : 2;
                 const gender = arr[1] === 'Putra' ? 'M' : 'F'

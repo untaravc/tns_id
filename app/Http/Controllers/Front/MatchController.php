@@ -29,7 +29,7 @@ class MatchController extends Controller
         }
 
         $data['match_types'] = $match_types;
-        if($request->json == 1){
+        if ($request->json == 1) {
             return $data;
         }
         $data['page_name'] = 'matches';
@@ -50,7 +50,7 @@ class MatchController extends Controller
 
         $data['matches'] = $matches;
         $data['player'] = Player::find($player_id);
-
-        return view('front.matches.Player', $data);
+        $data['page_name'] = 'match_player';
+        return view('front.match_player.Index', $data);
     }
 }
