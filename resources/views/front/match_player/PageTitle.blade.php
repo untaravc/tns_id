@@ -7,22 +7,22 @@
             <div class="flex items-center mt-4">
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Kota Asal</div>
-                    <div class="font-bold text-xl text-slate-50">Yogyakarta</div>
-                </div>
-                <div class="border-r border-lime-400 h-8"></div>
-                <div class="py-1 px-4">
-                    <div class="text-sm text-slate-400">Jumlah Poin</div>
-                    <div class="font-bold text-xl text-slate-50">212</div>
-                </div>
-                <div class="border-r border-lime-400 h-8"></div>
-                <div class="py-1 px-4">
-                    <div class="text-sm text-slate-400">Posisi</div>
-                    <div class="font-bold text-xl text-slate-50">#1</div>
+                    <div class="font-bold text-xl text-slate-50">{{ $player->city }}</div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Kategori Pemain</div>
-                    <div class="font-bold text-xl text-slate-50">U12</div>
+                    <div class="font-bold text-xl text-slate-50">{{ $player->age }}</div>
+                </div>
+                <div class="border-r border-lime-400 h-8"></div>
+                <div class="py-1 px-4">
+                    <div class="text-sm text-slate-400">Posisi</div>
+                    <div class="font-bold text-xl text-slate-50">-</div>
+                </div>
+                <div class="border-r border-lime-400 h-8"></div>
+                <div class="py-1 px-4">
+                    <div class="text-sm text-slate-400">Jumlah Poin</div>
+                    <div class="font-bold text-xl text-slate-50">-</div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
             </div>

@@ -31,7 +31,10 @@
                                             {{ truncate_str($match->home_first_player->city_init) }}
                                         </div>
                                         <div class="font-medium" title="{{ $match->home_first_player->full_name }}">
-                                            {{ truncate_str($match->home_first_player->full_name) }}
+                                            <a
+                                                href="/matches/{{ $match->home_first_player->id }}-{{ str_to_link($match->home_first_player->full_name) }}">
+                                                {{ truncate_str($match->home_first_player->full_name) }}
+                                            </a>
                                         </div>
                                     @endif
                                 </td>
@@ -62,7 +65,10 @@
                                             {{ truncate_str($match->away_first_player->city_init) }}
                                         </div>
                                         <div class="font-medium" title="{{ $match->away_first_player->full_name }}">
-                                            {{ truncate_str($match->away_first_player->full_name) }}
+                                            <a
+                                                href="/matches/{{ $match->away_first_player->id }}-{{ str_to_link($match->away_first_player->full_name) }}">
+                                                {{ truncate_str($match->away_first_player->full_name) }}
+                                            </a>
                                         </div>
                                     @endif
                                 </td>
@@ -91,7 +97,7 @@
                     </div>
                 @endforeach
                 <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
-                    <a href="/">Selengkapnya</a>
+                    <a href="/matches">Selengkapnya</a>
                 </div>
             </div>
             <div class="md:col-span-2 md:row-span-3 md:h-auto h-64 col-span-4 row-span-1 relative">
