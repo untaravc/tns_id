@@ -10,12 +10,13 @@
             </div>
         </div>
         @foreach ($match_types as $match_type)
-            <div class="mb-6">
-                <div class="text-lg font-medium leading-4 border-l border-red-700 ps-2 mt-2 mb-3">
-                    {{ $match_type->name }}
-                </div>
-                <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
-                    @if (isset($match_type->matches))
+            @if (isset($match_type->matches))
+                @if(count($match_type->matches) > 0)
+                <div class="mb-6">
+                    <div class="text-lg font-medium leading-4 border-l border-red-700 ps-2 mt-2 mb-3">
+                        {{ $match_type->name }}
+                    </div>
+                    <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
                         @foreach ($match_type->matches as $match)
                             <div class="p-2 border rounded-md">
                                 <div class="pt-2 text-xs">
@@ -90,17 +91,21 @@
                                                                 {{ $match->match_detail->second_away_points }}
                                                             </span>
                                                         @endif
-                                                    @endif
+                                                    
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            @endif
                         @endforeach
-                    @endif
+                    </div>
                 </div>
-            </div>
+                
+                @endif
+                
+                @endif
         @endforeach
     </div>
 </div>

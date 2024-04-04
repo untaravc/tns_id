@@ -9,9 +9,11 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/players', [HomeController::class, 'players']);
 Route::get('/players/{id}', [HomeController::class, 'player_show']);
 Route::get('/events', [HomeController::class, 'events']);
+Route::get('/events/{id}', [HomeController::class, 'eventsShow']);
 Route::get('/matches', [MatchController::class, 'index']);
 Route::get('/matches/{player_id}', [MatchController::class, 'matchPlayer']);
 Route::get('/news', [HomeController::class, 'news']);
+Route::get('/posts/{id}', [HomeController::class, 'postShow']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
 

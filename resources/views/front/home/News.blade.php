@@ -101,6 +101,7 @@
                 </div>
             </div>
             <div class="md:col-span-2 md:row-span-3 md:h-auto h-64 col-span-4 row-span-1 relative">
+                <a href="/posts/{{$news_head->id}}-{{str_to_link($news_head->title)}}">
                 <div class="h-full bg-slate-50 bg-center bg-cover rounded-md"
                     style="background-image: url('{{ $news_head->image }}')">
                 </div>
@@ -108,8 +109,10 @@
                     <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
                     <div class="text-md text-slate-100">{!! truncate_str($news_head->body_content, 70) !!}</div>
                 </div>
+            </a>
             </div>
             @foreach ($news as $new)
+            <a href="/posts/{{$new->id}}-{{str_to_link($new->title)}}">
                 <div
                     class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
                     <div class="text-sm w-2/3">
@@ -122,6 +125,7 @@
                         style="background-image: url('{{ $new->image }}')">
                     </div>
                 </div>
+            </a>
             @endforeach
         </div>
         <div class="grid grid-cols-3 gap-2">
@@ -151,6 +155,7 @@
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
                     @foreach ($male_players as $male)
+                        <a href="/matches/{{$male->id}}-{{str_to_link($male->name)}}">
                         <div class="p-2 border-gray-200 border-b bg-white">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center">
@@ -165,6 +170,7 @@
                                 </div>
                             </div>
                         </div>
+                    </a>
                     @endforeach
                     <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
                         <a href="/">Selengkapnya</a>
@@ -176,6 +182,7 @@
                     Putri
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
+                    <a href="/matches/{{$male->id}}-{{str_to_link($male->name)}}">
                     @foreach ($female_players as $female)
                         <div class="p-2 border-gray-200 border-b bg-white">
                             <div class="flex justify-between items-center">
@@ -191,6 +198,7 @@
                                 </div>
                             </div>
                         </div>
+                    </a>
                     @endforeach
                     <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
                         <a href="/">Selengkapnya</a>

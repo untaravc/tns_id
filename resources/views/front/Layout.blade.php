@@ -28,11 +28,11 @@
         var sc_security = "69ffd98b";
     </script>
     <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript>
+    {{-- <noscript>
         <div class="statcounter"><a title="Web Analytics" href="https://statcounter.com/" target="_blank"><img
                     class="statcounter" src="https://c.statcounter.com/12978658/0/69ffd98b/1/" alt="Web Analytics"
                     referrerPolicy="no-referrer-when-downgrade"></a></div>
-    </noscript>
+    </noscript> --}}
     <!-- End of Statcounter Code -->
 </body>
 

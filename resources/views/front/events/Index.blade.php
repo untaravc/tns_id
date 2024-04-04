@@ -1,6 +1,6 @@
 @extends('front.Layout')
 
 @section('body')
-    @include('front.components.PageTitle', ['title' => 'Daftar Pemain'])
+    @include('front.events.PageTitle', ['title' => 'Turnamen'])
     @include('front.events.List')
 @endsection

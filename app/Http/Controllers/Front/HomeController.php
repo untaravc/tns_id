@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Competition;
 use App\Models\MatchModel;
 use App\Models\Player;
@@ -48,7 +49,41 @@ class HomeController extends Controller
     public function events()
     {
         $data['page_name'] = 'events';
+        $data['competitions'] = Competition::orderBy('date_start')->get();
         return view('front.events.Index', $data);
+    }
+
+    public function eventsShow($id, Request $request){
+        $id = explode('-',$id)[0];
+
+        $data['competition'] = Competition::find($id);
+        $rounds = Category::whereType('round')
+                ->get();
+
+        $data['match_type'] = Category::whereType('match_type')
+                ->get();
+
+        $data['page_name'] = $data['competition']['name'];
+
+        foreach($data['match_type'] as $match_type){
+            $match_type->setAttribute('rounds', $rounds);
+        }
+        
+        $matches = MatchModel::whereCompetitionId($id)
+            ->get();
+
+        foreach($data['match_type'] as $type){
+            foreach($type['rounds'] as $round){
+                $round->setAttribute('matches', $matches->where('match_type_category_id', $type->id)
+                    ->where('round_category_id', $round['id'])->flatten());
+            }
+        }
+
+        if($request->json == 1){
+            return $data;
+        }
+
+        return view('front.event_detail.Index', $data);
     }
 
     public function matches()
@@ -60,7 +95,21 @@ class HomeController extends Controller
     public function news()
     {
         $data['page_name'] = 'news';
-        return view('front.news.Index', $data);
+        $data['posts'] = Post::orderByDesc('created_at')->get();
+        return view('front.posts.Index', $data);
+    }
+
+    public function postShow($id){
+        $id = explode('-',$id)[0];
+
+        $data['post'] = Post::find($id);
+
+        $data['posts'] = Post::where('id','!=', $id)->orderByDesc('created_at')
+        ->limit(5)->get();
+        $data['page_name'] = 'post_detail';
+
+        return view('front.post_detail.Index', $data);
+
     }
 
     public function admin()
