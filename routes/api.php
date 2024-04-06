@@ -46,3 +46,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::patch('menu-role', [MenuController::class, 'menuRoleUpdate']);
 });
+
+Route::get('/update-player-category', [PlayerController::class, 'updatePlayerCategory']);

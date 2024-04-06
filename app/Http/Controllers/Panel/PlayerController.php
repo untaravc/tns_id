@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\MatchModel;
 use App\Models\Player;
 use App\Services\UploadFileService;
 use Illuminate\Http\Request;
@@ -123,5 +124,84 @@ class PlayerController extends Controller
             $data->delete();
         }
         return $this->response;
+    }
+
+    public function updatePlayerCategory(Request $request)
+    {
+        $query['year'] = $request->year ?? date('Y');
+        $query['month'] = $request->month ?? date('m');
+        $matches = MatchModel::whereYear('date', $query['year'])
+            ->whereMonth('date', $query['month'])
+            ->get();
+
+        $players = Player::get();
+
+        foreach ($matches as $match) {
+            $category_code = $match->player_category_code;
+
+            if ($match->home_first_player_id) {
+                $player = $players->where('id', $match->home_first_player_id)->first();
+                $this->processPlayerCategory($player, $category_code);
+            }
+            if ($match->home_second_player_id) {
+                $player = $players->where('id', $match->home_second_player_id)->first();
+                $this->processPlayerCategory($player, $category_code);
+            }
+            if ($match->away_first_player_id) {
+                $player = $players->where('id', $match->away_first_player_id)->first();
+                $this->processPlayerCategory($player, $category_code);
+            }
+            if ($match->away_second_player_id) {
+                $player = $players->where('id', $match->away_second_player_id)->first();
+                $this->processPlayerCategory($player, $category_code);
+            }
+            // return $category_code;
+
+        }
+
+        return "UPDATED";
+    }
+
+    private function processPlayerCategory(Player $player, $code)
+    {
+        $player_code = $player->player_category_code;
+
+        if ($player_code === null) {
+            $player->update([
+                'player_category_code' => $code,
+            ]);
+        } else if ($player_code === 'U10') {
+            if (!in_array($code, ['U10'])) {
+                $player->update([
+                    'player_category_code' => $code,
+                ]);
+            }
+        } else if ($player_code === 'U12') {
+            if (!in_array($code, ['U10', 'U12'])) {
+                $player->update([
+                    'player_category_code' => $code,
+                ]);
+            }
+        } else if ($player_code === 'U14') {
+            if (!in_array($code, ['U10', 'U12', 'U14'])) {
+                $player->update([
+                    'player_category_code' => $code,
+                ]);
+            }
+        } else if ($player_code === 'U16') {
+            if (!in_array($code, ['U10', 'U12', 'U14', 'U16'])) {
+                $player->update([
+                    'player_category_code' => $code,
+                ]);
+            }
+        } else if ($player_code === 'U18') {
+            if (!in_array($code, ['U10', 'U12', 'U14', 'U16', 'U18'])) {
+                $player->update([
+                    'player_category_code' => $code,
+                ]);
+            }
+        }
+
+        return 'updated';
     }
 }

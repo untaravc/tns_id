@@ -28,3 +28,5 @@ Route::get('/auth/{path}', [HomeController::class, 'auth'])
 Route::get('/admin', [HomeController::class, 'admin']);
 Route::get('/admin/{path}', [HomeController::class, 'admin'])
     ->where('path', '([A-z\d\-\/_.]+)?');
+
+
