@@ -19,8 +19,8 @@
                         & Klasemen</a>
                 </li>
                 <li>
-                    <a href="/events"
-                        class="block py-2 pl-3 pr-4 {{ $page_name == 'events' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0">Turnamen</a>
+                    <a href="/competitions"
+                        class="block py-2 pl-3 pr-4 {{ $page_name == 'competitions' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0">Turnamen</a>
                 </li>
                 <li>
                     <a href="/matches"

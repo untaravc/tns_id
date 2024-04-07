@@ -46,18 +46,19 @@ class HomeController extends Controller
         return view('front.players.Show', $data);
     }
 
-    public function events()
+    public function competitions()
     {
-        $data['page_name'] = 'events';
+        $data['page_name'] = 'competitions';
         $data['competitions'] = Competition::orderBy('date_start')->get();
-        return view('front.events.Index', $data);
+        return view('front.competitions.Index', $data);
     }
 
-    public function eventsShow($id, Request $request){
+    public function competitionsShow($id, Request $request){
         $id = explode('-',$id)[0];
 
         $data['competition'] = Competition::find($id);
         $rounds = Category::whereType('round')
+                ->orderByRaw("FIELD(code , 'F', 'SF', 'QF','R3','R2','R1') ASC")
                 ->get();
 
         $data['match_type'] = Category::whereType('match_type')
@@ -83,7 +84,7 @@ class HomeController extends Controller
             return $data;
         }
 
-        return view('front.event_detail.Index', $data);
+        return view('front.competition_detail.Index', $data);
     }
 
     public function matches()

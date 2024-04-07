@@ -2,7 +2,7 @@
     <div style="min-height: calc(100vh - 56px - 78px - 188px);" class="md:p-0 p-2">
         <div class="md:text-2xl tex-xl mb-2">
             @foreach($match_type as $type)
-                <div class="text-center border-b border-red-800 text-base font-bold">
+                <div class="text-center border-b border-red-800 text-lg text-blue-700 font-bold">
                     {{$type->name}}
                 </div>
                 @foreach($type['rounds'] as $round)
@@ -11,7 +11,6 @@
                             <div class="text-lg font-medium leading-4 border-l border-red-700 ps-2 mt-2 mb-3">
                                 {{$round['name']}}
                             </div>
-
                             <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
                                 @foreach ($round['matches'] as $match)
                                     <div class="p-2 border rounded-md">
