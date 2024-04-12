@@ -34,9 +34,16 @@ class HomeController extends Controller
         return view('front.home.Index', $data);
     }
 
-    public function players()
+    public function players(Request $request)
     {
         $data['page_name'] = 'players';
+        
+        $data['players'] = Player::when($request->gender, function($q) use ($request){
+            $q->where('gender', $request->gender);
+        })->when($request->category, function($q) use ($request){
+            $q->where('player_category_code', $request->category);
+        })->get();
+
         return view('front.players.Index', $data);
     }
 
@@ -50,6 +57,11 @@ class HomeController extends Controller
     {
         $data['page_name'] = 'competitions';
         $data['competitions'] = Competition::orderBy('date_start')->get();
+        foreach($data['competitions'] as $key => $competition){
+            $competition->setAttribute('image', '/assets/images/competition' . $key . '.jpeg');
+        }
+
+        // return $data;
         return view('front.competitions.Index', $data);
     }
 
