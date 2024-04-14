@@ -55,7 +55,7 @@ class HomeController extends Controller
             $q->where('gender', $query['gender']);
         })->when($query['player_category_code'], function ($q) use ($query) {
             $q->where('player_category_code', $query['player_category_code']);
-        })->get();
+        })->orderBy('full_name')->get();
 
         foreach ($data['players'] as $key => $player) {
             if ($player->gender == 'M') {
