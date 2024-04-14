@@ -22,7 +22,9 @@ class HomeController extends Controller
                 'round_category',
                 'match_type',
                 'home_first_player',
+                'home_second_player',
                 'away_first_player',
+                'away_second_player',
                 'match_detail'
             ])->limit(3)->get();
 
@@ -31,18 +33,41 @@ class HomeController extends Controller
         $data['competitions'] = Competition::orderByDesc('date_start')->limit(5)->get();
         $data['male_players'] = Player::whereGender('M')->limit(5)->get();
         $data['female_players'] = Player::whereGender('F')->limit(5)->get();
+
+        foreach ($data['competitions'] as $key => $competition) {
+            $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
+        }
+
         return view('front.home.Index', $data);
     }
 
     public function players(Request $request)
     {
         $data['page_name'] = 'players';
-        
-        $data['players'] = Player::when($request->gender, function($q) use ($request){
-            $q->where('gender', $request->gender);
-        })->when($request->category, function($q) use ($request){
-            $q->where('player_category_code', $request->category);
+        $data['page_bg'] = '/assets/images/players.png';
+
+        $query['gender'] = $request->gender ?? 'M';
+        $query['player_category_code'] = $request->player_category_code ?? 'U10';
+
+        $data['player_categories'] = Category::where('type', 'player')->get();
+
+        $data['players'] = Player::when($query['gender'], function ($q) use ($query) {
+            $q->where('gender', $query['gender']);
+        })->when($query['player_category_code'], function ($q) use ($query) {
+            $q->where('player_category_code', $query['player_category_code']);
         })->get();
+
+        foreach ($data['players'] as $key => $player) {
+            if ($player->gender == 'M') {
+                $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');
+            } else {
+                $player->setAttribute('image', '/assets/images/female' . ($key % 2) . '-t.png');
+            }
+        }
+
+        if ($request->json == 1) {
+            return $data;
+        }
 
         return view('front.players.Index', $data);
     }
@@ -53,76 +78,87 @@ class HomeController extends Controller
         return view('front.players.Show', $data);
     }
 
-    public function competitions()
+    public function competitions(Request $request)
     {
         $data['page_name'] = 'competitions';
         $data['competitions'] = Competition::orderBy('date_start')->get();
-        foreach($data['competitions'] as $key => $competition){
-            $competition->setAttribute('image', '/assets/images/competition' . $key . '.jpeg');
+        foreach ($data['competitions'] as $key => $competition) {
+            $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
         }
-
-        // return $data;
+        if ($request->json == 1) {
+            return $data;
+        }
         return view('front.competitions.Index', $data);
     }
 
-    public function competitionsShow($id, Request $request){
-        $id = explode('-',$id)[0];
+    public function competitionsShow($id, Request $request)
+    {
+        $id = explode('-', $id)[0];
 
         $data['competition'] = Competition::find($id);
-        $rounds = Category::whereType('round')
-                ->orderByRaw("FIELD(code , 'F', 'SF', 'QF','R3','R2','R1') ASC")
-                ->get();
 
-        $data['match_type'] = Category::whereType('match_type')
-                ->get();
-
-        $data['page_name'] = $data['competition']['name'];
-
-        foreach($data['match_type'] as $match_type){
-            $match_type->setAttribute('rounds', $rounds);
-        }
-        
         $matches = MatchModel::whereCompetitionId($id)
             ->get();
 
-        foreach($data['match_type'] as $type){
-            foreach($type['rounds'] as $round){
-                $round->setAttribute('matches', $matches->where('match_type_category_id', $type->id)
-                    ->where('round_category_id', $round['id'])->flatten());
-            }
+        $match_type_ids = $matches->unique('match_type_category_id')->pluck('match_type_category_id')->toArray();
+        $data['match_type'] = Category::whereType('match_type')
+            ->whereIn('id', $match_type_ids)
+            ->get();
+
+        $query['match_type_category_id'] = $request->match_type_category_id ?? ($match_type_ids[0] ?? null);
+
+        $player_category_codes = $matches->unique('player_category_code')->pluck('player_category_code')->toArray();
+
+        $data['player_categories'] = Category::whereIn('code', $player_category_codes)
+            ->get();
+
+        $query['player_category_code'] = $request->player_category_code ?? ($player_category_codes[0] ?? null);
+
+        $round_ids = $matches->unique('round_category_id')->pluck('round_category_id')->toArray();
+
+        $data['rounds'] = Category::whereType('round')
+            ->whereIn('id', $round_ids)
+            ->orderByRaw("FIELD(code , 'F', 'SF', 'QF','R3','R2','R1') ASC")
+            ->get();
+
+        $data['page_name'] = $data['competition']['name'];
+
+        $filtered_matches =  $matches->where('player_category_code', $query['player_category_code'])
+            ->where('match_type_category_id', $query['match_type_category_id']);
+
+        $data['match_count'] = 0;
+        foreach ($data['rounds'] as $round) {
+            $match_data = $filtered_matches->where('round_category_id', $round['id'])->flatten();
+            $round->setAttribute('matches', $match_data);
+            $data['match_count'] += count($match_data);
         }
 
-        if($request->json == 1){
+        if ($request->json == 1) {
             return $data;
         }
 
         return view('front.competition_detail.Index', $data);
     }
 
-    public function matches()
-    {
-        $data['page_name'] = 'matches';
-        return view('front.matches.Index', $data);
-    }
-
     public function news()
     {
         $data['page_name'] = 'news';
+        $data['page_bg'] = '/assets/images/news.png';
         $data['posts'] = Post::orderByDesc('created_at')->get();
         return view('front.posts.Index', $data);
     }
 
-    public function postShow($id){
-        $id = explode('-',$id)[0];
+    public function postShow($id)
+    {
+        $id = explode('-', $id)[0];
 
         $data['post'] = Post::find($id);
 
-        $data['posts'] = Post::where('id','!=', $id)->orderByDesc('created_at')
-        ->limit(5)->get();
+        $data['posts'] = Post::where('id', '!=', $id)->orderByDesc('created_at')
+            ->limit(5)->get();
         $data['page_name'] = 'post_detail';
 
         return view('front.post_detail.Index', $data);
-
     }
 
     public function admin()

@@ -1,23 +1,80 @@
 <div class="max-w-screen-lg mx-auto pt-4">
     <div style="min-height: calc(100vh - 56px - 78px - 188px);" class="md:p-0 p-2">
-        <div class="flex justify-between">
-            <div class="flex">
-                <a href="{{ request()->fullUrlWithQuery(['category' => '']) }}" class="rounded-md border border-blue-600 @if(request('category') == '') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Semua</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'U10']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'U10') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Under 10</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'U12']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'U12') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Under 12</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'U14']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'U14') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Under 14</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'U16']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'U16') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Under 16</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'U18']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'U18') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Under 18</a>
-                <a href="{{ request()->fullUrlWithQuery(['category' => 'SENIOR']) }}" class="rounded-md border border-blue-600 @if(request('category') == 'SENIOR') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Senior</a>
+        <form>
+            <div class="flex mb-3">
+                <div class="grow px-1">
+                    <label for="player_category_code"
+                        class="block mb-2 text-sm font-medium text-gray-900">Kategori</label>
+                    <select id="player_category_code" name="player_category_code"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <option value=""></option>
+                        @foreach ($player_categories as $category)
+                            <option value="{{ $category->code }}" @if (request('player_category_code') == $category->code) selected @endif>
+                                {{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="grow px-1">
+                    <label for="match_type_category_id"
+                        class="block mb-2 text-sm font-medium text-gray-900">Pemain</label>
+                    <select id="match_type_category_id" name="gender"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                        <option value=""></option>
+                        <option value="F" @if (request('gender') == 'F') selected @endif>Putri</option>
+                        <option value="M" @if (request('gender') == 'M') selected @endif>Putra</option>
+                    </select>
+                </div>
+                <div class="">
+                    <label class="block mb-2 text-sm font-medium text-transparent" for="">.</label>
+                    <button type="submit"
+                        class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Cari..</button>
+                </div>
             </div>
-            <div class="flex">
-                <a href="{{ request()->fullUrlWithQuery(['gender' => 'F']) }}" class="rounded-md border border-blue-600 @if(request('gender') == 'F') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Perempuan</a>
-                <a href="{{ request()->fullUrlWithQuery(['gender' => 'M']) }}" class="rounded-md border border-blue-600 @if(request('gender') == 'M') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Laki-laki</a>
-                <a href="{{ request()->fullUrlWithQuery(['gender' => '']) }}" class="rounded-md border border-blue-600 @if(request('gender') == '') bg-blue-800 text-white @else bg-blue-50 @endif px-2 py-1 mr-1 hover:cursor-pointer">Semua</a>
-            </div>
-        </div>
-        <div>            
-
+        </form>
+        <div>
+            <table class="w-full text-left text-sm">
+                <tr>
+                    <th class="px-3 border-b-2"></th>
+                    <th class="px-3 border-b-2">
+                        <b>Nama</b>
+                    </th>
+                    <th class="px-3 border-b-2">Kota</th>
+                    <th class="px-3 border-b-2">Kategori</th>
+                    <th class="px-3 border-b-2">Kelompok</th>
+                </tr>
+                @if (count($players) == 0)
+                    <tr>
+                        <td colspan="5" class="italic text-center text-slate-400 px-3 py-2 border-b">
+                            Tidak ada data
+                        </td>
+                    </tr>
+                @endif
+                @foreach ($players as $player)
+                    <tr>
+                        <td class="px-3 py-2 border-b">
+                            <div class="h-10 w-10 bg-top rounded-full border bg-contain"
+                                style="background-image: url('{{ $player->image }}')" alt="">
+                        </td>
+                        <td class="px-3 py-2 border-b">
+                            <a class="font-medium text-blue-900 hover:text-blue-600"
+                                href="/matches/{{ $player->id }}-{{ str_to_link($player->full_name) }}">
+                                {{ $player->full_name }}
+                            </a>
+                        </td>
+                        <td class="px-3 py-2 border-b">{{ $player->city }}</td>
+                        <td class="px-3 py-2 border-b">
+                            @if ($player->gender == 'M')
+                                Putra
+                            @else
+                                Putri
+                            @endif
+                        </td>
+                        <td class="px-3 py-2 border-b">
+                            {{ $player->player_category_code }}
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
         </div>
     </div>
 </div>

@@ -63,8 +63,18 @@ class MatchModel extends Model
         return $this->belongsTo(Player::class, 'home_first_player_id', 'id');
     }
 
+    public function home_second_player()
+    {
+        return $this->belongsTo(Player::class, 'home_second_player_id', 'id');
+    }
+
     public function away_first_player()
     {
         return $this->belongsTo(Player::class, 'away_first_player_id', 'id');
+    }
+
+    public function away_second_player()
+    {
+        return $this->belongsTo(Player::class, 'away_second_player_id', 'id');
     }
 }

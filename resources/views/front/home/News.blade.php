@@ -101,31 +101,31 @@
                 </div>
             </div>
             <div class="md:col-span-2 md:row-span-3 md:h-auto h-64 col-span-4 row-span-1 relative">
-                <a href="/posts/{{$news_head->id}}-{{str_to_link($news_head->title)}}">
-                <div class="h-full bg-slate-50 bg-center bg-cover rounded-md"
-                    style="background-image: url('{{ $news_head->image }}')">
-                </div>
-                <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
-                    <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
-                    <div class="text-md text-slate-100">{!! truncate_str($news_head->body_content, 70) !!}</div>
-                </div>
-            </a>
+                <a href="/posts/{{ $news_head->id }}-{{ str_to_link($news_head->title) }}">
+                    <div class="h-full bg-slate-50 bg-center bg-cover rounded-md"
+                        style="background-image: url('{{ $news_head->image }}')">
+                    </div>
+                    <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
+                        <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
+                        <div class="text-md text-slate-100">{!! truncate_str($news_head->body_content, 70) !!}</div>
+                    </div>
+                </a>
             </div>
             @foreach ($news as $new)
-            <a href="/posts/{{$new->id}}-{{str_to_link($new->title)}}">
-                <div
-                    class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
-                    <div class="text-sm w-2/3">
-                        {{ truncate_str($new->title, 60) }}
-                        <div class="text-xs italic text-slate-500">
-                            {{ date('d/m/y', strtotime($new->created_at)) }}
+                <a href="/posts/{{ $new->id }}-{{ str_to_link($new->title) }}">
+                    <div
+                        class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
+                        <div class="text-sm w-2/3">
+                            {{ truncate_str($new->title, 60) }}
+                            <div class="text-xs italic text-slate-500">
+                                {{ date('d/m/y', strtotime($new->created_at)) }}
+                            </div>
+                        </div>
+                        <div class="w-1/3 aspect-square bg-center bg-cover rounded-md"
+                            style="background-image: url('{{ $new->image }}')">
                         </div>
                     </div>
-                    <div class="w-1/3 aspect-square bg-center bg-cover rounded-md"
-                        style="background-image: url('{{ $new->image }}')">
-                    </div>
-                </div>
-            </a>
+                </a>
             @endforeach
         </div>
         <div class="grid grid-cols-3 gap-2">
@@ -135,17 +135,19 @@
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
                     @foreach ($competitions as $competition)
-                        <div class="flex p-2">
-                            <div class="w-1/6 aspect-square bg-center bg-cover rounded-md"
-                                style="background-image: url('/assets/images/tenis.jpeg')">
-                            </div>
-                            <div class="ps-3">
-                                <div>{{ $competition->name }}</div>
-                                <div class="text-xs">{{ $competition->address }},
-                                    {{ date('d M Y', strtotime($competition->date_start)) }}
+                        <a href="/competitions/{{ $competition->id }}-{{ str_to_link($competition->name) }}">
+                            <div class="flex p-2">
+                                <div class="w-1/6 aspect-square bg-center bg-cover rounded-md"
+                                    style="background-image: url('{{ $competition->image }}')">
+                                </div>
+                                <div class="ps-3">
+                                    <div>{{ $competition->name }}</div>
+                                    <div class="text-xs">{{ $competition->address }},
+                                        {{ date('d M Y', strtotime($competition->date_start)) }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -155,25 +157,26 @@
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
                     @foreach ($male_players as $male)
-                        <a href="/matches/{{$male->id}}-{{str_to_link($male->name)}}">
-                        <div class="p-2 border-gray-200 border-b bg-white">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center">
-                                    <img class="rounded-full w-9 h-9" alt="pic" src="/assets/logo/icon-male.jpg">
-                                    <div class="ml-2">
-                                        <div class="font-medium">{{ truncate_str($male->full_name, 20) }}</div>
-                                        <div class="italic text-xs">{{ $male->city }}</div>
+                        <a href="/matches/{{ $male->id }}-{{ str_to_link($male->name) }}">
+                            <div class="p-2 border-gray-200 border-b bg-white">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <img class="rounded-full w-9 h-9" alt="pic"
+                                            src="/assets/logo/icon-male.jpg">
+                                        <div class="ml-2">
+                                            <div class="font-medium">{{ truncate_str($male->full_name, 20) }}</div>
+                                            <div class="italic text-xs">{{ $male->city }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="italic">
+                                        <span class="font-bold">0 </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>
-                                <div class="italic">
-                                    <span class="font-bold">0 </span><span class="text-xm">pts</span>
-                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     @endforeach
                     <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
-                        <a href="/">Selengkapnya</a>
+                        <a href="/players?gender=M">Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -182,26 +185,27 @@
                     Putri
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
-                    <a href="/matches/{{$male->id}}-{{str_to_link($male->name)}}">
                     @foreach ($female_players as $female)
-                        <div class="p-2 border-gray-200 border-b bg-white">
-                            <div class="flex justify-between items-center">
-                                <div class="flex items-center">
-                                    <img class="rounded-full w-9 h-9" alt="pic" src="/assets/logo/icon-female.jpg">
-                                    <div class="ml-2">
-                                        <div class="font-medium">{{ truncate_str($female->full_name, 20) }}</div>
-                                        <div class="italic text-xs">{{ $female->city }}</div>
+                        <a href="/matches/{{ $female->id }}-{{ str_to_link($female->name) }}">
+                            <div class="p-2 border-gray-200 border-b bg-white">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <img class="rounded-full w-9 h-9" alt="pic"
+                                            src="/assets/logo/icon-female.jpg">
+                                        <div class="ml-2">
+                                            <div class="font-medium">{{ truncate_str($female->full_name, 20) }}</div>
+                                            <div class="italic text-xs">{{ $female->city }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="italic">
+                                        <span class="font-bold">0 </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>
-                                <div class="italic">
-                                    <span class="font-bold">0 </span><span class="text-xm">pts</span>
-                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     @endforeach
                     <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
-                        <a href="/">Selengkapnya</a>
+                        <a href="/players?gender=F">Selengkapnya</a>
                     </div>
                 </div>
             </div>

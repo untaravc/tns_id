@@ -11,12 +11,11 @@
                 <li>
                     <a href="/"
                         class="block py-2 pl-3 pr-4 {{ $page_name == 'home' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0"
-                        aria-current="page">Home</a>
+                        aria-current="page">Beranda</a>
                 </li>
                 <li>
                     <a href="/players"
-                        class="block py-2 pl-3 pr-4 {{ $page_name == 'players' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0">Pemain
-                        & Klasemen</a>
+                        class="block py-2 pl-3 pr-4 {{ $page_name == 'players' ? 'text-blue-600' : 'text-gray-700' }} border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0">Pemain</a>
                 </li>
                 <li>
                     <a href="/competitions"

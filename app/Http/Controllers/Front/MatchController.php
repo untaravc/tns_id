@@ -13,6 +13,7 @@ class MatchController extends Controller
 {
     public function index(Request $request)
     {
+        $data['page_bg'] = '/assets/images/matches.jpg';
         $match_new = MatchModel::orderByDesc('date')->first();
         $query['date'] = $request->date ?? $match_new->date;
         if ($request->act === 'next') {
