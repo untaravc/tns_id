@@ -4,11 +4,22 @@
             <div class="px-2 py-1 rounded hover:bg-gray-300 border cursor-pointer">
                 <a href="/matches?date={{ $query['date'] }}&act=prev">Prev</a>
             </div>
-            <div class="text-sm font-medium border-b border-red-400">{{ date('d M Y', strtotime($query['date'])) }}</div>
+            <div class="text-sm font-medium border-b border-red-400">
+                <form action="">
+                    <input type="date" name="date" value="{{ date('Y-m-d', strtotime($query['date'])) }}"
+                        onchange="this.form.submit()">
+                    <button type="submit"></button>
+                </form>
+            </div>
             <div class="px-2 py-1 rounded hover:bg-gray-300 border cursor-pointer">
                 <a href="/matches?date={{ $query['date'] }}&act=next"> Next </a>
             </div>
         </div>
+        @if ($match_count == 0)
+            <div class="text-center italic text-gray-500">
+                Tidak ada pertandingan
+            </div>
+        @endif
         @foreach ($match_types as $match_type)
             @if (isset($match_type->matches))
                 @if (count($match_type->matches) > 0)

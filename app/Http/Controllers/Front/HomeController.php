@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $data['page_name'] = 'home';
-        $data['matches'] = MatchModel::orderByDesc('id')
+        $data['matches'] = MatchModel::orderByDesc('date')
             ->with([
                 'competition',
                 'round_category',
@@ -28,11 +28,21 @@ class HomeController extends Controller
                 'match_detail'
             ])->limit(3)->get();
 
+        $exist_matches = MatchModel::groupBy('competition_id')->get()->pluck('competition_id')->toArray();
+
         $data['news_head'] = Post::orderByDesc('id')->first();
         $data['news'] = Post::orderByDesc('id')->skip(1)->limit(3)->get();
-        $data['competitions'] = Competition::orderByDesc('date_start')->limit(5)->get();
-        $data['male_players'] = Player::whereGender('M')->limit(5)->get();
-        $data['female_players'] = Player::whereGender('F')->limit(5)->get();
+        $data['competitions'] = Competition::orderByDesc('date_start')->whereIn('id', $exist_matches)->limit(5)->get();
+        $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+
+        foreach ($data['male_players'] as $key => $player) {
+            $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');
+        }
+
+        foreach ($data['female_players'] as $key => $player) {
+            $player->setAttribute('image', '/assets/images/female' . ($key % 2) . '-t.png');
+        }
 
         foreach ($data['competitions'] as $key => $competition) {
             $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');

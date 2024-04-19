@@ -7,29 +7,32 @@
             <div class="flex items-center mt-4">
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Kota</div>
-                    <div class="font-bold text-xl text-slate-50"> {{ $competition->address }} </div>
+                    <div class="font-bold md:text-xl text-sm text-slate-50"> {{ $competition->address }} </div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Kategori</div>
-                    <div class="font-bold text-xl text-slate-50"> {{ $competition->competition_category_code }} </div>
+                    <div class="font-bold md:text-xl text-sm text-slate-50">
+                        {{ $competition->competition_category_code }} </div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Tanggal</div>
-                    <div class="font-bold text-xl text-slate-50">
+                    <div class="font-bold md:text-xl text-sm text-slate-50">
                         @if (date('M', strtotime($competition->date_start)) == date('M', strtotime($competition->date_start)))
                             {{ date('j', strtotime($competition->date_start)) }}
                         @else
                             {{ date('j M', strtotime($competition->date_start)) }}
                         @endif
-                        - {{ date('j M Y', strtotime($competition->date_end)) }}
+                        - {{ date('j M', strtotime($competition->date_end)) }}
+                        <span
+                            class="md:inline-block hidden ml-1">{{ date(' Y', strtotime($competition->date_end)) }}</span>
                     </div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
                 <div class="py-1 px-4">
                     <div class="text-sm text-slate-400">Pertandingan</div>
-                    <div class="font-bold text-xl text-slate-50">-</div>
+                    <div class="font-bold md:text-xl text-sm text-slate-50">-</div>
                 </div>
                 <div class="border-r border-lime-400 h-8"></div>
             </div>

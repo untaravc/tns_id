@@ -28,18 +28,21 @@ class MatchController extends Controller
 
         $match_types = Category::where('type', 'match_type')
             ->get();
-
+        $match_count = 0;
         foreach ($match_types as $match_type) {
             $own_matches = $matches->where('match_type_category_id', $match_type->id)->flatten();
             $match_type->setAttribute('matches', $own_matches);
+            $match_count += count($own_matches);
         }
 
         $data['match_types'] = $match_types;
+        $data['page_name'] = 'matches';
+        $data['match_count'] = $match_count;
+
         $data['query'] = $query;
         if ($request->json == 1) {
             return $data;
         }
-        $data['page_name'] = 'matches';
         return view('front.matches.Index', $data);
     }
 

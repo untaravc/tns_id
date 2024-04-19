@@ -2,13 +2,28 @@
     <div class="pt-0 text-sm">
         <div class="flex mb-2">
             <div class="grow"></div>
-            <div class="bg-blue-500 px-3 rounded-br-md rounded-bl-md">
-                @if (isset($match->match_type))
-                    <span class="text-white font-medium text-xs">{{ $match->match_type->name }}</span>
-                @else
-                    <span class="text-transparent">.</span>
-                @endif
-            </div>
+            @if (isset($match->match_type))
+                <div
+                    class="
+                    @switch($match->match_type->name)
+                        @case('Tunggal Putra')
+                        bg-blue-500
+                        @break 
+                        @case('Tunggal Putri')
+                        bg-fuchsia-500
+                        @break 
+                        @case('Ganda Putra')
+                        bg-cyan-500
+                        @break 
+                        @default
+                        bg-pink-500
+                    @endswitch 
+                    px-3 rounded-br-md rounded-bl-md">
+                    <span class="text-white font-medium text-xs">
+                        {{ $match->match_type->name }}
+                    </span>
+                </div>
+            @endif
             <div class="grow"></div>
         </div>
 
@@ -16,11 +31,25 @@
             <div class="font-medium">
                 {{ $match->competition_name }}
             </div>
-            <div class="font-medium text-green-500">
-                @if (isset($match->round_category))
+            @if (isset($match->round_category))
+                <div
+                    class="font-medium  
+            @switch($match->round_category->name)
+                @case('Final')
+                text-emerald-900
+                @break 
+                @case('Semi FInal')
+                text-emerald-700
+                @break 
+                @case('Quarter Final')
+                text-emerald-500
+                @break 
+                @default
+                text-emerald-400
+            @endswitch ">
                     {{ $match->round_category->name }}
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
         <table class="w-full">
             <tbody>
@@ -44,18 +73,27 @@
                               @else class="flex" @endif>
                                 @if (isset($match->match_detail))
                                     @if ($match->match_detail->first_home_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-7 text-center grow">
                                             {{ $match->match_detail->first_home_points }}
+                                            @if ($match->match_detail->is_first_tie_break)
+                                                <sup>{{ $match->match_detail->first_home_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                     @if ($match->match_detail->second_home_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-7 text-center grow">
                                             {{ $match->match_detail->second_home_points }}
+                                            @if ($match->match_detail->is_second_tie_break)
+                                                <sup>{{ $match->match_detail->second_home_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                     @if ($match->match_detail->third_home_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-7 text-center grow">
                                             {{ $match->match_detail->third_home_points }}
+                                            @if ($match->match_detail->is_third_tie_break)
+                                                <sup>{{ $match->match_detail->third_home_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                 @endif
@@ -101,18 +139,27 @@
                               @else class="flex" @endif>
                                 @if (isset($match->match_detail))
                                     @if ($match->match_detail->first_away_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-6 text-center grow">
                                             {{ $match->match_detail->first_away_points }}
+                                            @if ($match->match_detail->is_first_tie_break)
+                                                <sup>{{ $match->match_detail->first_away_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                     @if ($match->match_detail->second_away_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-6 text-center grow">
                                             {{ $match->match_detail->second_away_points }}
+                                            @if ($match->match_detail->is_second_tie_break)
+                                                <sup>{{ $match->match_detail->second_away_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                     @if ($match->match_detail->third_away_points !== null)
-                                        <div class="w-4 grow">
+                                        <div class="w-7 text-center grow">
                                             {{ $match->match_detail->third_away_points }}
+                                            @if ($match->match_detail->is_third_tie_break)
+                                                <sup>{{ $match->match_detail->third_away_tie_break_points }}</sup>
+                                            @endif
                                         </div>
                                     @endif
                                 @endif

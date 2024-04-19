@@ -1,7 +1,7 @@
 <div class="max-w-screen-lg mx-auto pt-4">
     <div style="min-height: calc(100vh - 56px - 78px);" class="md:p-0 p-2">
         @foreach ($competitions as $competition)
-            <div class="mb-6">
+            <div class="mb-10">
                 <div class="text-lg font-medium leading-4 border-l border-red-700 ps-2 mt-2 mb-3">
                     {{ $competition->name }}
                 </div>
@@ -12,6 +12,7 @@
                         @endforeach
                     @endif
                 </div>
+            </div>
         @endforeach
     </div>
 </div>
