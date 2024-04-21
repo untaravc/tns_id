@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @if (ENV('APP_ENV') == 'local')
+    @if (ENV('APP_ENV') != 'local')
         @include('front.components.StyleVersion')
     @else
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
