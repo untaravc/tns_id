@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = Post::orderByDesc('created_at')->with('category');
+        $dataContent = Post::orderByDesc('created_at')->with(['category', 'resource']);
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 

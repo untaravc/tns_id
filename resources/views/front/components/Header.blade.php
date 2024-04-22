@@ -1,10 +1,11 @@
 <nav class="bg-white border-gray-200 px-2 md:px-4 py-2.5 dark:bg-gray-900 shadow mb-2">
     <div class="flex flex-wrap items-center justify-between max-w-screen-lg mx-auto">
         <a href="/" class="flex items-center">
-            <img src="/assets/logo/logo-tenis-demo.png" class="h-6 mr-3 sm:h-9" alt="Logo" />
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            <img src="/assets/logo/tenisindo_icon.png" class="h-6 mr-3 sm:h-9" alt="Tenis Indo" />
+            <img src="/assets/logo/tenisindo_txt.png" class="h-6 mr-3 sm:h-9" alt="Tenis Indo" />
+            {{-- <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 <span class="text-blue-600">Tenis</span><span class="text-red-600">Indo</span>
-            </span>
+            </span> --}}
         </a>
         <div id="mega-menu" class="items-center justify-between hidden w-full text-sm md:flex md:w-auto md:order-1">
             <ul class="flex flex-col font-medium md:flex-row md:space-x-8 md:mt-0">

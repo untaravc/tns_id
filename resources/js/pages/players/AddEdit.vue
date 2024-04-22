@@ -23,7 +23,8 @@
                                         <option value="1">Aktif</option>
                                         <option value="0">Non Aktif</option>
                                     </select>
-                                    <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                        v-if="getStatus('status')">
                                         {{ getMessage('status') }}
                                     </div>
                                 </div>
@@ -38,8 +39,10 @@
                                                 @change="uploadProof($event)" />
                                         </div>
                                     </div>
-                                    <div class="p-2">
+                                    <div class="p-2" v-if="form.image">
                                         <img :src="form.image" style="width: 100%; height: auto" alt="">
+                                        <div class="text-sm text-red-700 cursor-pointer" @click="removeImg()">
+                                            <u>Hapus</u></div>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +112,8 @@
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Kota</label>
                                         <input type="text" class="form-control mb-2" v-model="form.city">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('city')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('city')">
                                             {{ getMessage('city') }}
                                         </div>
                                     </div>
@@ -276,6 +280,12 @@ export default {
 
         loadPlayerList()
 
+        function removeImg() {
+            if (confirm('Hapus foto?')) {
+                form.image = null
+            }
+        }
+
         return {
             breadcrumb_list,
             title,
@@ -286,6 +296,7 @@ export default {
             getStatus,
             getMessage,
             editData,
+            removeImg,
             uploadProof
         }
     }

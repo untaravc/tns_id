@@ -9,7 +9,7 @@
     @else
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @endif
-    <link rel="icon" type="image/x-icon" href="/assets/logo/logo-tenis-demo.png">
+    <link rel="icon" type="image/x-icon" href="/assets/logo/tenisindo_icon.png">
     <meta name="description"
         content="Situs web tentang tenis, turnamen, pemain, dan klasemen tenis di Indonesia dan dunia.">
     <meta name="keywords"

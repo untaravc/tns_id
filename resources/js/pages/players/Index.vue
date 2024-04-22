@@ -74,12 +74,14 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                            (response.data_content.current_page - 1) + d + 1 }}
+                                                    (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td style="width: 80px;">
-                                                <div v-if="data.image" class="bg-thumbnail"
-                                                    :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
-                                                </div>
+                                                <a :href="data.image" v-if="data.image" target="_blank">
+                                                    <div v-if="data.image" class="bg-thumbnail"
+                                                        :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                    </div>
+                                                </a>
                                             </td>
                                             <td>
                                                 <b>{{ data.full_name }}</b>

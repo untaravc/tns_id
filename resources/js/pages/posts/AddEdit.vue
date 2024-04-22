@@ -23,8 +23,20 @@
                                         <option value="1">Aktif</option>
                                         <option value="0">Non Aktif</option>
                                     </select>
-                                    <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                        v-if="getStatus('status')">
                                         {{ getMessage('status') }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Redirect</label>
+                                    <select class="form-select mb-2" v-model="form.is_affiliate">
+                                        <option value="1">Ya</option>
+                                        <option value="0">Tidak</option>
+                                    </select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                        v-if="getStatus('is_affiliate')">
+                                        {{ getMessage('is_affiliate') }}
                                     </div>
                                 </div>
                                 <div>
@@ -38,8 +50,19 @@
                                                 @change="uploadProof($event)" />
                                         </div>
                                     </div>
+                                    <div class="p-2" v-if="form.image">
+                                        <img :src="form.image" style="width: 100%; height: auto" :alt="form.image">
+                                        <div class="text-sm text-red-700 cursor-pointer" @click="removeImg()">
+                                            <u>Hapus</u>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="form.is_affiliate">
+                                    <label>Link Gambar</label>
+                                    <textarea v-model="form.image_url" class="form-control" rows="3"></textarea>
                                     <div class="p-2">
-                                        <img :src="form.image" style="width: 100%; height: auto" alt="">
+                                        <img :src="form.image_url" style="width: 100%; height: auto"
+                                            :alt="form.image_url">
                                     </div>
                                 </div>
                             </div>
@@ -64,22 +87,52 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <ckeditor :editor="editor" v-model="form.body_content" :config="editor_data.config">
+                                        <ckeditor :editor="editor" v-model="form.body_content"
+                                            :config="editor_data.config">
                                         </ckeditor>
                                         <div class="fv-plugins-message-container invalid-feedback"
                                             v-if="getStatus('body_content')">
                                             {{ getMessage('body_content') }}
                                         </div>
                                     </div>
-                                    <div class="mb-5">
-                                        <label class="form-label">Kategori</label>
-                                        <vue-select label="name" v-model="form.category_id" :reduce="name => name.id"
-                                            :options="form_props.categories"></vue-select>
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                            v-if="getStatus('category_id')">
-                                            {{ getMessage('category_id') }}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-5">
+                                                <label class="form-label">Kategori</label>
+                                                <vue-select label="name" v-model="form.category_id"
+                                                    :reduce="name => name.id"
+                                                    :options="form_props.categories"></vue-select>
+                                                <div class="fv-plugins-message-container invalid-feedback"
+                                                    v-if="getStatus('category_id')">
+                                                    {{ getMessage('category_id') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" v-if="form.is_affiliate">
+                                            <div class="mb-5">
+                                                <label class="form-label">Afiliasi</label>
+                                                <vue-select label="name" v-model="form.resource_id"
+                                                    :reduce="name => name.id"
+                                                    :options="form_props.news_affiliates"></vue-select>
+                                                <div class="fv-plugins-message-container invalid-feedback"
+                                                    v-if="getStatus('resource_id')">
+                                                    {{ getMessage('resource_id') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" v-if="form.is_affiliate">
+                                            <div class="mb-5">
+                                                <label class="form-label">Link Afiliasi</label>
+                                                <input type="text" class="form-control mb-2"
+                                                    v-model="form.resource_url">
+                                                <div class="fv-plugins-message-container invalid-feedback"
+                                                    v-if="getStatus('resource_url')">
+                                                    {{ getMessage('resource_url') }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -132,6 +185,7 @@ export default {
             errors: [],
             edit_mode: false,
             categories: [],
+            news_affiliates: [],
             image_url: '',
             image_loader: false,
         })
@@ -151,6 +205,9 @@ export default {
             category_id: '',
             status: 1,
             user_id: '',
+            is_affiliate: '',
+            resource_id: '',
+            image_url: '',
         })
 
         if (form_props.edit_mode) {
@@ -164,6 +221,9 @@ export default {
                     form.category_id = data.result.category_id
                     form.status = data.result.status
                     form.user_id = data.result.user_id
+                    form.is_affiliate = data.result.is_affiliate
+                    form.resource_id = data.result.resource_id
+                    form.image_url = data.result.image_url
                 })
         }
 
@@ -234,7 +294,21 @@ export default {
                 })
         }
 
+        function loadAffiliateList() {
+            getData('categories-list', { type: 'news_affiliate' })
+                .then((data) => {
+                    form_props.news_affiliates = data.result
+                })
+        }
+
+        loadAffiliateList()
         loadCategoryList()
+
+        function removeImg() {
+            if (confirm('Hapus foto?')) {
+                form.image = null
+            }
+        }
 
         return {
             breadcrumb_list,
@@ -248,6 +322,7 @@ export default {
             getStatus,
             getMessage,
             editData,
+            removeImg,
             uploadProof
         }
     }

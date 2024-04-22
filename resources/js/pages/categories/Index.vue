@@ -34,6 +34,7 @@
                                 <option value="player">Player</option>
                                 <option value="round">Round</option>
                                 <option value="match_type">Match Type</option>
+                                <option value="news_affiliate">News Affiliate</option>
                             </select>
                         </div>
                     </div>
@@ -46,6 +47,7 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th></th>
                                             <th>Tipe</th>
                                             <th>Nama</th>
                                             <th>Kode</th>
@@ -60,7 +62,14 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                                                                                                (response.data_content.current_page - 1) + d + 1 }}
+                                                    (response.data_content.current_page - 1) + d + 1 }}
+                                            </td>
+                                            <td style="width: 80px;">
+                                                <a :href="data.image" v-if="data.image" target="_blank">
+                                                    <div class="bg-thumbnail"
+                                                        :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                    </div>
+                                                </a>
                                             </td>
                                             <td>{{ data.type }}</td>
                                             <td>

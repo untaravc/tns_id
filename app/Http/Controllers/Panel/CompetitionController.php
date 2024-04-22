@@ -11,7 +11,7 @@ class CompetitionController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = Competition::orderByDesc('created_at');
+        $dataContent = Competition::orderByDesc('date_start');
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 

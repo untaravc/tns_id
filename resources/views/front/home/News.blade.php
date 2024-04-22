@@ -101,9 +101,12 @@
                 </div>
             </div>
             <div class="md:col-span-2 md:row-span-3 md:h-auto h-64 col-span-4 row-span-1 relative">
-                <a href="/posts/{{ $news_head->id }}-{{ str_to_link($news_head->title) }}">
+                <a
+                    @if ($news_head->is_affiliate) href="{{ $news_head->resource_url }}" @else href="/posts/{{ $news_head->id }}-{{ str_to_link($news_head->title) }}" @endif>
                     <div class="h-full bg-slate-50 bg-center bg-cover rounded-md"
-                        style="background-image: url('{{ $news_head->image }}')">
+                        style="background-image: url('@if ($news_head->image) {{ $news_head->image }}
+@else
+{{ $news_head->image_url }} @endif')">
                     </div>
                     <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
                         <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
@@ -115,8 +118,8 @@
                 <div
                     class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
                     <div class="text-sm w-2/3">
-                        <a href="/posts/{{ $new->id }}-{{ str_to_link($new->title) }}">
-
+                        <a
+                            @if ($new->is_affiliate) href="{{ $new->resource_url }}" @else href="/posts/{{ $new->id }}-{{ str_to_link($new->title) }}" @endif>
                             {{ truncate_str($new->title, 60) }}
                             <div class="text-xs italic text-slate-500">
                                 {{ date('d/m/y', strtotime($new->created_at)) }}
@@ -124,7 +127,9 @@
                         </a>
                     </div>
                     <div class="w-1/3 aspect-square bg-center bg-cover rounded-md"
-                        style="background-image: url('{{ $new->image }}')">
+                        style="background-image: url('@if ($new->image) {{ $new->image }}
+                        @else
+                        {{ $new->image_url }} @endif')">
                     </div>
                 </div>
             @endforeach

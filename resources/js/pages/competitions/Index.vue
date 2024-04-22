@@ -18,7 +18,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
+                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
+                        data-select2-id="select2-data-124-lq0k">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
@@ -41,6 +42,7 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th></th>
                                             <th>Nama</th>
                                             <th>Kota</th>
                                             <th>Tanggal</th>
@@ -57,6 +59,13 @@
                                                 {{ response.data_content.per_page *
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
+                                            <td style="width: 80px;">
+                                                <a :href="data.image" v-if="data.image" target="_blank">
+                                                    <div class="bg-thumbnail"
+                                                        :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                    </div>
+                                                </a>
+                                            </td>
                                             <td>
                                                 {{ data.name }}
                                                 <br>
@@ -67,7 +76,8 @@
                                             </td>
                                             <td>
                                                 <div>{{ $filter.formatDate(data.date_start) }}</div>
-                                                <div v-if="data.date_end">s/d {{ $filter.formatDate(data.date_end) }}</div>
+                                                <div v-if="data.date_end">s/d {{ $filter.formatDate(data.date_end) }}
+                                                </div>
                                             </td>
                                             <td>
                                                 <StatusDefault :status="data.status" />

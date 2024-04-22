@@ -18,7 +18,8 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
+                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
+                        data-select2-id="select2-data-124-lq0k">
                         <div class="card-title">
                             <div class="d-flex align-items-center position-relative my-1">
                                 <span class="svg-icon svg-icon-1 position-absolute ms-4">
@@ -61,8 +62,14 @@
                                                 <div v-if="data.image" class="bg-thumbnail"
                                                     :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
                                                 </div>
+                                                <div v-if="data.image_url" class="bg-thumbnail"
+                                                    :style="'width: 50px; height: 50px;background: url(' + data.image_url + ');'">
+                                                </div>
                                             </td>
                                             <td>
+                                                <div v-if="data.resource">
+                                                    <img :src="data.resource.image" style="height: 15px;" alt="">
+                                                </div>
                                                 {{ data.title }}
                                                 <div>
                                                     <small>{{ $filter.formatDate(data.created_at) }}</small>
@@ -81,7 +88,8 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/posts/' + data.id" class="dropdown-item">
+                                                        <router-link :to="'/admin/posts/' + data.id"
+                                                            class="dropdown-item">
                                                             Edit
                                                         </router-link>
                                                         <button class="dropdown-item text-danger"

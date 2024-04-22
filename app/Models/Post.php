@@ -14,4 +14,9 @@ class Post extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function resource()
+    {
+        return $this->belongsTo(Category::class, 'resource_id');
+    }
 }

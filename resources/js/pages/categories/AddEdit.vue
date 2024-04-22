@@ -16,18 +16,35 @@
                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>Status</h2>
-                                </div>
-                            </div>
                             <div class="card-body pt-0">
-                                <select class="form-select mb-2" v-model="form.status">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Non Aktif</option>
-                                </select>
-                                <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
-                                    {{ getMessage('status') }}
+                                <div class="mb-3">
+                                    <label>Status</label>
+                                    <select class="form-select mb-2" v-model="form.status">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Non Aktif</option>
+                                    </select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                        v-if="getStatus('status')">
+                                        {{ getMessage('status') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <Loading Loading :active="form_props.image_loader" :loader="'dots'"
+                                        :is-full-page="false"></Loading>
+                                    <div class="form-group">
+                                        <label>Foto</label>
+                                        <div>
+                                            <input type="file" id="photo-file"
+                                                accept="image/png,image/gif,image/jpeg,application/pdf"
+                                                @change="uploadProof($event)" />
+                                        </div>
+                                    </div>
+                                    <div class="p-2" v-if="form.image">
+                                        <img :src="form.image" style="width: 100%; height: auto" alt="">
+                                        <div class="text-sm text-red-700 cursor-pointer" @click="removeImg()">
+                                            <u>Hapus</u>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -49,22 +66,26 @@
                                             <option value="player">Player</option>
                                             <option value="round">Round</option>
                                             <option value="match_type">Match Type</option>
+                                            <option value="news_affiliate">News Affiliate</option>
                                         </select>
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('type')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('type')">
                                             {{ getMessage('type') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Kode</label>
                                         <input type="text" class="form-control mb-2" v-model="form.code">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('code')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('code')">
                                             {{ getMessage('code') }}
                                         </div>
                                     </div>
@@ -132,6 +153,7 @@ export default {
             type: '',
             name: '',
             code: '',
+            image: '',
             status: 1,
         })
 
@@ -143,6 +165,34 @@ export default {
                     form.name = data.result.name
                     form.code = data.result.code
                     form.status = data.result.status
+                    form.image = data.result.image
+                })
+        }
+
+        function uploadProof(e) {
+            let file = e.target.files[0];
+            let reader = new FileReader();
+            reader.onloadend = (file) => {
+                form.image = reader.result;
+            };
+            form_props.image_url = URL.createObjectURL(file);
+            reader.readAsDataURL(file)
+
+            const form_file = document.getElementById('photo-file');
+            const formData = new FormData();
+            if (form_file != '') {
+                formData.append('file', form_file.files[0]);
+            }
+
+            form_props.image_loader = true;
+            postData('upload', formData)
+                .then((data) => {
+                    form_props.image_loader = false;
+                    document.getElementById('photo-file').value = '';
+                    form.image = data.result;
+                }).catch(() => {
+                    form_props.image_loader = false;
+                    alert('file upload failed');
                 })
         }
 
@@ -172,6 +222,12 @@ export default {
             })
         }
 
+        function removeImg() {
+            if (confirm('Hapus foto?')) {
+                form.image = null
+            }
+        }
+
         return {
             breadcrumb_list,
             title,
@@ -181,6 +237,8 @@ export default {
             createData,
             getStatus,
             getMessage,
+            uploadProof,
+            removeImg,
             editData
         }
     }

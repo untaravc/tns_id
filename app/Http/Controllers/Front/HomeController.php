@@ -45,7 +45,9 @@ class HomeController extends Controller
         }
 
         foreach ($data['competitions'] as $key => $competition) {
-            $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
+            if ($competition->image == null) {
+                $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
+            }
         }
 
         return view('front.home.Index', $data);
@@ -93,7 +95,9 @@ class HomeController extends Controller
         $data['page_name'] = 'competitions';
         $data['competitions'] = Competition::orderBy('date_start')->get();
         foreach ($data['competitions'] as $key => $competition) {
-            $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
+            if ($competition->image == null) {
+                $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
+            }
         }
         if ($request->json == 1) {
             return $data;
