@@ -109,29 +109,31 @@
 {{ $news_head->image_url }} @endif')">
                     </div>
                     <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
+                        @if ($news_head->resource)
+                            <img src="{{ $news_head->resource->image }}" alt="{{ $news_head->resource->name }}"
+                                style="height: 20px">
+                        @endif
                         <div class="text-lg font-semibold text-slate-50">{{ $news_head->title }}</div>
-                        <div class="text-md text-slate-100">{!! truncate_str(strip_tags($news_head->body_content), 70) !!}</div>
                     </div>
                 </a>
             </div>
             @foreach ($news as $new)
-                <div
+                <a @if ($new->is_affiliate) href="{{ $new->resource_url }}" @else href="/posts/{{ $new->id }}-{{ str_to_link($new->title) }}" @endif
                     class="md:col-span-1 md:h-auto h-32 row-span-1 col-span-4 shadow-md rounded-md p-3 flex justify-between">
                     <div class="text-sm w-2/3">
-                        <a
-                            @if ($new->is_affiliate) href="{{ $new->resource_url }}" @else href="/posts/{{ $new->id }}-{{ str_to_link($new->title) }}" @endif>
-                            {{ truncate_str($new->title, 60) }}
-                            <div class="text-xs italic text-slate-500">
-                                {{ date('d/m/y', strtotime($new->created_at)) }}
-                            </div>
-                        </a>
+                        @if ($new->resource)
+                            <img src="{{ $new->resource->image }}" alt="{{ $new->resource->name }}"
+                                style="height: 20px">
+                        @endif
+                        <div class="font-medium">{{ truncate_str($new->title, 40) }}</div>
+                        <div class="text-xs italic text-slate-500">
+                            {{ date('d/m/y', strtotime($new->created_at)) }}
+                        </div>
                     </div>
                     <div class="w-1/3 aspect-square bg-center bg-cover rounded-md"
-                        style="background-image: url('@if ($new->image) {{ $new->image }}
-                        @else
-                        {{ $new->image_url }} @endif')">
+                        style="background-image: url('@if ($new->image) {{ $new->image }} @else {{ $new->image_url }} @endif')">
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
         <div class="grid grid-cols-3 gap-2">

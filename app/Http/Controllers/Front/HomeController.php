@@ -30,8 +30,8 @@ class HomeController extends Controller
 
         $exist_matches = MatchModel::groupBy('competition_id')->get()->pluck('competition_id')->toArray();
 
-        $data['news_head'] = Post::orderByDesc('id')->first();
-        $data['news'] = Post::orderByDesc('id')->skip(1)->limit(3)->get();
+        $data['news_head'] = Post::orderByDesc('id')->with('resource')->first();
+        $data['news'] = Post::orderByDesc('id')->with('resource')->skip(1)->limit(3)->get();
         $data['competitions'] = Competition::orderByDesc('date_start')->whereIn('id', $exist_matches)->limit(5)->get();
         $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();

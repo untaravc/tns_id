@@ -22,8 +22,9 @@ body {
 
 .bg-thumbnail{
   background-position: center !important;
-  background-size: cover !important;
+  background-size: contain !important;
   border-radius: 5px !important;
+  background-repeat: no-repeat !important;
 }
 
 .font-bold{

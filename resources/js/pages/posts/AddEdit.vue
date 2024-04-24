@@ -208,6 +208,7 @@ export default {
             is_affiliate: '',
             resource_id: '',
             image_url: '',
+            resource_url: '',
         })
 
         if (form_props.edit_mode) {
@@ -224,6 +225,7 @@ export default {
                     form.is_affiliate = data.result.is_affiliate
                     form.resource_id = data.result.resource_id
                     form.image_url = data.result.image_url
+                    form.resource_url = data.result.resource_url
                 })
         }
 

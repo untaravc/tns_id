@@ -59,12 +59,16 @@
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td style="width: 80px;">
-                                                <div v-if="data.image" class="bg-thumbnail"
-                                                    :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
-                                                </div>
-                                                <div v-if="data.image_url" class="bg-thumbnail"
-                                                    :style="'width: 50px; height: 50px;background: url(' + data.image_url + ');'">
-                                                </div>
+                                                <a v-if="data.image" :href="data.image" target="_blank">
+                                                    <div class="bg-thumbnail"
+                                                        :style="'width: 50px; height: 50px;background: url(' + data.image + ');'">
+                                                    </div>
+                                                </a>
+                                                <a v-if="data.image_url" :href="data.image_url" target="_blank">
+                                                    <div v-if="data.image_url" class="bg-thumbnail"
+                                                        :style="'width: 50px; height: 50px;background: url(' + data.image_url + ');'">
+                                                    </div>
+                                                </a>
                                             </td>
                                             <td>
                                                 <div v-if="data.resource">
