@@ -9,11 +9,10 @@
                 </div>
             </div>
         </div>
-        <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="app-content flex-column-fluid">
+            <div class="app-container container-xxl">
                 <div id="kt_ecommerce_add_product_form"
-                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework"
-                    data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
+                    class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
                             <div class="card-body pt-0">

@@ -48,3 +48,4 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 Route::get('/update-player-category', [PlayerController::class, 'updatePlayerCategory']);
+Route::get('/update-player-points', [PointController::class, 'updatePlayerPoints']);
