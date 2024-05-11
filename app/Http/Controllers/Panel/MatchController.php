@@ -170,4 +170,78 @@ class MatchController extends Controller
         }
         return $this->response;
     }
+
+    public function searchH2H()
+    {
+        $match_count = MatchModel::count();
+        $data = [];
+        for ($i = 1; $i < $match_count; $i++) {
+            $h2h = $this->headToHead($i);
+            if (count($h2h) > 0) {
+                $data[] = [
+                    'match' => MatchModel::find($i),
+                    'head2head' => $h2h,
+                ];
+            }
+        }
+
+        return $data;
+    }
+
+    public function headToHead($match_id)
+    {
+        $match_type_category_ids = [15, 16];
+
+        $container = [];
+        $match = MatchModel::whereIn('match_type_category_id', $match_type_category_ids)->find($match_id);
+
+        if (!$match) {
+            return [];
+        }
+
+        $home_first = MatchModel::where(function ($q) use ($match) {
+            $q->where('home_first_player_id', $match->home_first_player_id);
+            $q->orWhere('away_first_player_id', $match->home_first_player_id);
+        })
+            ->where('id', '!=', $match_id)
+            ->whereIn('match_type_category_id', $match_type_category_ids)
+            ->get();
+
+        foreach ($home_first as $item) {
+            $container[] = $item;
+        }
+
+        $away_first = MatchModel::where(function ($q) use ($match) {
+            $q->where('home_first_player_id', $match->away_first_player_id);
+            $q->orWhere('away_first_player_id', $match->away_first_player_id);
+        })
+            ->where('id', '!=', $match_id)
+            ->whereNotIn('id', $home_first->pluck('id')->toArray())
+            ->whereIn('match_type_category_id', $match_type_category_ids)
+            ->get();
+
+        foreach ($away_first as $item) {
+            $container[] = $item;
+        }
+
+        $headtohead = [];
+
+        foreach ($container as $cont) {
+            if (
+                $cont['home_first_player_id'] == $match->home_first_player_id
+                &&
+                $cont['away_first_player_id'] == $match->away_first_player_id
+            ) {
+                $headtohead[] = $cont;
+            } else if (
+                $cont['home_first_player_id'] == $match->home_first_player_id
+                &&
+                $cont['away_first_player_id'] == $match->away_first_player_id
+            ) {
+                $headtohead[] = $cont;
+            }
+        }
+
+        return $headtohead;
+    }
 }
