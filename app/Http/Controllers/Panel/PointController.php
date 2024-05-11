@@ -138,8 +138,7 @@ class PointController extends Controller
     public function updatePlayerPoints()
     {
         $matches = MatchModel::with(['competition', 'match_type', 'round_category'])
-            ->where('round_category_id', 14)
-            // ->whereIn('id', [44])
+            ->where('round_category_id', 13)
             ->get();
 
         foreach ($matches as $match) {
@@ -152,6 +151,7 @@ class PointController extends Controller
                 ];
             }
         }
+        return count($matches) . ' done.';
     }
 
     private function setPlayerPoint($match)
@@ -197,8 +197,26 @@ class PointController extends Controller
         }
 
         // SF -> yg kalah SF
+        if ($query['round_code'] == 'SF') {
+            $semifinal = $match_point_settings->where('round_code', 'SF')->first();
+            if ($semifinal) {
+                $this->generatePlayerPoint($player['lose_first'], $semifinal, $match);
+                if ($player['lose_second']) {
+                    $this->generatePlayerPoint($player['lose_second'], $semifinal, $match);
+                }
+            }
+        }
 
         // QF -> yg kalah QF
+        if ($query['round_code'] == 'QF') {
+            $quarterfinal = $match_point_settings->where('round_code', 'QF')->first();
+            if ($quarterfinal) {
+                $this->generatePlayerPoint($player['lose_first'], $quarterfinal, $match);
+                if ($player['lose_second']) {
+                    $this->generatePlayerPoint($player['lose_second'], $quarterfinal, $match);
+                }
+            }
+        }
 
         return $query;
     }
