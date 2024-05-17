@@ -11,6 +11,7 @@ import {
   BiBezier2,
   BiMenuButtonWide,
   BiSearch,
+  BiGear,
 } from "oh-vue-icons/icons/bi";
 
 addIcons(
@@ -25,6 +26,7 @@ addIcons(
   BiBezier2, // role
   BiMenuButtonWide, // menu
   BiSearch,// search
+  BiGear,// settings
 );
 
 // register components

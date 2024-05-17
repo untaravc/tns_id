@@ -197,6 +197,26 @@ class MenuSeed extends Seeder
                 ]
             ],
             [
+                'title'    => "Settings",
+                'icon'     => "bi-gear",
+                'url'      => "/admin/settings--",
+                'type'     => "menu",
+                'children' => [
+                    [
+                        'title' => "Tambah Baru",
+                        'icon'  => "",
+                        'url'   => "/admin/settings/add",
+                        'type'  => "submenu",
+                    ],
+                    [
+                        'title' => "Data",
+                        'icon'  => "",
+                        'url'   => "/admin/settings",
+                        'type'  => "submenu",
+                    ],
+                ]
+            ],
+            [
                 'title'    => "Menu",
                 'icon'     => "bi-menu-button-wide",
                 'url'      => "/admin/menus--",
