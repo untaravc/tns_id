@@ -9,9 +9,9 @@
                     <Breadcrumb :list="breadcrumb_list"></Breadcrumb>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <router-link to="/admin/users/add" class="btn btn-sm fw-bold btn-primary">
+                    <!-- <router-link to="/admin/settings/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
-                    </router-link>
+                    </router-link> -->
                 </div>
             </div>
         </div>
@@ -41,9 +41,9 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th>Type</th>
                                             <th>Nama</th>
-                                            <th>Role</th>
-                                            <th>Status</th>
+                                            <th>Value</th>
                                             <th class="text-end">Aksi</th>
                                         </tr>
                                     </thead>
@@ -57,14 +57,14 @@
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
+                                                <b>{{ data.type }}</b>
+                                            </td>
+                                            <td>
                                                 <b>{{ data.name }}</b>
-                                                <div>{{ data.email }}</div>
                                             </td>
                                             <td>
-                                                {{ data.role }}
-                                            </td>
-                                            <td>
-                                                <StatusDefault :status="data.status" />
+                                                <b>{{data.title}}</b>
+                                                <div class="italic">{{ data.value }}</div>
                                             </td>
                                             <td class="text-end">
                                                 <div class="dropdown">
@@ -73,7 +73,7 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/users/' + data.id" class="dropdown-item">
+                                                        <router-link :to="'/admin/settings/' + data.id" class="dropdown-item">
                                                             Edit
                                                         </router-link>
                                                         <button class="dropdown-item text-danger"
@@ -120,8 +120,8 @@ import { useFilterStore } from "../../src/store_filter";
 export default {
     components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
     setup() {
-        const title = "Data Staff"
-        const breadcrumb_list = ["Staff", "Data"];
+        const title = "Data Setting"
+        const breadcrumb_list = ["Setting", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
         const { app_store } = useFilterStore()
@@ -135,7 +135,7 @@ export default {
         function loadDataContent(page = 1) {
             is_loading.value = true
             filter.page = page
-            getData('users', filter)
+            getData('settings', filter)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
@@ -160,7 +160,7 @@ export default {
         async function deleteModal(id) {
             const delete_modal = await promptModal(DeleteModal, { title: "Hapus data?" })
             if (delete_modal) {
-                deleteData('users/' + id)
+                deleteData('settings/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
                         loadDataContent(filter.page)

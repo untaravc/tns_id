@@ -18,13 +18,12 @@
                         <div class="card card-flush py-4">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h2>Status</h2>
+                                    <h2>Type</h2>
                                 </div>
                             </div>
                             <div class="card-body pt-0">
-                                <select class="form-select mb-2" v-model="form.status">
-                                    <option value="1">Aktif</option>
-                                    <option value="0">Non Aktif</option>
+                                <select class="form-select mb-2" v-model="form.type">
+                                    <option value="website">Website</option>
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
                                     {{ getMessage('status') }}
@@ -50,55 +49,25 @@
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label">Role</label>
-                                        <select class="form-control mb-2" v-model="form.role_id">
-                                            <option :value="role.id" :key="role.id" v-for="role in form_props.roles">{{
-                                                role.name }}
-                                            </option>
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                            v-if="getStatus('role_id')">{{ getMessage('role_id') }}
+                                        <label class="form-label">Value</label>
+                                        <input type="text" class="form-control mb-2" v-model="form.value">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('value')">
+                                            {{ getMessage('value') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label">Email</label>
-                                        <input type="text" class="form-control mb-2" v-model="form.email"
-                                            autocomplete="new-password">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                            v-if="getStatus('email')">
-                                            {{ getMessage('email') }}
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control mb-2" v-model="form.title">
+                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('title')">
+                                            {{ getMessage('title') }}
                                         </div>
                                     </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label">
-                                            <span v-if="form_props.edit_mode">Ganti</span> Password
-                                        </label>
-                                        <input type="password" class="form-control mb-2" v-model="form.password"
-                                            autocomplete="new-password">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                            v-if="getStatus('password')">
-                                            {{ getMessage('password') }}
-                                        </div>
-                                        <span class="text-small text-gray-600" v-if="form_props.edit_mode">
-                                            Kosongkan bila tidak akan mengganti password
-                                        </span>
-                                    </div>
-                                    <div class="mb-5 fv-row fv-plugins-icon-container">
-                                        <label class="form-label">
-                                            Konfirmasi <span v-if="form_props.edit_mode">Ganti</span> Password
-                                        </label>
-                                        <input type="password" class="form-control mb-2" autocomplete="new-password"
-                                            v-model="form.password_confirmation">
-                                        <div class="fv-plugins-message-container invalid-feedback"
-                                            v-if="getStatus('password_confirmation')">
-                                            {{ getMessage('password_confirmation') }}
-                                        </div>
-                                    </div>
+                                    
                                 </form>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <router-link to="/admin/users" class="btn btn-light me-5">Batal</router-link>
+                            <router-link to="/admin/settings" class="btn btn-light me-5">Batal</router-link>
                             <button id="kt_ecommerce_add_product_submit" v-if="!form_props.edit_mode"
                                 :disabled="form_props.is_loading" @click="createData" class="btn btn-primary">
                                 <span v-if="!form_props.is_loading">Tambah</span>
@@ -150,38 +119,34 @@ export default {
         const param_id = route.params.id
         form_props.edit_mode = param_id !== 'add'
 
-        const title = form_props.edit_mode ? "Edit Staff" : "Tambah Staff"
+        const title = form_props.edit_mode ? "Edit Setting" : "Tambah Setting"
         const breadcrumb_list = ["Klien", form_props.edit_mode ? "Edit" : "Tambah"];
 
         const form = reactive({
             id: '',
-            status: 1,
+            type: 1,
             name: '',
-            email: '',
-            password: '',
-            password_confirmation: '',
-            role_id: '',
+            value: '',
+            title: '',
         })
 
         if (form_props.edit_mode) {
-            getData('users/' + param_id)
+            getData('settings/' + param_id)
                 .then((data) => {
                     form.id = data.result.id
-                    form.status = data.result.status
-                    form.code = data.result.code
+                    form.type = data.result.type
                     form.name = data.result.name
-                    form.email = data.result.email
-                    form.client_id = data.result.client_id
-                    form.role_id = data.result.role_id
+                    form.value = data.result.value
+                    form.title = data.result.title
                 })
         }
 
         function createData() {
             form_props.is_loading = true
-            postData('users', form).then((data) => {
+            postData('settings', form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/users')
+                    router.push('/admin/settings')
                     resetErrors()
                 } else {
                     setErrors(data.errors)
@@ -191,10 +156,10 @@ export default {
 
         function editData() {
             form_props.is_loading = true
-            patchData('users/' + param_id, form).then((data) => {
+            patchData('settings/' + param_id, form).then((data) => {
                 form_props.is_loading = false;
                 if (data.success) {
-                    router.push('/admin/users')
+                    router.push('/admin/settings')
                     resetErrors()
                 } else {
                     setErrors(data.errors)
