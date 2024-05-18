@@ -41,9 +41,9 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
+                                            <th>Pemain</th>
                                             <th>Kompetisi</th>
                                             <th>Kategori</th>
-                                            <th>Pemain</th>
                                             <th>Poin</th>
                                             <th class="text-end">Aksi</th>
                                         </tr>
@@ -53,18 +53,23 @@
                                             <td colspan="6" class="text-center"><i>Tidak ada data.</i></td>
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
-                                            <td>
+                                            <td :title="data.id">
                                                 {{ response.data_content.per_page *
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
-                                                {{ data.competition_name }}
+                                                <b>{{ data.player_name }}</b>
+                                                <div class="small"v-if="data.match && data.match.match_type">{{ data.match.match_type.name }}</div>
                                             </td>
                                             <td>
-                                                {{ data.player_category_code }}
+                                                <small :title="data.competition_name">
+                                                    {{ $filter.truncate(data.competition_name) }}
+                                                </small>
+                                                <div v-if="data.match && data.match.competition">{{ data.match.competition.competition_category_code}}</div>
                                             </td>
                                             <td>
-                                                {{ data.player_name }}
+                                                <b>{{ data.player_category_code }}</b>
+                                                <div class="italic" v-if="data.match && data.match.round_category">{{ data.match.round_category.name }}</div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">

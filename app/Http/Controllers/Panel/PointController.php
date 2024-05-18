@@ -13,9 +13,15 @@ use Illuminate\Support\Facades\Validator;
 
 class PointController extends Controller
 {
+    public $point_created = 0;
+    public $point_updated = 0;
+
     public function index(Request $request)
     {
-        $dataContent = Point::orderByDesc('created_at');
+        $dataContent = Point::orderByDesc('created_at')
+            ->with(['match'=> function($q){
+                $q->with(['round_category', 'competition', 'match_type']);
+            }]);
         $dataContent = $this->withFilter($dataContent, $request);
         $dataContent = $dataContent->paginate($request->per_page ?? 20);
 
@@ -138,7 +144,8 @@ class PointController extends Controller
     public function updatePlayerPoints()
     {
         $matches = MatchModel::with(['competition', 'match_type', 'round_category'])
-            ->where('round_category_id', 13)
+            // ->where('round_category_id', 14)
+            // ->where('id', 200)
             ->get();
 
         foreach ($matches as $match) {
@@ -147,11 +154,16 @@ class PointController extends Controller
             } catch (\Exception $e) {
                 return [
                     'message' => "GAGAL: match_id " . $match->id,
+                    'errors'=> $e,
                     'match' => $match
                 ];
             }
         }
-        return count($matches) . ' done.';
+        return [
+            'match' => count($matches),
+            'update' => $this->point_updated,
+            'created' => $this->point_created,
+        ];
     }
 
     private function setPlayerPoint($match)
@@ -163,7 +175,7 @@ class PointController extends Controller
         $match_point_settings = MatchPointSetting::where('competition_code', $query['competition_code'])
             ->where('match_type_code', $query['match_type_code'])
             ->get();
-
+        
         // return $match;
         if ($match->home_final_score > $match->away_final_score) {
             $player['win_first'] = $match->home_first_player_id;
@@ -218,14 +230,50 @@ class PointController extends Controller
             }
         }
 
+        // R16 -> yg kalah R16
+        if ($query['round_code'] == 'R16') {
+            $roundsixteen = $match_point_settings->where('round_code', 'R16')->first();
+            if ($roundsixteen) {
+                $this->generatePlayerPoint($player['lose_first'], $roundsixteen, $match);
+                if ($player['lose_second']) {
+                    $this->generatePlayerPoint($player['lose_second'], $roundsixteen, $match);
+                }
+            }
+        }
+
+        // R32 -> yg kalah R32
+        if ($query['round_code'] == 'R32') {
+            $roundthrty = $match_point_settings->where('round_code', 'R32')->first();
+            if ($roundthrty) {
+                $this->generatePlayerPoint($player['lose_first'], $roundthrty, $match);
+                if ($player['lose_second']) {
+                    $this->generatePlayerPoint($player['lose_second'], $roundthrty, $match);
+                }
+            }
+        }
+        
+        // R62 -> yg kalah R64
+        if ($query['round_code'] == 'R64') {
+            return $roundsixty = $match_point_settings->where('round_code', 'R64')->first();
+            if ($roundthrty) {
+                $this->generatePlayerPoint($player['lose_first'], $roundsixty, $match);
+                if ($player['lose_second']) {
+                    $this->generatePlayerPoint($player['lose_second'], $roundsixty, $match);
+                }
+            }
+        }
+
         return $query;
     }
 
     private function generatePlayerPoint($player_id, $point, $match)
     {
+        if(!$point){
+            return 'no data point';
+        }
         $player = Player::find($player_id);
         $payload = [
-            "match_id" => $player_id,
+            "match_id" => $match->id,
             "player_id" => $player_id,
             "player_name" => $player->full_name,
             "player_reg_id" => $player->reg_id,
@@ -246,8 +294,10 @@ class PointController extends Controller
 
         if ($point) {
             $point->update($payload);
+            $this->point_updated += 1;
         } else {
             Point::create($payload);
+            $this->point_created += 1;
         }
     }
 }

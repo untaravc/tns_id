@@ -97,11 +97,11 @@ class MatchPointSettingSeeder extends Seeder
             ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'QF', 'point' => 7],
             ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'R16', 'point' => 4],
 
-            ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'W', 'point' => 20],
-            ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'F', 'point' => 12],
-            ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'SF', 'point' => 7],
-            ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'QF', 'point' => 4],
-            ['competition_code' => 'J-4', 'match_type_code' => 'G', 'round_code' => 'R16', 'point' => 2],
+            ['competition_code' => 'J-5', 'match_type_code' => 'G', 'round_code' => 'W', 'point' => 20],
+            ['competition_code' => 'J-5', 'match_type_code' => 'G', 'round_code' => 'F', 'point' => 12],
+            ['competition_code' => 'J-5', 'match_type_code' => 'G', 'round_code' => 'SF', 'point' => 7],
+            ['competition_code' => 'J-5', 'match_type_code' => 'G', 'round_code' => 'QF', 'point' => 4],
+            ['competition_code' => 'J-5', 'match_type_code' => 'G', 'round_code' => 'R16', 'point' => 2],
         ];
 
         foreach ($data as $item) {

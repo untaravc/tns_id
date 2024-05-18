@@ -21,6 +21,7 @@ class CategoryController extends Controller
     public function list(Request $request)
     {
         $this->response['result'] = Category::orderBy('name')
+            ->whereStatus(1)
             ->when($request->name, function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->name . '%');
             })

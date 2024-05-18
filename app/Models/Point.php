@@ -10,4 +10,8 @@ class Point extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+
+    public function match(){
+        return $this->belongsTo(MatchModel::class);
+    }
 }
