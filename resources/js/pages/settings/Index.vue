@@ -9,9 +9,9 @@
                     <Breadcrumb :list="breadcrumb_list"></Breadcrumb>
                 </div>
                 <div class="d-flex align-items-center gap-2 gap-lg-3">
-                    <router-link to="/admin/points/add" class="btn btn-sm fw-bold btn-primary">
+                    <!-- <router-link to="/admin/settings/add" class="btn btn-sm fw-bold btn-primary">
                         Tambah Data
-                    </router-link>
+                    </router-link> -->
                 </div>
             </div>
         </div>
@@ -41,50 +41,30 @@
                                     <thead>
                                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                             <th>No</th>
-                                            <th>Pemain</th>
-                                            <th>Kompetisi</th>
-                                            <th>Kategori</th>
-                                            <th>Poin</th>
+                                            <th>Type</th>
+                                            <th>Nama</th>
+                                            <th>Value</th>
                                             <th class="text-end">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody class="fw-semibold text-gray-600">
                                         <tr v-if="response.data_content.total === 0">
-                                            <td colspan="6" class="text-center"><i>Tidak ada data.</i></td>
+                                            <td colspan="5" class="text-center"><i>Tidak ada data.</i></td>
                                         </tr>
                                         <tr v-for="(data, d) in response.data_content.data">
-                                            <td :title="data.id">
+                                            <td>
                                                 {{ response.data_content.per_page *
                                                     (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
-                                                <b>{{ data.player_name }}</b>
-                                                <div class="small"v-if="data.match && data.match.match_type">{{ data.match.match_type.name }}</div>
+                                                <b>{{ data.type }}</b>
                                             </td>
                                             <td>
-                                                <small :title="data.competition_name">
-                                                    {{ $filter.truncate(data.competition_name) }}
-                                                </small>
-                                                <div v-if="data.match && data.match.competition">{{ data.match.competition.competition_category_code}}</div>
+                                                <b>{{ data.name }}</b>
                                             </td>
                                             <td>
-                                                <b>{{ data.player_category_code }}</b>
-                                                <div class="italic" v-if="data.match && data.match.round_category">{{ data.match.round_category.name }}</div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="h1 font-bolder pe-2">{{ data.point }}</div>
-                                                    <div>
-                                                        <div><small v-if="data.is_historical"
-                                                                class="text-primary font-bold">--historical</small>
-                                                        </div>
-                                                        <div>
-                                                            <small v-if="data.is_cut_off" class="text-danger font-bold">
-                                                                --cut off
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <b>{{data.title}}</b>
+                                                <div class="italic">{{ data.value }}</div>
                                             </td>
                                             <td class="text-end">
                                                 <div class="dropdown">
@@ -93,7 +73,7 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/points/' + data.id" class="dropdown-item">
+                                                        <router-link :to="'/admin/settings/' + data.id" class="dropdown-item">
                                                             Edit
                                                         </router-link>
                                                         <button class="dropdown-item text-danger"
@@ -140,8 +120,8 @@ import { useFilterStore } from "../../src/store_filter";
 export default {
     components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
     setup() {
-        const title = "Data Poin"
-        const breadcrumb_list = ["Poin", "Data"];
+        const title = "Data Setting"
+        const breadcrumb_list = ["Setting", "Data"];
         const { getData, deleteData } = useAxios()
         const is_loading = ref(true)
         const { app_store } = useFilterStore()
@@ -155,7 +135,7 @@ export default {
         function loadDataContent(page = 1) {
             is_loading.value = true
             filter.page = page
-            getData('points', filter)
+            getData('settings', filter)
                 .then((data) => {
                     if (data.success) {
                         response.data_content = data
@@ -180,7 +160,7 @@ export default {
         async function deleteModal(id) {
             const delete_modal = await promptModal(DeleteModal, { title: "Hapus data?" })
             if (delete_modal) {
-                deleteData('points/' + id)
+                deleteData('settings/' + id)
                     .then((data) => {
                         SwalToast('Berhasil menghapus data.')
                         loadDataContent(filter.page)

@@ -13,6 +13,7 @@ use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\PointController;
 use App\Http\Controllers\Panel\MatchController;
 use App\Http\Controllers\Panel\PostController;
+use App\Http\Controllers\Panel\SettingController;
 
 //Route::post('import-player', [ImportPlayerController::class, 'import']);
 Route::post('login', [AuthController::class, 'login']);
@@ -32,6 +33,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('points', PointController::class);
     Route::resource('matches', MatchController::class);
     Route::resource('posts', PostController::class);
+    Route::resource('settings', SettingController::class);
 
     Route::get('point-reports', [PointController::class, 'pointReports']);
     Route::get('roles-list', [RoleController::class, 'list']);

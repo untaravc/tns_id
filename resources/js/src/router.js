@@ -27,6 +27,8 @@ import PointsAddEdit from "../pages/points/AddEdit.vue";
 import PointsReport from "../pages/points/Report.vue";
 import Posts from "../pages/posts/Index.vue";
 import PostsAddEdit from "../pages/posts/AddEdit.vue";
+import Settings from "../pages/settings/Index.vue";
+import SettingsAddEdit from "../pages/settings/AddEdit.vue";
 
 const routes = [
     {
@@ -57,6 +59,8 @@ const routes = [
             { path: 'matches/:id', component: MatchesAddEdit, meta: { protected: true, title: "Matches" } },
             { path: 'posts', component: Posts, meta: { protected: true, title: "Posts" } },
             { path: 'posts/:id', component: PostsAddEdit, meta: { protected: true, title: "Post" } },
+            { path: 'settings', component: Settings, meta: { protected: true, title: "Settings" } },
+            { path: 'settings/:id', component: SettingsAddEdit, meta: { protected: true, title: "Setting" } },
         ]
     },
     { path: "/auth/404", name: "not-found", component: NotFound },
