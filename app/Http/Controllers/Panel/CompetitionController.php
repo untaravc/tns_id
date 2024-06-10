@@ -24,7 +24,7 @@ class CompetitionController extends Controller
             ->when($request->name, function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->name . '%');
             })
-            ->limit(20)
+            ->whereStatus(1)
             ->get();
 
         return $this->response;
@@ -71,6 +71,18 @@ class CompetitionController extends Controller
     {
         if ($request->name) {
             $dataContent = $dataContent->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+
+        if ($request->year) {
+            $dataContent = $dataContent->whereYear('date_start', $request->year);
+        }
+
+        if ($request->city) {
+            $dataContent = $dataContent->where('address', 'LIKE', '%' . $request->city . '%');
+        }
+
+        if ($request->status) {
+            $dataContent = $dataContent->where('status', $request->status == 'aktif' ? 1 : 0);
         }
         return $dataContent;
     }

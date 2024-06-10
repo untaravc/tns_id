@@ -15,8 +15,8 @@
                 </div>
             </div>
         </div>
-        <div id="kt_app_content" class="app-content flex-column-fluid">
-            <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="app-content flex-column-fluid">
+            <div class="app-container container-xxl">
                 <div class="card card-flush">
                     <div class="px-8 pt-8 pb-4">
                         <div class="row">
@@ -70,12 +70,12 @@
                                         <tr v-for="(data, d) in response.data_content.data">
                                             <td>
                                                 {{ response.data_content.per_page *
-                            (response.data_content.current_page - 1) + d + 1 }}
+                                                    (response.data_content.current_page - 1) + d + 1 }}
                                             </td>
                                             <td>
                                                 <b>{{ data.competition_name }} </b>
                                                 <span v-if="data.competition_category_code">({{
-                            data.competition_category_code }})</span>
+                                                    data.competition_category_code }})</span>
                                                 <div>
                                                     <i>{{ $filter.formatDate(data.date) }}</i>
                                                 </div>

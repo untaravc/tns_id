@@ -18,19 +18,32 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
-                        data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
+                    <div class="px-8 pt-8 pb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Nama</label>
+                                <input class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full" type="text"
+                                    v-model="filter_name">
                             </div>
-                        </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
+                            <div class="col-md-3">
+                                <label>Kota</label>
+                                <input class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full" type="text"
+                                    v-model="filter_city">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tahun</label>
+                                <input class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full" type="number"
+                                    @keyup="filterYear" v-model="filter.year">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Status</label>
+                                <select class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full"
+                                    v-model="filter.status" @change="loadDataContent">
+                                    <option value="">Semua</option>
+                                    <option value="aktif">Aktif</option>
+                                    <option value="non-aktif">Non Aktif</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -133,6 +146,7 @@ import { reactive, ref } from "vue";
 import { container, promptModal } from "jenesius-vue-modal";
 import SwalToast from '../../src/swal_toast'
 import { useFilterStore } from "../../src/store_filter";
+import { watchDebounced } from "@vueuse/core"
 
 export default {
     components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
@@ -146,8 +160,14 @@ export default {
         const filter = reactive({
             page: 1,
             name: '',
+            status: '',
+            year: '',
+            city: '',
             per_page: 25,
         })
+
+        const filter_name = ref('')
+        const filter_city = ref('')
 
         function loadDataContent(page = 1) {
             is_loading.value = true
@@ -159,6 +179,12 @@ export default {
                     }
                     is_loading.value = false
                 })
+        }
+
+        function filterYear() {
+            if (filter.year > 1000) {
+                loadDataContent()
+            }
         }
 
         loadDataContent()
@@ -185,6 +211,24 @@ export default {
             }
         }
 
+        watchDebounced(
+            filter_name,
+            () => {
+                filter.name = filter_name
+                loadDataContent()
+            },
+            { debounce: 700 },
+        )
+
+        watchDebounced(
+            filter_city,
+            () => {
+                filter.city = filter_city
+                loadDataContent()
+            },
+            { debounce: 700 },
+        )
+
         return {
             breadcrumb_list,
             title,
@@ -192,9 +236,12 @@ export default {
             filter,
             is_loading,
             app_store,
+            filter_name,
+            filter_city,
             loadDataContent,
             changePerPage,
-            deleteModal
+            deleteModal,
+            filterYear
         }
     }
 }

@@ -30,6 +30,7 @@
         "@ckeditor/ckeditor5-build-classic": "^41.1.0",
         "@ckeditor/ckeditor5-upload": "^41.1.0",
         "@ckeditor/ckeditor5-vue": "^5.1.0",
+        "@vueuse/core": "^10.10.0",
         "chart.js": "^4.4.1",
         "firebase": "^9.23.0",
         "jenesius-vue-modal": "^1.10.3",

@@ -1,8 +1,8 @@
 import useAxios from "./service";
 
-const {postData} = useAxios()
+const { postData } = useAxios()
 
-function todayDate(){
+function todayDate() {
     return '2024-01-29';
 }
 
@@ -38,4 +38,14 @@ function makeToken(length) {
     return result;
 }
 
-export {registerDeviceToken, todayDate}
+function createDebounce() {
+    let timeout = null;
+    return function (fnc, delayMs) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            fnc();
+        }, delayMs || 500);
+    };
+}
+
+export { registerDeviceToken, todayDate, createDebounce }
