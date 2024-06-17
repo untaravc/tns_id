@@ -15,20 +15,20 @@ class SettingSeeder extends Seeder
     public function run()
     {
         $data = [
-            [ 'type' => "website", 'name' => "soc-instagram",'value' => "https://instagram.com",'title' => "Tenis Indo",],
-            [ 'type' => "website", 'name' => "soc-youtube",'value' => "https://youtube.com",'title' => "Tenis Indo",],
-            [ 'type' => "website", 'name' => "soc-twitter",'value' => "https://instagram.com",'title' => "Tenis Indo",],
-            [ 'type' => "website", 'name' => "soc-facebook",'value' => "https://instagram.com",'title' => "Tenis Indo",],
+            ['type' => "website", 'name' => "soc-instagram", 'value' => "https://instagram.com", 'title' => "Tenis Indo",],
+            ['type' => "website", 'name' => "soc-youtube", 'value' => "https://youtube.com", 'title' => "Tenis Indo",],
+            ['type' => "website", 'name' => "soc-twitter", 'value' => "https://x.com", 'title' => "Tenis Indo",],
+            ['type' => "website", 'name' => "soc-facebook", 'value' => "https://facebook.com", 'title' => "Tenis Indo",],
         ];
 
         foreach ($data as $datum) {
             $setting = Setting::where('type', $datum['type'])
                 ->where('name', $datum['name'])
                 ->first();
-            
-            if($setting){
+
+            if ($setting) {
                 $setting->update($datum);
-            } else{
+            } else {
                 Setting::create($datum);
             }
         }

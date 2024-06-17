@@ -8,6 +8,7 @@ use App\Models\Competition;
 use App\Models\MatchModel;
 use App\Models\Player;
 use App\Models\Post;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -28,13 +29,14 @@ class HomeController extends Controller
                 'match_detail'
             ])->limit(3)->get();
 
-        $exist_matches = MatchModel::groupBy('competition_id')->get()->pluck('competition_id')->toArray();
+        // $exist_matches = MatchModel::groupBy('competition_id')->get()->pluck('competition_id')->toArray();
 
         $data['news_head'] = Post::orderByDesc('id')->with('resource')->first();
         $data['news'] = Post::orderByDesc('id')->with('resource')->skip(1)->limit(3)->get();
-        $data['competitions'] = Competition::orderByDesc('date_start')->whereIn('id', $exist_matches)->limit(5)->get();
+        $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(5)->get();
         $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        $data['socmed'] = Setting::whereType('website')->get();
 
         foreach ($data['male_players'] as $key => $player) {
             $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');
@@ -62,6 +64,7 @@ class HomeController extends Controller
         $query['player_category_code'] = $request->player_category_code ?? 'U10';
 
         $data['player_categories'] = Category::where('type', 'player')->get();
+        $data['socmed'] = Setting::whereType('website')->get();
 
         $data['players'] = Player::when($query['gender'], function ($q) use ($query) {
             $q->where('gender', $query['gender']);
@@ -93,7 +96,8 @@ class HomeController extends Controller
     public function competitions(Request $request)
     {
         $data['page_name'] = 'competitions';
-        $data['competitions'] = Competition::orderBy('date_start')->get();
+        $data['socmed'] = Setting::whereType('website')->get();
+        $data['competitions'] = Competition::orderBy('date_start')->whereStatus(1)->get();
         foreach ($data['competitions'] as $key => $competition) {
             if ($competition->image == null) {
                 $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
@@ -110,6 +114,7 @@ class HomeController extends Controller
         $id = explode('-', $id)[0];
 
         $data['competition'] = Competition::find($id);
+        $data['socmed'] = Setting::whereType('website')->get();
 
         $matches = MatchModel::whereCompetitionId($id)
             ->get();
@@ -159,6 +164,7 @@ class HomeController extends Controller
         $data['page_name'] = 'news';
         $data['page_bg'] = '/assets/images/news.png';
         $data['posts'] = Post::orderByDesc('created_at')->get();
+        $data['socmed'] = Setting::whereType('website')->get();
         return view('front.posts.Index', $data);
     }
 
@@ -167,6 +173,7 @@ class HomeController extends Controller
         $id = explode('-', $id)[0];
 
         $data['post'] = Post::find($id);
+        $data['socmed'] = Setting::whereType('website')->get();
 
         $data['posts'] = Post::where('id', '!=', $id)->orderByDesc('created_at')
             ->limit(5)->get();

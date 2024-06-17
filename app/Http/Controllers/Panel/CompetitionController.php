@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
+use App\Models\MatchModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,9 +12,10 @@ class CompetitionController extends Controller
 {
     public function index(Request $request)
     {
-        $dataContent = Competition::orderByDesc('date_start');
+        $dataContent = Competition::orderByDesc('status')->orderByDesc('date_start');
         $dataContent = $this->withFilter($dataContent, $request);
-        $dataContent = $dataContent->paginate($request->per_page ?? 20);
+        $dataContent = $dataContent
+            ->paginate($request->per_page ?? 20);
 
         $result = collect($this->response);
         return $result->merge($dataContent);
@@ -115,5 +117,20 @@ class CompetitionController extends Controller
             $data->delete();
         }
         return $this->response;
+    }
+
+    public function updateStatus()
+    {
+        $competitions = Competition::get();
+
+        foreach ($competitions as $competition) {
+            $match = MatchModel::where('competition_id', $competition->id)->first();
+
+            if ($match) {
+                $competition->update(['status' => 1]);
+            } else {
+                $competition->update(['status' => 0]);
+            }
+        }
     }
 }

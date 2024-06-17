@@ -1,5 +1,5 @@
 /*!
-  * jenesius-vue-modal v1.11.0
+  * jenesius-vue-modal v1.11.6
   * (c) 2024 Jenesius
   * @license MIT
   */
@@ -8,6 +8,11 @@
  * @license Copyright (c) 2003-2024, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md.
  */
+
+/*!
+* sweetalert2 v11.4.4
+* Released under the MIT License.
+*/
 
 /*! #__NO_SIDE_EFFECTS__ */
 
@@ -29,7 +34,7 @@
  */
 
 /**
-* @vue/shared v3.4.19
+* @vue/shared v3.4.27
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/

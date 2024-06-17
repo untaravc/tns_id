@@ -50,4 +50,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 Route::get('/update-player-category', [PlayerController::class, 'updatePlayerCategory']);
 Route::get('/update-player-points', [PointController::class, 'updatePlayerPoints']);
+Route::get('/update-competition-status', [CompetitionController::class, 'updateStatus']);
 Route::get('/head-to-head/{match_id}', [MatchController::class, 'searchH2H']);

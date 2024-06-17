@@ -104,9 +104,7 @@
                 <a
                     @if ($news_head->is_affiliate) href="{{ $news_head->resource_url }}" @else href="/posts/{{ $news_head->id }}-{{ str_to_link($news_head->title) }}" @endif>
                     <div class="h-full bg-slate-50 bg-center bg-cover rounded-md"
-                        style="background-image: url('@if ($news_head->image) {{ $news_head->image }}
-@else
-{{ $news_head->image_url }} @endif')">
+                        style="background-image: url('@if ($news_head->image) {{ $news_head->image }} @else {{ $news_head->image_url }} @endif')">
                     </div>
                     <div class="absolute bottom-0 p-3 bg-opacity-50 bg-slate-700">
                         @if ($news_head->resource)

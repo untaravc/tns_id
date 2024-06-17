@@ -64,6 +64,10 @@
                                             :alt="form.image_url">
                                     </div>
                                 </div>
+                                <div>
+                                    <label>Deskripsi Gambar</label>
+                                    <textarea v-model="form.image_desc" class="form-control" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -208,6 +212,7 @@ export default {
             resource_id: '',
             image_url: '',
             resource_url: '',
+            image_desc: '',
         })
 
         if (form_props.edit_mode) {
@@ -225,6 +230,7 @@ export default {
                     form.resource_id = data.result.resource_id
                     form.image_url = data.result.image_url
                     form.resource_url = data.result.resource_url
+                    form.image_desc = data.result.image_desc
                 })
         }
 

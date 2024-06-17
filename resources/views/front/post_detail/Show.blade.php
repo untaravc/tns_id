@@ -19,6 +19,9 @@
                     <img src="{{ $post->image }}" class="w-full" alt="">
                 </div>
                 <div>
+                    <div class="text-sm">{!! $post->image_desc !!}</div>
+                </div>
+                <div class="mt-4">
                     <p>{!! $post->body_content !!}</p>
                 </div>
             </div>
