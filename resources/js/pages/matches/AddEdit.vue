@@ -440,6 +440,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12" v-if="form_props.match_points.length > 0">
+                        <div class="card mb-3 card-flush">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h2>Poin</h2>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <table class="table table-striped score-table">
+                                    <tr class="font-bold">
+                                        <td v-for="point in form_props.match_points">
+                                            {{ point.player_name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td v-for="point in form_props.match_points"><b class="text-lg">{{ point.point }}</b></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -475,6 +497,7 @@ export default {
             rounds: [],
             match_types: [],
             player_number: 2,
+            match_points: []
         })
 
         const param_id = route.params.id
@@ -691,6 +714,18 @@ export default {
                 .then((data) => {
                     form_props.competitions = data.result
                 })
+        }
+
+
+        function loadMatchPoint() {
+            getData('match-points/' + param_id)
+                .then((data) => {
+                    form_props.match_points = data.result
+                })
+        }
+
+        if (param_id) {
+            loadMatchPoint()
         }
 
         loadCompetitionList()

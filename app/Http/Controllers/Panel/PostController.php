@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Point;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -92,6 +93,13 @@ class PostController extends Controller
         if ($data) {
             $data->delete();
         }
+        return $this->response;
+    }
+
+    public function matchPoint($match_id){
+        $points = Point::whereMatchId($match_id)->get();
+
+        $this->response['result'] = $points;
         return $this->response;
     }
 }

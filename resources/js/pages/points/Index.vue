@@ -96,6 +96,9 @@
                                                         <router-link :to="'/admin/points/' + data.id" class="dropdown-item">
                                                             Edit
                                                         </router-link>
+                                                        <router-link :to="'/admin/matches/' + data.match_id" class="dropdown-item">
+                                                            Lihat Pertandingan
+                                                        </router-link>
                                                         <button class="dropdown-item text-danger"
                                                             @click="deleteModal(data.id)">
                                                             Hapus

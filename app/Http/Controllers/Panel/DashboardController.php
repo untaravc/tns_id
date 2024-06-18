@@ -22,7 +22,7 @@ class DashboardController extends Controller
     {
         $data = [];
         $data['players_count'] = Player::whereStatus(1)->count();
-        $data['competitions_count'] = Competition::whereStatus(1)->count();
+        $data['competitions_count'] = Competition::count();
         $data['points_count'] = Point::whereStatus(1)->count();
         $data['matches_count'] = MatchModel::whereStatus(1)->count();
 

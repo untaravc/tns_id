@@ -19,6 +19,7 @@ class SettingSeeder extends Seeder
             ['type' => "website", 'name' => "soc-youtube", 'value' => "https://youtube.com", 'title' => "Tenis Indo",],
             ['type' => "website", 'name' => "soc-twitter", 'value' => "https://x.com", 'title' => "Tenis Indo",],
             ['type' => "website", 'name' => "soc-facebook", 'value' => "https://facebook.com", 'title' => "Tenis Indo",],
+            ['type' => "ads", 'name' => "ads_space_side_detail", 'value' => "https://tenisindo.com", 'title' => "/assets/images/ads_space_side_detail.png",],
         ];
 
         foreach ($data as $datum) {

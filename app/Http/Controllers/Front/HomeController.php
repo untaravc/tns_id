@@ -174,6 +174,7 @@ class HomeController extends Controller
 
         $data['post'] = Post::find($id);
         $data['socmed'] = Setting::whereType('website')->get();
+        $data['ads'] = Setting::whereName('ads_space_side_detail')->whereStatus(1)->get();
 
         $data['posts'] = Post::where('id', '!=', $id)->orderByDesc('created_at')
             ->limit(5)->get();

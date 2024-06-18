@@ -44,6 +44,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('categories-list', [CategoryController::class, 'list']);
     Route::get('dashboard-stats', [DashboardController::class, 'dashboardStats']);
     Route::get('import-players', [ImportPlayerController::class, 'import']);
+    Route::get('match-points/{id}', [PostController::class, 'matchPoint']);
 
     Route::patch('menu-role', [MenuController::class, 'menuRoleUpdate']);
 });
