@@ -42,8 +42,7 @@
             <div class="dataTables_wrapper dt-bootstrap4 no-footer">
               <div class="table-responsive">
                 <Loading :active="is_loading" :loader="'dots'" :is-full-page="false" />
-                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
-                  id="kt_ecommerce_products_table">
+                <table class="table align-middle table-row-dashed fs-6 gy-5">
                   <thead>
                     <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                       <th>No</th>
@@ -153,7 +152,7 @@ export default {
     function detailModel(data) {
       filter.player_id = data.player.id
 
-      openModal(ReportDetail, {filter: filter});
+      openModal(ReportDetail, { filter: filter });
     }
 
     function setCat(val) {
