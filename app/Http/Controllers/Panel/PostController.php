@@ -96,12 +96,20 @@ class PostController extends Controller
         return $this->response;
     }
 
-    public function matchPoint(Request $request)
+    public function playerMatchPoint(Request $request)
     {
         $points = Point::wherePlayerId($request->player_id)
             ->whereYear('date', $request->year ?? date('Y'))
             ->where('player_category_code', $request->player_category_code)
             ->get();
+
+        $this->response['result'] = $points;
+        return $this->response;
+    }
+
+    public function matchPoint($match_id)
+    {
+        $points = Point::whereMatchId($match_id)->get();
 
         $this->response['result'] = $points;
         return $this->response;
