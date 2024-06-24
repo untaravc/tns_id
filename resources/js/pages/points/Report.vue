@@ -18,19 +18,25 @@
             <div class="row">
               <div class="col-md-4">
                 <label class="form-label">Kategori</label>
-                <vue-select label="name" v-model="filter.player_category_code" :reduce="name => name.code"
-                  :options="filter_props.player_categories"></vue-select>
+                <select @change="loadDataContent" class="form-control form-control-solid"
+                  v-model="filter.player_category_code">
+                  <option :value="cat.code" v-for="cat in filter_props.player_categories">{{ cat.name }}</option>
+                </select>
               </div>
               <div class="col-md-4">
-                <label class="form-label">.</label>
+                <label class="form-label">Tahun</label>
+                <select class="form-control form-control-solid" v-model="filter.year" @change="loadDataContent">
+                  <option :value="2024 - i + 1" v-for="i in 10">{{ 2024 - i + 1 }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Nama</label>
                 <div>
-                  <button class="btn btn-sm btn-primary" @click="loadDataContent">
-                    <v-icon name="bi-search" />
-                  </button>
+                  <input type="text" class="form-control form-control-solid" v-model="filter.name"
+                    @keyup.enter="loadDataContent">
                 </div>
               </div>
             </div>
-
           </div>
           <div class="card-body pt-0">
             <div class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -64,9 +70,9 @@
                             Aksi
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <!-- <router-link :to="'/admin/points/' + data.id" class="dropdown-item"> -->
-                            Detail
-                            <!-- </router-link> -->
+                            <div @click="detailModel(data)" class="dropdown-item">
+                              Detail
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -74,17 +80,12 @@
                   </tbody>
                 </table>
               </div>
-              <div class="row">
-                <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start">
-                  <PerPage :value="filter.limit" @change-per-page="changePerPage" />
-                </div>
-
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <widget-container-modal />
   </div>
 </template>
 <script>
@@ -94,9 +95,11 @@ import useAxios from "../../src/service";
 import { reactive, ref } from "vue";
 import { useFilterStore } from "../../src/store_filter";
 import VueSelect from "vue-select";
+import { openModal, container, config } from 'jenesius-vue-modal';
+import ReportDetail from './ReportDetail.vue'
 
 export default {
-  components: { Breadcrumb, PerPage, VueSelect },
+  components: { Breadcrumb, PerPage, VueSelect, WidgetContainerModal: container },
   setup() {
     const title = "Report Point"
     const breadcrumb_list = ["Poin", "Report"];
@@ -107,8 +110,14 @@ export default {
     const filter = reactive({
       page: 1,
       name: '',
-      limit: 25,
-      player_category_code: '',
+      year: '',
+      player_category_code: 'U10',
+      player_id: ''
+    })
+
+    config({
+      escClose: true,
+      backgroundClose: false
     })
 
     const filter_props = reactive({
@@ -132,11 +141,6 @@ export default {
       result: []
     })
 
-    function changePerPage(limit) {
-      filter.limit = limit
-      loadDataContent()
-    }
-
     function loadCategoryList() {
       getData('categories-list', { type: 'player' })
         .then((data) => {
@@ -146,6 +150,16 @@ export default {
 
     loadCategoryList()
 
+    function detailModel(data) {
+      filter.player_id = data.player.id
+
+      openModal(ReportDetail, {filter: filter});
+    }
+
+    function setCat(val) {
+      filter.player_category_code = val
+      loadDataContent()
+    }
     return {
       breadcrumb_list,
       title,
@@ -155,8 +169,19 @@ export default {
       app_store,
       filter_props,
       loadDataContent,
-      changePerPage,
+      detailModel,
+      setCat
     }
   }
 }
 </script>
+<style>
+.modal-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 100px;
+
+  background-color: #3e3e3e21;
+}
+</style>

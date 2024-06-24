@@ -16,17 +16,27 @@
                     data-kt-redirect="../../demo1/dist/apps/ecommerce/catalog/products.html">
                     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
                         <div class="card card-flush py-4">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>Type</h2>
-                                </div>
-                            </div>
                             <div class="card-body pt-0">
-                                <select class="form-select mb-2" v-model="form.type">
-                                    <option value="website">Website</option>
-                                </select>
-                                <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('status')">
-                                    {{ getMessage('status') }}
+                                <div>
+                                    <label class="form-label">Tipe</label>
+                                    <select class="form-select mb-2" v-model="form.type">
+                                        <option value="website">Website</option>
+                                        <option value="ads">Iklan</option>
+                                    </select>
+                                    <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('type')">
+                                        {{ getMessage('type') }}
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select mb-2" v-model="form.status">
+                                        <option value="1">Aktif</option>
+                                        <option value="0">Non Aktif</option>
+                                    </select>
+                                    <div class="fv-plugins-message-container invalid-feedback"
+                                        v-if="getStatus('status')">
+                                        {{ getMessage('status') }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -44,25 +54,28 @@
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Nama</label>
                                         <input type="text" class="form-control mb-2" v-model="form.name">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('name')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('name')">
                                             {{ getMessage('name') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Value</label>
                                         <input type="text" class="form-control mb-2" v-model="form.value">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('value')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('value')">
                                             {{ getMessage('value') }}
                                         </div>
                                     </div>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
                                         <label class="form-label">Title</label>
                                         <input type="text" class="form-control mb-2" v-model="form.title">
-                                        <div class="fv-plugins-message-container invalid-feedback" v-if="getStatus('title')">
+                                        <div class="fv-plugins-message-container invalid-feedback"
+                                            v-if="getStatus('title')">
                                             {{ getMessage('title') }}
                                         </div>
                                     </div>
-                                    
+
                                 </form>
                             </div>
                         </div>
@@ -128,6 +141,7 @@ export default {
             name: '',
             value: '',
             title: '',
+            status: '',
         })
 
         if (form_props.edit_mode) {
@@ -138,6 +152,7 @@ export default {
                     form.name = data.result.name
                     form.value = data.result.value
                     form.title = data.result.title
+                    form.status = data.result.status
                 })
         }
 

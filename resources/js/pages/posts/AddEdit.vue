@@ -17,7 +17,7 @@
                         <div class="card card-flush py-4">
                             <div class="card-body pt-0">
                                 <div class="mb-3">
-                                    <label>Status</label>
+                                    <label class="form-label">Status</label>
                                     <select class="form-select mb-2" v-model="form.status">
                                         <option value="1">Aktif</option>
                                         <option value="0">Non Aktif</option>
@@ -28,7 +28,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label>Redirect</label>
+                                    <label class="form-label">Redirect</label>
                                     <select class="form-select mb-2" v-model="form.is_affiliate">
                                         <option value="1">Ya</option>
                                         <option value="0">Tidak</option>
@@ -38,11 +38,11 @@
                                         {{ getMessage('is_affiliate') }}
                                     </div>
                                 </div>
-                                <div>
+                                <div  class="mb-3">
                                     <Loading Loading :active="form_props.image_loader" :loader="'dots'"
                                         :is-full-page="false"></Loading>
                                     <div class="form-group">
-                                        <label>Foto</label>
+                                        <label class="form-label">Foto</label>
                                         <div>
                                             <input type="file" id="photo-file"
                                                 accept="image/png,image/gif,image/jpeg,application/pdf"
@@ -56,16 +56,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-if="form.is_affiliate">
-                                    <label>Link Gambar</label>
+                                <div class="mb-3" v-if="form.is_affiliate == 1">
+                                    <label class="form-label">Link Gambar</label>
                                     <textarea v-model="form.image_url" class="form-control" rows="3"></textarea>
                                     <div class="p-2">
                                         <img :src="form.image_url" style="width: 100%; height: auto"
                                             :alt="form.image_url">
                                     </div>
                                 </div>
-                                <div>
-                                    <label>Deskripsi Gambar</label>
+                                <div class="mb-3">
+                                    <label class="form-label">Deskripsi Gambar</label>
                                     <textarea v-model="form.image_desc" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
@@ -74,11 +74,6 @@
                     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
 
                         <div class="card card-flush py-4">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    <h2>Detail</h2>
-                                </div>
-                            </div>
                             <div class="card-body pt-0">
                                 <form>
                                     <div class="mb-5 fv-row fv-plugins-icon-container">
@@ -111,7 +106,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6" v-if="form.is_affiliate">
+                                        <div class="col-md-6" v-if="form.is_affiliate == 1">
                                             <div class="mb-5">
                                                 <label class="form-label">Afiliasi</label>
                                                 <vue-select label="name" v-model="form.resource_id"
@@ -123,7 +118,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-12" v-if="form.is_affiliate">
+                                        <div class="col-md-12" v-if="form.is_affiliate == 1">
                                             <div class="mb-5">
                                                 <label class="form-label">Link Afiliasi</label>
                                                 <input type="text" class="form-control mb-2"

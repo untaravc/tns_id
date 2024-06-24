@@ -37,6 +37,7 @@ class HomeController extends Controller
         $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['socmed'] = Setting::whereType('website')->get();
+        $data['ads'] = Setting::whereName('ads_home_footer')->whereStatus(1)->get();
 
         foreach ($data['male_players'] as $key => $player) {
             $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');

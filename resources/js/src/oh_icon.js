@@ -12,6 +12,7 @@ import {
   BiMenuButtonWide,
   BiSearch,
   BiGear,
+  BiX
 } from "oh-vue-icons/icons/bi";
 
 addIcons(
@@ -27,6 +28,7 @@ addIcons(
   BiMenuButtonWide, // menu
   BiSearch,// search
   BiGear,// settings
+  BiX,
 );
 
 // register components
