@@ -19,7 +19,7 @@ class PointController extends Controller
     public function index(Request $request)
     {
         $dataContent = Point::orderByDesc('created_at')
-            ->with(['match'=> function($q){
+            ->with(['match' => function ($q) {
                 $q->with(['round_category', 'competition', 'match_type']);
             }]);
         $dataContent = $this->withFilter($dataContent, $request);
@@ -38,7 +38,8 @@ class PointController extends Controller
         $request->merge([
             'player_name'      => $player->full_name,
             'player_reg_id'    => $player->reg_id,
-            'competition_name' => $competition->name,
+            'competition_id'   => $request->competition_id ?? 0,
+            'competition_name' => $competition ? $competition->name : '',
             'user_id'          => $request->user()['id']
         ]);
 
@@ -76,8 +77,8 @@ class PointController extends Controller
 
     private function withFilter($dataContent, $request)
     {
-        if ($request->name) {
-            $dataContent = $dataContent->where('players.name', 'LIKE', '%' . $request->name . '%');
+        if ($request->q) {
+            $dataContent = $dataContent->where('player_name', 'LIKE', '%' . $request->q . '%');
         }
         return $dataContent;
     }
@@ -154,7 +155,7 @@ class PointController extends Controller
             } catch (\Exception $e) {
                 return [
                     'message' => "GAGAL: match_id " . $match->id,
-                    'errors'=> $e,
+                    'errors' => $e,
                     'match' => $match
                 ];
             }
@@ -175,7 +176,7 @@ class PointController extends Controller
         $match_point_settings = MatchPointSetting::where('competition_code', $query['competition_code'])
             ->where('match_type_code', $query['match_type_code'])
             ->get();
-        
+
         // return $match;
         if ($match->home_final_score > $match->away_final_score) {
             $player['win_first'] = $match->home_first_player_id;
@@ -251,7 +252,7 @@ class PointController extends Controller
                 }
             }
         }
-        
+
         // R62 -> yg kalah R64
         if ($query['round_code'] == 'R64') {
             return $roundsixty = $match_point_settings->where('round_code', 'R64')->first();
@@ -268,7 +269,7 @@ class PointController extends Controller
 
     private function generatePlayerPoint($player_id, $point, $match)
     {
-        if(!$point){
+        if (!$point) {
             return 'no data point';
         }
         $player = Player::find($player_id);

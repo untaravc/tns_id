@@ -18,19 +18,20 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5"
-                        data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
+                    <div class="px-8 pt-8 pb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Cari</label>
+                                <input class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full" type="text"
+                                    @keyup.enter="loadDataContent" v-model="filter.q">
                             </div>
-                        </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
+                            <div class="col-md-3">
+                                <label class="form-label">Kategori</label>
+                                <select v-model="filter.category_id" @change="loadDataContent"
+                                    class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full">
+                                    <option v-for="cat in form_props.categories" :value="cat.id">{{ cat.name }}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -76,7 +77,7 @@
                                                 </div>
                                                 {{ data.title }}
                                                 <div>
-                                                    <small>{{ $filter.formatDate(data.created_at) }}</small>
+                                                    <small>{{ $filter.formatDateTime(data.created_at) }}</small>
                                                 </div>
                                             </td>
                                             <td>
@@ -136,9 +137,10 @@ import { reactive, ref } from "vue";
 import { container, promptModal } from "jenesius-vue-modal";
 import SwalToast from '../../src/swal_toast'
 import { useFilterStore } from "../../src/store_filter";
+import VueSelect from "vue-select";
 
 export default {
-    components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault },
+    components: { Breadcrumb, PerPage, WidgetContainerModal: container, StatusDefault, VueSelect },
     setup() {
         const title = "Data Post"
         const breadcrumb_list = ["Post", "Data"];
@@ -148,7 +150,7 @@ export default {
 
         const filter = reactive({
             page: 1,
-            name: '',
+            q: '',
             per_page: 25,
         })
 
@@ -188,11 +190,25 @@ export default {
             }
         }
 
+        const form_props = reactive({
+            categories: []
+        })
+
+        function loadCategoryList() {
+            getData('categories-list', { type: 'post' })
+                .then((data) => {
+                    form_props.categories = data.result
+                })
+        }
+
+        loadCategoryList();
+
         return {
             breadcrumb_list,
             title,
             response,
             filter,
+            form_props,
             is_loading,
             app_store,
             loadDataContent,

@@ -60,8 +60,12 @@ class PostController extends Controller
 
     private function withFilter($dataContent, $request)
     {
-        if ($request->name) {
-            $dataContent = $dataContent->where('players.full_name', 'LIKE', '%' . $request->name . '%');
+        if ($request->q) {
+            $dataContent = $dataContent->where('title', 'LIKE', '%' . $request->q . '%');
+        }
+
+        if ($request->category_id) {
+            $dataContent = $dataContent->where('category_id', $request->category_id);
         }
         return $dataContent;
     }

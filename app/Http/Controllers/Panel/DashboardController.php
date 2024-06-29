@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Panel\UploadFileController as PanelUploadFileController;
+use App\Http\Controllers\System\UploadFileController;
 use App\Models\Competition;
 use App\Models\Player;
 use App\Models\Point;
 use App\Models\MatchModel;
-use App\Services\UploadFileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +31,7 @@ class DashboardController extends Controller
         return $this->response;
     }
 
-    public function upload(Request $request, UploadFileService $uploadService)
+    public function upload(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -40,14 +41,15 @@ class DashboardController extends Controller
             return $validator->errors()->first();
         }
 
-        $file_name = $uploadService->fileUploadProcessing($request, 'players');
+        $uploadService = new PanelUploadFileController();
+        $file_name = $uploadService->fileUploadProcessing($request, $request->section ?? 'players');
 
         $this->response['result'] = env('APP_URL') . '/storage/' . $file_name;
         return $this->response;
     }
 
-    public function test(Request $request, UploadFileService $uploadService)
+    public function test(Request $request)
     {
-        return $uploadService->fileUploadProcessing($request, 'players');
+        return '';
     }
 }

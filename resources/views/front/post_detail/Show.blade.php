@@ -26,9 +26,10 @@
                 </div>
             </div>
             <div>
-                @if(isset($ads))
-                    @foreach($ads as $ad)
-                        <div class="w-full aspect-[1/2] bg-blue-100 bg-center bg-no-repeat bg-cover" style="background-image: url('{{$ad->title}}')"></div>
+                @if (isset($ads))
+                    @foreach ($ads as $ad)
+                        <div class="w-full aspect-[1/2] bg-blue-100 bg-center bg-no-repeat bg-cover"
+                            style="background-image: url('{{ $ad->image }}')"></div>
                     @endforeach
                 @endif
                 @foreach ($posts as $new)

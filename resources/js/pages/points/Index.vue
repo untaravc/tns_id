@@ -18,18 +18,13 @@
         <div id="kt_app_content" class="app-content flex-column-fluid">
             <div id="kt_app_content_container" class="app-container container-xxl">
                 <div class="card card-flush">
-                    <div class="card-header align-items-center py-5 gap-2 gap-md-5" data-select2-id="select2-data-124-lq0k">
-                        <div class="card-title">
-                            <div class="d-flex align-items-center position-relative my-1">
-                                <span class="svg-icon svg-icon-1 position-absolute ms-4">
-                                    <v-icon name="bi-search" />
-                                </span>
-                                <input type="text" v-model="filter.name" @keyup.enter="loadDataContent"
-                                    class="form-control form-control-solid w-250px ps-14" placeholder="Cari..">
+                    <div class="px-8 pt-8 pb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label">Cari</label>
+                                <input class="rounded-md py-3 px-2 border focus:ring-1 block mt-1 w-full" type="text"
+                                    @keyup.enter="loadDataContent" v-model="filter.name">
                             </div>
-                        </div>
-                        <div class="card-toolbar flex-row-fluid justify-content-end gap-5"
-                            data-select2-id="select2-data-123-4p2n">
                         </div>
                     </div>
                     <div class="card-body pt-0">
@@ -59,17 +54,20 @@
                                             </td>
                                             <td>
                                                 <b>{{ data.player_name }}</b>
-                                                <div class="small"v-if="data.match && data.match.match_type">{{ data.match.match_type.name }}</div>
+                                                <div class="small" v-if="data.match && data.match.match_type">{{
+                                                    data.match.match_type.name }}</div>
                                             </td>
                                             <td>
                                                 <small :title="data.competition_name">
                                                     {{ $filter.truncate(data.competition_name) }}
                                                 </small>
-                                                <div v-if="data.match && data.match.competition">{{ data.match.competition.competition_category_code}}</div>
+                                                <div v-if="data.match && data.match.competition">{{
+                                                    data.match.competition.competition_category_code }}</div>
                                             </td>
                                             <td>
                                                 <b>{{ data.player_category_code }}</b>
-                                                <div class="italic" v-if="data.match && data.match.round_category">{{ data.match.round_category.name }}</div>
+                                                <div class="italic" v-if="data.match && data.match.round_category">{{
+                                                    data.match.round_category.name }}</div>
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center">
@@ -93,10 +91,12 @@
                                                         Aksi
                                                     </button>
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <router-link :to="'/admin/points/' + data.id" class="dropdown-item">
+                                                        <router-link :to="'/admin/points/' + data.id"
+                                                            class="dropdown-item">
                                                             Edit
                                                         </router-link>
-                                                        <router-link :to="'/admin/matches/' + data.match_id" class="dropdown-item">
+                                                        <router-link :to="'/admin/matches/' + data.match_id"
+                                                            class="dropdown-item">
                                                             Lihat Pertandingan
                                                         </router-link>
                                                         <button class="dropdown-item text-danger"

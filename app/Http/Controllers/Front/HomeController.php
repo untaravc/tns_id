@@ -29,15 +29,21 @@ class HomeController extends Controller
                 'match_detail'
             ])->limit(3)->get();
 
-        // $exist_matches = MatchModel::groupBy('competition_id')->get()->pluck('competition_id')->toArray();
-
-        $data['news_head'] = Post::orderByDesc('id')->with('resource')->first();
-        $data['news'] = Post::orderByDesc('id')->with('resource')->skip(1)->limit(3)->get();
+        $cat_news = Category::whereIn('code', ['news'])->pluck('id')->toArray();
+        $data['news_head'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->first();
+        $data['news'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->skip(1)->limit(3)->get();
         $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(5)->get();
         $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         $data['socmed'] = Setting::whereType('website')->get();
-        $data['ads'] = Setting::whereName('ads_home_footer')->whereStatus(1)->get();
+
+        $ads = Setting::whereName('ads_home_footer')->whereStatus(1)->first();
+        if ($ads) {
+            $data['ads'] = Post::where('image_desc', $ads->name)
+                ->whereStatus(1)
+                ->inRandomOrder()
+                ->get();
+        }
 
         foreach ($data['male_players'] as $key => $player) {
             $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');
@@ -175,7 +181,13 @@ class HomeController extends Controller
 
         $data['post'] = Post::find($id);
         $data['socmed'] = Setting::whereType('website')->get();
-        $data['ads'] = Setting::whereName('ads_space_side_detail')->whereStatus(1)->get();
+        $ads = Setting::whereName('ads_space_side_detail')->whereStatus(1)->first();
+        if ($ads) {
+            $data['ads'] = Post::where('image_desc', $ads->name)
+                ->whereStatus(1)
+                ->inRandomOrder()
+                ->get();
+        }
 
         $data['posts'] = Post::where('id', '!=', $id)->orderByDesc('created_at')
             ->limit(5)->get();
