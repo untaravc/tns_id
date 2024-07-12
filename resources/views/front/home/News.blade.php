@@ -162,19 +162,20 @@
                     Putra
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
-                    @foreach ($male_players as $male)
-                        <a href="/matches/{{ $male->id }}-{{ str_to_link($male->name) }}">
+                    @foreach ($point_m as $male)
+                        <a href="/matches/{{ $male->player_id }}-{{ str_to_link($male->player_name) }}">
                             <div class="p-2 border-gray-200 border-b bg-white">
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center">
                                         <img class="rounded-full w-9 h-9" alt="pic" src="{{ $male->image }}">
                                         <div class="ml-2">
-                                            <div class="font-medium">{{ truncate_str($male->full_name, 20) }}</div>
-                                            <div class="italic text-xs">{{ $male->city }}</div>
+                                            <div class="font-medium">{{ truncate_str($male->player_name, 20) }}</div>
+                                            <div class="italic text-xs">
+                                                @if(isset($male->player)){{ $male->player->city }}@endif</div>
                                         </div>
                                     </div>
                                     <div class="italic">
-                                        <span class="font-bold">0 </span><span class="text-xm">pts</span>
+                                        <span class="font-bold">{{$male->points}} </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>
                             </div>
@@ -190,19 +191,22 @@
                     Putri
                 </div>
                 <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
-                    @foreach ($female_players as $female)
-                        <a href="/matches/{{ $female->id }}-{{ str_to_link($female->name) }}">
+                    @foreach ($point_f as $female)
+                        <a href="/matches/{{ $female->player_id }}-{{ str_to_link($female->player_name) }}">
                             <div class="p-2 border-gray-200 border-b bg-white">
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center">
                                         <img class="rounded-full w-9 h-9" alt="pic" src="{{ $female->image }}">
                                         <div class="ml-2">
-                                            <div class="font-medium">{{ truncate_str($female->full_name, 20) }}</div>
-                                            <div class="italic text-xs">{{ $female->city }}</div>
+                                            <div class="font-medium">{{ truncate_str($female->player_name, 20) }}</div>
+                                            <div class="italic text-xs">
+                                                @if(isset($female->player)){{ $female->player->city }}@endif</div>
                                         </div>
                                     </div>
                                     <div class="italic">
-                                        <span class="font-bold">0 </span><span class="text-xm">pts</span>
+                                        <span class="font-bold">
+                                            {{$female->points}}    
+                                        </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>
                             </div>

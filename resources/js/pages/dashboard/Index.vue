@@ -30,7 +30,16 @@
                     </div>
                     <div class="col-md-3">
                         <div class="rounded-3 bg-white p-4">
-                            <div class="text-lg h4">Catatan Poin</div>
+                            <div class="flex justify-between">
+                                <div class="text-lg h4">
+                                    Catatan Poin
+                                </div>
+                                <div @click="generatePoint" class="cursor-pointer">
+                                    <span v-if="!loading">Generate</span>
+                                    <span v-if="loading" class="italic">processing...</span>
+                                </div>
+                            </div>
+
                             <div class="h2 font-bold text-green-600">
                                 {{ content.stats.points_count }}
                             </div>
@@ -52,7 +61,7 @@
 
 <script>
 import useAxios from "../../src/service";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export default {
     components: {},
@@ -60,6 +69,7 @@ export default {
         const title = "Dashboard"
         const breadcrumb_list = ["Dashboard"];
         const { getData } = useAxios()
+        let loading = ref(false)
         const content = reactive({
             stats: {
                 players_count: 0,
@@ -77,10 +87,21 @@ export default {
 
         loadStats()
 
+        function generatePoint() {
+            loading.value = true
+            getData('update-player-points').then((data)=>{
+                loading.value = false
+            }).catch((e)=>{
+                loading.value = false
+            })
+        }
+
         return {
             title,
             breadcrumb_list,
             content,
+            generatePoint,
+            loading
         }
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Competition;
 use App\Models\MatchModel;
 use App\Models\Player;
+use App\Models\Point;
 use App\Models\Post;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -32,9 +33,48 @@ class HomeController extends Controller
         $cat_news = Category::whereIn('code', ['news'])->pluck('id')->toArray();
         $data['news_head'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->first();
         $data['news'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->skip(1)->limit(3)->get();
-        $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(5)->get();
-        $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
-        $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(4)->get();
+        // $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        // $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        
+        $point_m = Point::whereIsHistorical(0)
+            ->where('player_category_code', 'U10')
+            ->where('player_gender', 'M')
+            ->groupBy('player_id')
+            ->whereYear('date', date('Y'))
+            ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
+            ->orderByDesc('points')
+            ->limit(5)
+            ->get();
+
+        $players = Player::whereIn('id', $point_m->pluck('player_id')->toArray())
+            ->get();
+
+        foreach ($point_m as $point) {
+            $point->setAttribute('player', $players->where('id', $point->player_id)->first());
+        }
+
+        $data['point_m'] = $point_m;
+
+        $point_f = Point::whereIsHistorical(0)
+            ->where('player_category_code', 'U10')
+            ->where('player_gender', 'F')
+            ->groupBy('player_id')
+            ->whereYear('date', date('Y'))
+            ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
+            ->orderByDesc('points')
+            ->limit(5)
+            ->get();
+
+        $players = Player::whereIn('id', $point_f->pluck('player_id')->toArray())
+            ->get();
+
+        foreach ($point_f as $point) {
+            $point->setAttribute('player', $players->where('id', $point->player_id)->first());
+        }
+
+        $data['point_f'] = $point_f;
+
         $data['socmed'] = Setting::whereType('website')->get();
 
         $ads = Setting::whereName('ads_home_footer')->whereStatus(1)->first();
@@ -45,11 +85,11 @@ class HomeController extends Controller
                 ->get();
         }
 
-        foreach ($data['male_players'] as $key => $player) {
+        foreach ($data['point_m'] as $key => $player) {
             $player->setAttribute('image', '/assets/images/male' . ($key % 2) . '-t.png');
         }
 
-        foreach ($data['female_players'] as $key => $player) {
+        foreach ($data['point_f'] as $key => $player) {
             $player->setAttribute('image', '/assets/images/female' . ($key % 2) . '-t.png');
         }
 
@@ -58,6 +98,7 @@ class HomeController extends Controller
                 $competition->setAttribute('image', '/assets/images/competition' . ($key % 3) . '.jpeg');
             }
         }
+        // return $data;
 
         return view('front.home.Index', $data);
     }
@@ -189,7 +230,8 @@ class HomeController extends Controller
                 ->get();
         }
 
-        $data['posts'] = Post::where('id', '!=', $id)->orderByDesc('created_at')
+        $cat_news = Category::whereIn('code', ['news'])->pluck('id')->toArray();
+        $data['posts'] = Post::where('id', '!=', $id)->whereIn('category_id', $cat_news)->orderByDesc('created_at')
             ->limit(5)->get();
         $data['page_name'] = 'post_detail';
 

@@ -18,21 +18,21 @@
             <div class="row">
               <div class="col-md-4">
                 <label class="form-label">Kategori</label>
-                <select @change="loadDataContent" class="form-control form-control-solid"
+                <select @change="loadDataContent" class="form-control"
                   v-model="filter.player_category_code">
                   <option :value="cat.code" v-for="cat in filter_props.player_categories">{{ cat.name }}</option>
                 </select>
               </div>
               <div class="col-md-4">
                 <label class="form-label">Tahun</label>
-                <select class="form-control form-control-solid" v-model="filter.year" @change="loadDataContent">
+                <select class="form-control" v-model="filter.year" @change="loadDataContent">
                   <option :value="2024 - i + 1" v-for="i in 10">{{ 2024 - i + 1 }}</option>
                 </select>
               </div>
               <div class="col-md-4">
                 <label class="form-label">Nama</label>
                 <div>
-                  <input type="text" class="form-control form-control-solid" v-model="filter.name"
+                  <input type="text" class="form-control form-control-lg" v-model="filter.name"
                     @keyup.enter="loadDataContent">
                 </div>
               </div>

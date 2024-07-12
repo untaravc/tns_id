@@ -191,7 +191,7 @@ export default {
                     form.is_historical = data.result.is_historical === 1
                     form.user_id = data.result.user_id
                     form.status = data.result.status
-                    form.date = data.result.date
+                    form.date = data.result.date.substring(0,10)
                 })
         }
 

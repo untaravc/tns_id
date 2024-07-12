@@ -38,6 +38,7 @@ class PointController extends Controller
         $request->merge([
             'player_name'      => $player->full_name,
             'player_reg_id'    => $player->reg_id,
+            'player_gender'    => $player->gender,
             'competition_id'   => $request->competition_id ?? 0,
             'competition_name' => $competition ? $competition->name : '',
             'user_id'          => $request->user()['id']
@@ -77,8 +78,8 @@ class PointController extends Controller
 
     private function withFilter($dataContent, $request)
     {
-        if ($request->q) {
-            $dataContent = $dataContent->where('player_name', 'LIKE', '%' . $request->q . '%');
+        if ($request->name) {
+            $dataContent = $dataContent->where('player_name', 'LIKE', '%' . $request->name . '%');
         }
         return $dataContent;
     }
@@ -96,7 +97,8 @@ class PointController extends Controller
         $request->merge([
             'player_name'      => $player->full_name,
             'player_reg_id'    => $player->reg_id,
-            'competition_name' => $competition->name,
+            'player_gender'    => $player->gender,
+            'competition_name' => $competition->name ?? '',
             'user_id'          => $request->user()['id']
         ]);
 
@@ -127,6 +129,12 @@ class PointController extends Controller
         $points = Point::whereIsHistorical(0)
             ->where('player_category_code', $request->player_category_code)
             ->groupBy('player_id')
+            ->when($request->name, function($q)use($request){
+                $q->where('player_name', 'LIKE', '%'.$request->name.'%');
+            })
+            ->when($request->year, function($q)use($request){
+                $q->whereYear('date', $request->year);
+            })
             ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
             ->orderByDesc('points')
             ->get();
@@ -145,8 +153,6 @@ class PointController extends Controller
     public function updatePlayerPoints()
     {
         $matches = MatchModel::with(['competition', 'match_type', 'round_category'])
-            // ->where('round_category_id', 14)
-            // ->where('id', 200)
             ->get();
 
         foreach ($matches as $match) {
@@ -274,19 +280,21 @@ class PointController extends Controller
         }
         $player = Player::find($player_id);
         $payload = [
-            "match_id" => $match->id,
-            "player_id" => $player_id,
-            "player_name" => $player->full_name,
-            "player_reg_id" => $player->reg_id,
-            "competition_id" => $match->competition_id,
-            "competition_name" => $match->competition_name,
-            "player_category_code" => $match->player_category_code,
-            "point" => $point->point,
-            "is_cut_off" => 0,
-            "is_historical" => 0,
-            "user_id" => 0,
-            "date" => $match->date,
-            "status" => 1,
+            "match_id"                => $match->id,
+            "match_type"              => $match->match_type->code,
+            "player_id"               => $player_id,
+            "player_name"             => $player->full_name,
+            "player_reg_id"           => $player->reg_id,
+            "competition_id"          => $match->competition_id,
+            "competition_name"        => $match->competition_name,
+            "player_category_code"    => $match->player_category_code,
+            "point"                   => $point->point,
+            "is_cut_off"              => 0,
+            "is_historical"           => 0,
+            "user_id"                 => 0,
+            "date"                    => $match->date,
+            "status"                  => 1,
+            "player_gender"           => $player->gender,
         ];
 
         $point = Point::where('match_id', $payload['match_id'])
