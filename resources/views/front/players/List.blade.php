@@ -19,7 +19,7 @@
                         class="block mb-2 text-sm font-medium text-gray-900">Pemain</label>
                     <select id="match_type_category_id" name="gender"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                        <option value=""></option>
+                        <option value="">Semua</option>
                         <option value="F" @if (request('gender') == 'F') selected @endif>Putri</option>
                         <option value="M" @if (request('gender') == 'M') selected @endif>Putra</option>
                     </select>
@@ -38,9 +38,9 @@
                     <th class="px-3 border-b-2">
                         <b>Nama</b>
                     </th>
-                    <th class="px-3 border-b-2">Kota</th>
                     <th class="px-3 border-b-2">Kategori</th>
                     <th class="px-3 border-b-2">Kelompok</th>
+                    <th class="px-3 border-b-2">Poin</th>
                 </tr>
                 @if (count($players) == 0)
                     <tr>
@@ -51,19 +51,18 @@
                 @endif
                 @foreach ($players as $player)
                     <tr>
-                        <td class="px-3 py-2 border-b">
+                        <td class="px-3 py-2 border-b w-10">
                             <div class="h-10 w-10 bg-top rounded-full border bg-contain"
                                 style="background-image: url('{{ $player->image }}')" alt="">
                         </td>
                         <td class="px-3 py-2 border-b">
                             <a class="font-medium text-blue-900 hover:text-blue-600"
-                                href="/matches/{{ $player->id }}-{{ str_to_link($player->full_name) }}">
-                                {{ $player->full_name }}
+                                href="/matches/{{ $player->player_id }}-{{ str_to_link($player->player_name) }}">
+                                {{ $player->player_name }}
                             </a>
                         </td>
-                        <td class="px-3 py-2 border-b">{{ $player->city }}</td>
                         <td class="px-3 py-2 border-b">
-                            @if ($player->gender == 'M')
+                            @if ($player->player_gender == 'M')
                                 Putra
                             @else
                                 Putri
@@ -71,6 +70,9 @@
                         </td>
                         <td class="px-3 py-2 border-b">
                             {{ $player->player_category_code }}
+                        </td>
+                        <td class="px-3 py-2 border-b">
+                            {{ $player->points }}
                         </td>
                     </tr>
                 @endforeach

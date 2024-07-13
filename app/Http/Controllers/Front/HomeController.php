@@ -36,7 +36,7 @@ class HomeController extends Controller
         $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(4)->get();
         // $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
         // $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
-        
+
         $point_m = Point::whereIsHistorical(0)
             ->where('player_category_code', 'U10')
             ->where('player_gender', 'M')
@@ -114,11 +114,25 @@ class HomeController extends Controller
         $data['player_categories'] = Category::where('type', 'player')->get();
         $data['socmed'] = Setting::whereType('website')->get();
 
-        $data['players'] = Player::when($query['gender'], function ($q) use ($query) {
-            $q->where('gender', $query['gender']);
-        })->when($query['player_category_code'], function ($q) use ($query) {
-            $q->where('player_category_code', $query['player_category_code']);
-        })->orderBy('full_name')->get();
+        // $data['players'] = Player::when($query['gender'], function ($q) use ($query) {
+        //     $q->where('gender', $query['gender']);
+        // })->when($query['player_category_code'], function ($q) use ($query) {
+        //     $q->where('player_category_code', $query['player_category_code']);
+        // })->orderBy('full_name')->get();
+        // return $query;
+        $data['players'] = Point::whereIsHistorical(0)
+            ->when($query['player_category_code'], function ($q) use ($query) {
+                $q->where( 'player_category_code', $query['player_category_code']);
+            })
+            ->when($query['gender'], function ($q) use ($query) {
+                $q->where('player_gender', $query['gender']);
+            })
+            ->groupBy('player_id')
+            ->whereYear('date', date('Y'))
+            ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code, player_gender, player_id')
+            ->orderByDesc('points')
+            ->limit(10)
+            ->get();
 
         foreach ($data['players'] as $key => $player) {
             if ($player->gender == 'M') {
