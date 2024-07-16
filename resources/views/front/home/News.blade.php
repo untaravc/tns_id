@@ -212,7 +212,7 @@
                                     </div>
                                     <div class="italic">
                                         <span class="font-bold">
-                                            {{ $female->points }}
+                                            {{ round($female->points * 100) / 100 }}
                                         </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>

@@ -1,5 +1,5 @@
 /*!
-  * jenesius-vue-modal v1.11.6
+  * jenesius-vue-modal v1.11.7
   * (c) 2024 Jenesius
   * @license MIT
   */
@@ -34,7 +34,7 @@
  */
 
 /**
-* @vue/shared v3.4.27
+* @vue/shared v3.4.29
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
