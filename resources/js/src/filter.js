@@ -1,14 +1,17 @@
 import moment from 'moment';
 
 const config = {
+    rounded(value) {
+        return Math.round(value * 100) / 100
+    },
     currency(value) {
         return value.toLocaleString('id-ID')
     },
-    capitalize(value){
+    capitalize(value) {
         const words = value.split(" ");
 
         for (let i = 0; i < words.length; i++) {
-            if(words[i][0]){
+            if (words[i][0]) {
                 words[i] = words[i][0].toUpperCase() + words[i].substr(1).toLowerCase();
             }
         }
@@ -24,8 +27,8 @@ const config = {
     initial(text, length = 2) {
         let words = text.split(" ")
         let initial = "";
-        for (let i = 0; i < length; i++){
-            if(words[i]){
+        for (let i = 0; i < length; i++) {
+            if (words[i]) {
                 initial = initial + words[i][0]
             }
         }

@@ -171,11 +171,15 @@
                                         <div class="ml-2">
                                             <div class="font-medium">{{ truncate_str($male->player_name, 20) }}</div>
                                             <div class="italic text-xs">
-                                                @if(isset($male->player)){{ $male->player->city }}@endif</div>
+                                                @if (isset($male->player))
+                                                    {{ $male->player->city }}
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="italic">
-                                        <span class="font-bold">{{$male->points}} </span><span class="text-xm">pts</span>
+                                        <span class="font-bold">{{ round($male->points * 100) / 100 }} </span><span
+                                            class="text-xm">pts</span>
                                     </div>
                                 </div>
                             </div>
@@ -200,12 +204,15 @@
                                         <div class="ml-2">
                                             <div class="font-medium">{{ truncate_str($female->player_name, 20) }}</div>
                                             <div class="italic text-xs">
-                                                @if(isset($female->player)){{ $female->player->city }}@endif</div>
+                                                @if (isset($female->player))
+                                                    {{ $female->player->city }}
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="italic">
                                         <span class="font-bold">
-                                            {{$female->points}}    
+                                            {{ $female->points }}
                                         </span><span class="text-xm">pts</span>
                                     </div>
                                 </div>

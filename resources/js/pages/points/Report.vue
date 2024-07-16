@@ -18,8 +18,7 @@
             <div class="row">
               <div class="col-md-4">
                 <label class="form-label">Kategori</label>
-                <select @change="loadDataContent" class="form-control"
-                  v-model="filter.player_category_code">
+                <select @change="loadDataContent" class="form-control" v-model="filter.player_category_code">
                   <option :value="cat.code" v-for="cat in filter_props.player_categories">{{ cat.name }}</option>
                 </select>
               </div>
@@ -61,7 +60,7 @@
                         {{ data.player_name }}
                       </td>
                       <td>
-                        <span v-if="data.points">{{ data.points }}</span>
+                        <span v-if="data.points">{{ $filter.rounded(data.points) }}</span>
                       </td>
                       <td class="text-end">
                         <div class="dropdown">
