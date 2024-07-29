@@ -34,16 +34,17 @@ class HomeController extends Controller
         $data['news_head'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->first();
         $data['news'] = Post::orderByDesc('id')->with('resource')->whereIn('category_id', $cat_news)->skip(1)->limit(3)->get();
         $data['competitions'] = Competition::orderByDesc('date_start')->where('status', 1)->limit(4)->get();
-        // $data['male_players'] = Player::whereGender('M')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
-        // $data['female_players'] = Player::whereGender('F')->where('player_category_code', '!=', null)->inRandomOrder()->limit(5)->get();
+        
+        $m_cat = $request->m_cat ?? 'U10';
 
         $point_m = Point::whereIsHistorical(0)
-            ->where('player_category_code', 'U10')
+            ->whereIsCutOff(1)
             ->where('player_gender', 'M')
             ->groupBy('player_id')
             ->whereYear('date', date('Y'))
             ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
             ->orderByDesc('points')
+            ->where('player_category_code', $m_cat)
             ->limit(5)
             ->get();
 
@@ -56,13 +57,15 @@ class HomeController extends Controller
 
         $data['point_m'] = $point_m;
 
+        $f_cat = $request->f_cat ?? 'U10';
         $point_f = Point::whereIsHistorical(0)
-            ->where('player_category_code', 'U10')
+            ->whereIsCutOff(1)
             ->where('player_gender', 'F')
             ->groupBy('player_id')
             ->whereYear('date', date('Y'))
             ->selectRaw('SUM(point) as points, player_id, player_name, player_category_code')
             ->orderByDesc('points')
+            ->where('player_category_code', $f_cat)
             ->limit(5)
             ->get();
 
@@ -121,8 +124,9 @@ class HomeController extends Controller
         // })->orderBy('full_name')->get();
         // return $query;
         $data['players'] = Point::whereIsHistorical(0)
+            ->whereIsCutOff(1)
             ->when($query['player_category_code'], function ($q) use ($query) {
-                $q->where( 'player_category_code', $query['player_category_code']);
+                $q->where('player_category_code', $query['player_category_code']);
             })
             ->when($query['gender'], function ($q) use ($query) {
                 $q->where('player_gender', $query['gender']);
@@ -225,7 +229,8 @@ class HomeController extends Controller
     {
         $data['page_name'] = 'news';
         $data['page_bg'] = '/assets/images/news.png';
-        $data['posts'] = Post::orderByDesc('created_at')->get();
+        $cat_news = Category::whereIn('code', ['news'])->pluck('id')->toArray();
+        $data['posts'] = Post::orderByDesc('created_at')->whereIn('category_id', $cat_news)->limit(30)->get();
         $data['socmed'] = Setting::whereType('website')->get();
         return view('front.posts.Index', $data);
     }

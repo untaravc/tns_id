@@ -134,34 +134,40 @@
                 </a>
             @endforeach
         </div>
-        <div class="grid grid-cols-3 gap-2">
-            <div class="md:col-span-1 col-span-3">
-                <div class="text-lg font-normal leading-4 border-l border-red-700 ps-2">
-                    Turnamen
+        <div class="grid grid-cols-2 gap-2">
+            <div class="md:col-span-1 border rounded-lg">
+                <div class="p-4 bg-gradient-to-b from-slate-200 to-slate-50 rounded-tl-lg rounded-tr-lg">
+                    <div class="text-lg leading-4 border-l-2 border-red-700 ps-2 mb-4">
+                        Rangking <b>Putra</b>
+                    </div>
+                    <div class="flex text-slate-500 font-medium">
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'U10') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'U10']) }}">U-10</a>
+                        </div>
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'U12') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'U12']) }}">U-12</a>
+                        </div>
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'U14') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'U14']) }}">U-14</a>
+                        </div>
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'U16') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'U16']) }}">U-16</a>
+                        </div>
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'U18') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'U18']) }}">U-18</a>
+                        </div>
+                        <div
+                            class="mx-1 cursor-pointer @if (request('m_cat') == 'SENIOR') font-semibold text-blue-600 @endif">
+                            <a href="{{ request()->fullUrlWithQuery(['m_cat' => 'SENIOR']) }}">SENIOR</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
-                    @foreach ($competitions as $competition)
-                        <a href="/competitions/{{ $competition->id }}-{{ str_to_link($competition->name) }}">
-                            <div class="flex p-2">
-                                <div class="w-1/6 aspect-square bg-center bg-cover rounded-md"
-                                    style="background-image: url('{{ $competition->image }}')">
-                                </div>
-                                <div class="ps-3">
-                                    <div>{{ $competition->name }}</div>
-                                    <div class="text-xs">{{ $competition->address }},
-                                        {{ date('d M Y', strtotime($competition->date_start)) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-            <div class="md:col-span-1 col-span-3">
-                <div class="text-lg font-normal leading-4 border-l border-red-700 ps-2">
-                    Putra
-                </div>
-                <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
+                <div class="grid grid-cols-1 gap-2 mt-3 text-sm m-2">
                     @foreach ($point_m as $male)
                         <a href="/matches/{{ $male->player_id }}-{{ str_to_link($male->player_name) }}">
                             <div class="p-2 border-gray-200 border-b bg-white">
@@ -185,16 +191,46 @@
                             </div>
                         </a>
                     @endforeach
-                    <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
-                        <a href="/players?gender=M">Selengkapnya</a>
-                    </div>
                 </div>
             </div>
-            <div class="md:col-span-1 col-span-3">
-                <div class="text-lg font-normal leading-4 border-l border-red-700 ps-2">
-                    Putri
+            <div class="md:col-span-1 border rounded-lg">
+                <div class="p-4 bg-gradient-to-b from-slate-200 to-slate-50 rounded-tl-lg rounded-tr-lg">
+                    <div class="text-lg leading-4 border-l-2 border-red-700 ps-2 mb-4">
+                        Rangking <b>Putri</b>
+                    </div>
+                    <div class="flex justify-between">
+                        <div class="flex text-slate-500 font-medium">
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'U10') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'U10']) }}">U-10</a>
+                            </div>
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'U12') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'U12']) }}">U-12</a>
+                            </div>
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'U14') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'U14']) }}">U-14</a>
+                            </div>
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'U16') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'U16']) }}">U-16</a>
+                            </div>
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'U18') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'U18']) }}">U-18</a>
+                            </div>
+                            <div
+                                class="mx-1 cursor-pointer @if (request('f_cat') == 'SENIOR') font-semibold text-blue-600 @endif">
+                                <a href="{{ request()->fullUrlWithQuery(['f_cat' => 'SENIOR']) }}">SENIOR</a>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="/players" class="text-blue-700 hover:text-blue-500 text-sm">Lihat Semua</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-1 gap-2 mt-3 text-sm">
+                <div class="grid grid-cols-1 gap-2 mt-3 text-sm m-2">
                     @foreach ($point_f as $female)
                         <a href="/matches/{{ $female->player_id }}-{{ str_to_link($female->player_name) }}">
                             <div class="p-2 border-gray-200 border-b bg-white">
@@ -202,7 +238,8 @@
                                     <div class="flex items-center">
                                         <img class="rounded-full w-9 h-9" alt="pic" src="{{ $female->image }}">
                                         <div class="ml-2">
-                                            <div class="font-medium">{{ truncate_str($female->player_name, 20) }}</div>
+                                            <div class="font-medium">{{ truncate_str($female->player_name, 20) }}
+                                            </div>
                                             <div class="italic text-xs">
                                                 @if (isset($female->player))
                                                     {{ $female->player->city }}
@@ -219,9 +256,35 @@
                             </div>
                         </a>
                     @endforeach
-                    <div class="text-center text-xs text-blue-700 hover:text-blue-500 underline">
-                        <a href="/players?gender=F">Selengkapnya</a>
+                </div>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <div class="col-span-2">
+                <div class="flex justify-between mt-6 mb-4">
+                    <div class="text-xl font-medium leading-4 border-l-2 border-red-700 ps-2">
+                        Turnamen
                     </div>
+                    <div>
+                        <a href="/competitions" class="text-sm text-blue-700 hover:text-blue-500">Lihat Semua</a>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-col-1 gap-2 mt-3 text-sm">
+                    @foreach ($competitions as $competition)
+                        <a href="/competitions/{{ $competition->id }}-{{ str_to_link($competition->name) }}">
+                            <div class="flex p-2 border rounded-md">
+                                <div class="w-1/4 aspect-square bg-center bg-cover rounded-md"
+                                    style="background-image: url('{{ $competition->image }}')">
+                                </div>
+                                <div class="ps-3">
+                                    <div>{{ truncate_str($competition->name, 30) }}</div>
+                                    <div class="text-xs">{{ $competition->address }},
+                                        {{ date('d M Y', strtotime($competition->date_start)) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
